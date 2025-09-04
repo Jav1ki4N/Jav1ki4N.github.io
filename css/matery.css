@@ -291,6 +291,9 @@ header .nav-transparent {
 
 header nav .brand-span {
     font-size: 1.45rem;
+    font-family: 'Times New Roman', Times, serif;
+    font-style: italic;
+    font-weight: 600;
 }
 
 header .brand-logo .logo-img {
