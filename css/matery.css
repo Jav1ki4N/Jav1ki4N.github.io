@@ -586,6 +586,28 @@ header .go-back i {
     position: relative;
 }
 
+.bg-cover .title::before {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+
+    /* 渐变填充 */
+    background: linear-gradient(90deg, #ff00cc, #3333ff, #00ffff);
+
+    /* 兼容性写法 */
+    background-clip: text;          /* 标准属性 */
+    -webkit-background-clip: text;  /* Webkit 内核 (Chrome, Safari, Edge) */
+
+    -webkit-text-fill-color: transparent; /* Webkit 内核需要 */
+    color: transparent; /* 非 Webkit 浏览器兜底 */
+
+    filter: blur(12px); /* 模糊制造光晕 */
+    opacity: 0.8;
+}
+
+
 .bg-cover .description {
     font-weight: 300;
     font-size: 1.25rem;
