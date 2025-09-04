@@ -579,7 +579,7 @@ header .go-back i {
 
 .bg-cover .title {
     font-size: 4rem;
-    font-weight: 'Garamond', sans-serif;
+    font-family: 'Garamond', sans-serif;
     font-weight: 700;
     line-height: 1.2em;
     margin-bottom: 20px;
