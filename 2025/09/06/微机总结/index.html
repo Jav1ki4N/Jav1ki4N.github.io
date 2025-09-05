@@ -4,8 +4,10 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="Hello World, i4N&#39;s Archive">
-    <meta name="description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hex">
+    <meta name="keywords" content="微机原理 - 8051, i4N&#39;s Archive">
+    <meta name="description" content="
+定时器8253 初始化首先计算计数初值，晶振频率为 $F_{osc}$，目标信号频率是 $f$
+计数初值绝对是大于1的，也就是 $$N &amp;#x3D; \frac{F_{osc}}{f}$$如果计数器计数初值超过 FFFFH，说明 Fosc">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -17,7 +19,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>Hello World | i4N&#39;s Archive</title>
+    <title>微机原理 - 8051 | i4N&#39;s Archive</title>
     <link rel="icon" type="image/png" href="/favicon.png">
     
 
@@ -334,12 +336,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/12.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/4.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">Hello World</h1>
+                    <h1 class="description center-align post-title">微机原理 - 8051</h1>
                 </div>
             </div>
         </div>
@@ -375,7 +377,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2025-09-04
+                    2025-09-06
                 </div>
                 
 
@@ -396,19 +398,255 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+                <hr>
+<h2 id="定时器"><a href="#定时器" class="headerlink" title="定时器"></a>定时器</h2><h3 id="8253-初始化"><a href="#8253-初始化" class="headerlink" title="8253 初始化"></a>8253 初始化</h3><p>首先计算计数初值，晶振频率为 $F_{osc}$，目标信号频率是 $f$</p>
+<p>计数初值绝对是大于1的，也就是 $$N &#x3D; \frac{F_{osc}}{f}$$<br>如果计数器计数初值超过 <code>FFFFH</code>，说明 <code>Fosc</code> 太大，可以多设置一个定时器，用那个定时器的 <code>OUT</code> 代替晶振作为超过限制计数器的 <code>CLK</code>信号输入：</p>
+<p>$$ N &#x3D; \frac{f_{new}}{f} $$</p>
+<p>配置一个定时 &#x2F; 计数器：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">CONFIG:</span><br><span class="line">	MOV DX &lt;控制字地址，一般是最后的端口地址&gt;</span><br><span class="line">	MOV AL &lt;控制字内容，包括 选中哪个定时器 以及 定时器的工作方式 (输出波形)&gt;</span><br><span class="line">	OUT DX AL</span><br><span class="line"></span><br><span class="line">	MOV DX &lt;定时器的数据输入地址，一般是前三个端口地址，按 T0,T1,T2&gt;</span><br><span class="line">	MOV AL &lt;计数初值 N，16位一次装填就可以&gt; </span><br><span class="line">	OUT DX AL</span><br></pre></td></tr></table></figure>
 
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+<p>配置 n 个：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">CONFIG1 - 按照上面的格式</span><br><span class="line">CONFIG2</span><br><span class="line">CONFIG3</span><br></pre></td></tr></table></figure>
 
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+<hr>
+<h3 id="80C51-初始化"><a href="#80C51-初始化" class="headerlink" title="80C51 初始化"></a>80C51 初始化</h3><p>首先计算初值，晶振不能直接用。</p>
+<p>需要$$N &#x3D; \frac{F_{osc}}{12f}$$</p>
+<p>这是因为 一个<code>机器周期</code> &#x2F; <code>总线周期</code> 等于 12 个<code>晶振周期</code>，<br>所以：</p>
+<ul>
+<li>周期来计算定时器初值，要将周期 ×12；</li>
+<li>频率则需要将频率 ÷12。</li>
+</ul>
+<p>这之后，由于51的定时器是一个 <code>减1计数器</code>,还需要：</p>
+<p>$$ X &#x3D; 2^{16} - N $$<br>得到计数初值 <code>X</code>。</p>
+<hr>
+<p>80C51 的定时器可以用 中断或者查询模式实现, 配置时可以直接使用寄存器名字比如 <code>TMOD</code>, 不像86一样需要 <code>OUT</code>。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">	  ORG 0000H ;设定起始地址</span><br><span class="line"> ~--- AJMP MAIN ;去执行主函数（该指令地址为0000H，上电就跳转）</span><br><span class="line">|	  </span><br><span class="line">|	  ORG 00B0H ;定时器0中断向量</span><br><span class="line">|	  LJMP CTC0 ;长跳到 ISR</span><br><span class="line">|	                                             </span><br><span class="line">|	  ORG 0030H ;主函数的地址</span><br><span class="line">↓</span><br><span class="line">MAIN: MOV TMOD &lt;控制字，一次同时控制两个定时器&gt;      </span><br><span class="line"></span><br><span class="line">	  MOV TH0 &lt;计数初值高位&gt;                             </span><br><span class="line">	  MOV TL0 &lt;计数初值低位&gt;</span><br><span class="line">	  </span><br><span class="line">	  SETB EA   ;启用总中断</span><br><span class="line">	  SETB ET0  ;启用定时器中断</span><br><span class="line">	  </span><br><span class="line">	  SETB TR0  ;启动定时器</span><br><span class="line">	  SJMP $    ;启动之后等待中断</span><br><span class="line"></span><br><span class="line">CTC0: </span><br><span class="line">	  &lt;执行逻辑代码&gt;</span><br><span class="line">	  MOV TH0   ;执行完之后说明中断完成，开始重装(如果需要的话)</span><br><span class="line">	  MOV TL0</span><br><span class="line">	  SETB TR0  ;重启定时器</span><br><span class="line">	  </span><br><span class="line">	  RETI</span><br><span class="line">	  </span><br><span class="line">	  END       ;结束程序</span><br></pre></td></tr></table></figure>
 
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+<p>中断的好处是自动检测是否溢出以及清除溢出标志位。</p>
+<p>使用查询方式则依赖 <code>LOOP</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">	   ORG 0000H</span><br><span class="line">	   AJMP MAIN</span><br><span class="line">	   ORG 0030H</span><br><span class="line"></span><br><span class="line">MAIN:  MOV TMOD..</span><br><span class="line">LOOP:  MOV TH0 ..</span><br><span class="line">	   MOV TL0 ..</span><br><span class="line"></span><br><span class="line">	   SETB TR0</span><br><span class="line">	   </span><br><span class="line">	   JNB TF0,$  ;需要自己检测并清除</span><br><span class="line">	   CLR TF0</span><br><span class="line">	   </span><br><span class="line">	   &lt;逻辑代码&gt;</span><br><span class="line">	</span><br><span class="line">	   SJMP LOOP  ;相当于进行重装重启动，而这些在中断是交给 ISR 做的</span><br></pre></td></tr></table></figure>
 
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+<p>关于80C51 几种特殊信号波形的产生：</p>
+<p>方波的 <code>&lt;逻辑代码&gt;</code> 可以写成 <code>CPL Px.x</code> 。</p>
+<p>负脉冲则要复杂一些：</p>
+<p>对于一个 <code>2s</code> 周期，脉宽 <code>50ms</code> 的负脉冲波，真正需要参与计算的其实是 <code>50ms</code>，然后再将定时循环 <code>2s/50ms - 1 = 400 - 1 = 399</code> 次完成整个周期。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">                          ______</span><br><span class="line">__________________________|    |___________________________</span><br><span class="line">                          ←50ms→       ←2s - 500ms→</span><br><span class="line">                          </span><br><span class="line">	  MOV TMOD #01H ;配置T0工作在方式1</span><br><span class="line">	  MOV R7 #399</span><br><span class="line"></span><br><span class="line">LOOP: SETB P1.3 ;在P1.3首先生成一个高电平，这个高电平的持续时间就是脉宽</span><br><span class="line">	  ACALL NT0 ;重装计数值，开始定时50ms</span><br><span class="line">	  </span><br><span class="line">	  CLR P1.3  ;清0，这就算完成了一个脉冲了</span><br><span class="line">	  </span><br><span class="line">WAIT: ACALL NT0 ;距离下一次高电平还有一个（400-1 = 399）个定时周期</span><br><span class="line">	  DJNZ R7 LOOP ; 计数未到399，总共未达到2s，继续 WAIT 保持低电平</span><br><span class="line">	  </span><br><span class="line">	  AJMP LOOP ; 这个周期结束，开始准备下一个波形   </span><br><span class="line"></span><br><span class="line">NTO: MOV TH0,#03H</span><br><span class="line">	 MOV TL0,#CBH</span><br><span class="line">	 SETB TR0</span><br><span class="line">	 JNB TF0,$</span><br><span class="line">	 CLR TF0</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="8255"><a href="#8255" class="headerlink" title="8255"></a>8255</h2><p>8255 端口地址对应  <code>A</code> <code>B</code> <code>C</code> <code>CTRL REG</code>, 尽管口之间有编组，寻址的时候还是单独分开了。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">MOV DX &lt;控制字地址&gt;</span><br><span class="line">MOV AL &lt;控制字，可配置位操作与组的同时配置&gt;</span><br><span class="line">OUT DX AL</span><br></pre></td></tr></table></figure>
+
+<p>如果想要输出数据了，比如 &#96;PC4 &#x3D; 0, PC7 &#x3D; 1:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">MOV AL &lt;控制字，切换到位操作&gt;</span><br><span class="line">OUT DX AL</span><br></pre></td></tr></table></figure>
+
+<p>如果想要读取数据，很遗憾不能单口读取 </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">MOV DX &lt;控制字地址&gt;</span><br><span class="line">MOV AL &lt;控制字，改为输入模式&gt;</span><br><span class="line">OUT DX AL</span><br><span class="line"></span><br><span class="line">MOV DX &lt;比如这里是C口地址&gt;</span><br><span class="line">IN AL DX &lt;从C口读取8位数据放在AL&gt;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="8259A"><a href="#8259A" class="headerlink" title="8259A"></a>8259A</h2><p>8259 的两个端口地址管两种控制字</p>
+<p><code>ICW1  ICW2  ICW4</code> 一般必须，<code>ICW3  OCW1   OCW2   OCW3</code> 看情况。</p>
+<p><code>ICW1</code>  使用第一个端口地址，<code>ICW2  ICW4</code> 使用第二个</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">MOV DX &lt;控制字地址 20H&gt;</span><br><span class="line">MOV AL &lt;控制字 ICW1&gt;</span><br><span class="line">OUT DX AL</span><br><span class="line"></span><br><span class="line">MOV DX &lt;控制字地址 21H&gt;</span><br><span class="line">MOV AL &lt;中断向量码&gt;</span><br><span class="line">OUT DX AL</span><br><span class="line"></span><br><span class="line">MOV AL &lt;ICW4&gt;</span><br><span class="line">OUT DX AL</span><br><span class="line"></span><br><span class="line">HLT</span><br></pre></td></tr></table></figure>
+
+<hr>
+<table>
+<thead>
+<tr>
+<th>分类</th>
+<th>8086 寻址方式</th>
+<th>8051 寻址方式</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>立即寻址</strong></td>
+<td><code>MOV AX, 1234H</code></td>
+<td><code>MOV A, #25H</code></td>
+<td>数据直接写在指令中</td>
+</tr>
+<tr>
+<td><strong>寄存器寻址</strong></td>
+<td><code>MOV AX, BX</code></td>
+<td><code>MOV A, R0</code></td>
+<td>操作数是寄存器</td>
+</tr>
+<tr>
+<td><strong>直接寻址（地址寻址）</strong></td>
+<td><code>MOV AX, [1234H]</code></td>
+<td><code>MOV A, 30H</code></td>
+<td>地址写在指令中，访问内存</td>
+</tr>
+<tr>
+<td><strong>寄存器间接寻址</strong></td>
+<td><code>MOV AX, [BX]</code></td>
+<td><code>MOV A, @R0</code></td>
+<td>地址存储在寄存器中</td>
+</tr>
+<tr>
+<td><strong>寄存器间接+位移</strong></td>
+<td><code>MOV AX, [BX+SI]</code> &#x2F; <code>[BX+4]</code></td>
+<td>-</td>
+<td>8086支持较复杂的寄存器变址寻址</td>
+</tr>
+<tr>
+<td><strong>基址变址寻址</strong></td>
+<td><code>MOV AX, [BX+SI+10H]</code></td>
+<td>-</td>
+<td>8086强项，用于结构体、数组访问</td>
+</tr>
+<tr>
+<td><strong>相对寻址</strong></td>
+<td><code>JMP LABEL</code> （<code>JMP SHORT</code> 等）</td>
+<td><code>SJMP LABEL</code></td>
+<td>用于跳转指令，相对当前 PC</td>
+</tr>
+<tr>
+<td><strong>位寻址</strong></td>
+<td>-</td>
+<td><code>SETB P1.0</code>、<code>CLR 30H</code> 等</td>
+<td>8051 支持专用的位寻址区域（20H–2FH）和部分 SFR</td>
+</tr>
+<tr>
+<td><strong>I&#x2F;O 寻址</strong></td>
+<td><code>IN AL, 60H</code> &#x2F; <code>OUT 60H, AL</code></td>
+<td>使用内存映射方式：<code>MOV P1, A</code></td>
+<td>8086 I&#x2F;O 与内存分离，8051 I&#x2F;O 与内存统一寻址空间</td>
+</tr>
+<tr>
+<td><strong>外部RAM寻址</strong></td>
+<td><code>[DS:offset]</code>、<code>[ES:offset]</code></td>
+<td><code>MOVX A, @DPTR</code> &#x2F; <code>MOVX A, @R0</code></td>
+<td>都需要特殊指令访问外部存储</td>
+</tr>
+<tr>
+<td><strong>代码存储器访问</strong></td>
+<td><code>CALL</code>, <code>JMP</code>, <code>INT</code> 等</td>
+<td><code>MOVC A, @A+DPTR</code></td>
+<td>都通过特定寻址机制访问 ROM（代码存储器）</td>
+</tr>
+</tbody></table>
+<h3 id="两种定时初值溢出题型"><a href="#两种定时初值溢出题型" class="headerlink" title="两种定时初值溢出题型"></a>两种定时初值溢出题型</h3><h4 id="8086"><a href="#8086" class="headerlink" title="8086"></a>8086</h4><p>策略：改变 CLK 输入为另一个的输出, 两个定时器的模式要保持一致（输出波形）。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">MOV DX ...</span><br><span class="line">MOV AL ...    ;TIMER0 CFG</span><br><span class="line">MOV DX AL</span><br><span class="line"></span><br><span class="line">MOV DX ...</span><br><span class="line">MOV AL ...</span><br><span class="line">OUT DX AL     ;TIMER0 LOAD</span><br><span class="line">MOV AL ...</span><br><span class="line">OUT DX AL                </span><br><span class="line"></span><br><span class="line">MOV DX ...</span><br><span class="line">MOV AL ...    ;TIMER1 CFG</span><br><span class="line">MOV DX AL</span><br><span class="line"></span><br><span class="line">MOV DX ...</span><br><span class="line">MOV AL ...</span><br><span class="line">OUT DX AL     ;TIMER1 LOAD</span><br><span class="line">MOV AL ...</span><br><span class="line">OUT DX AL    </span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<h3 id="51"><a href="#51" class="headerlink" title="51"></a>51</h3><p>策略：使用 LOOP ,多次小中断 –&gt; 累积大中断</p>
+<p>80c51,12Mhz，产生10ms中断，p1.7输出2s方波，用中断实现。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">          ORG 0000H         ; 程序起始</span><br><span class="line">          AJMP MAIN         ; 跳转到主函数</span><br><span class="line"></span><br><span class="line">          ORG 000BH         ; 定时器0中断向量入口</span><br><span class="line">          LJMP TIMER0_ISR   ; 跳转到中断服务程序</span><br><span class="line"></span><br><span class="line">MAIN:     MOV TMOD, #01H    ; 定时器0工作在模式1（16位定时）</span><br><span class="line">          MOV TH0, #0D8H    ; 装载初值高位</span><br><span class="line">          MOV TL0, #0F0H    ; 装载初值低位</span><br><span class="line"></span><br><span class="line">          MOV R7, #100      ; 设置翻转周期（100次中断翻转一次）</span><br><span class="line"></span><br><span class="line">          SETB EA           ; 开总中断</span><br><span class="line">          SETB ET0          ; 开定时器0中断</span><br><span class="line">          SETB TR0          ; 启动定时器0</span><br><span class="line"></span><br><span class="line">LOOP:     SJMP LOOP         ; 主程序空转</span><br><span class="line"></span><br><span class="line">;--------------------------------------</span><br><span class="line"></span><br><span class="line">TIMER0_ISR:</span><br><span class="line">          CLR TR0           ; 先停定时器</span><br><span class="line"></span><br><span class="line">          MOV TH0, #0D8H    ; 重装初值</span><br><span class="line">          MOV TL0, #0F0H</span><br><span class="line"></span><br><span class="line">          DJNZ R7, SKIP     ; 中断计数器减1，如果没到就跳过翻转</span><br><span class="line">          CPL P1.7          ; 翻转P1.7</span><br><span class="line">          MOV R7, #100      ; 重新设置中断计数器</span><br><span class="line"></span><br><span class="line">SKIP:     SETB TR0          ; 重启定时器</span><br><span class="line">          RETI              ; 中断返回</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<h1 id="我草拟吗的电子信息"><a href="#我草拟吗的电子信息" class="headerlink" title="我草拟吗的电子信息"></a><span style="color: #FF0000;">我</span><span style="color: #FF7F00;">草</span><span style="color: #FFFF00;">拟</span><span style="color: #00FF00;">吗</span><span style="color: #00FFFF;">的</span><span style="color: #0000FF;">电</span><span style="color: #4B0082;">子</span><span style="color: #8B00FF;">信</span><span style="color: #FF69B4;">息</span></h1><h4 id="我草-拟吗的。电子，信息-1。"><a href="#我草-拟吗的。电子，信息-1。" class="headerlink" title="我草, 拟吗的。电子，信息 1。"></a>我草, 拟吗的。电子，信息 <sup>1</sup>。</h4><hr>
+<p> <sup>[1]</sup>: 我草拟吗的电子信息</p>
+<blockquote>
+<p><span style="font-family: 'Source Han Serif', '思源宋体', serif; font-style: italic;">我草拟吗的电子信息。</p>
+</span></blockquote>
+<blockquote>
+<p><span style="font-family: 'Georgia'; font-style: italic;"> Fuck you EIE  </span></p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">我草 (拟,吗,的)</span><br><span class="line">&#123;</span><br><span class="line">	电子信息;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>我</th>
+<th>草</th>
+<th>拟</th>
+<th>吗</th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>的</td>
+<td>电</td>
+<td>子</td>
+<td>信</td>
+<td>息</td>
+</tr>
+<tr>
+<td>$Equation\space1.1:$</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>$$</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Fuck\space you\space EIE &#x3D; \int_{草}^{我}\frac{拟^{吗}} {的_{电子} *（信息）} \space</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>$$</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<p><a href="">我草拟吗的电子信息</a></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1.24</td>
+<td>1.48</td>
+<td>1.68</td>
+<td>1.88</td>
+<td>2</td>
+<td>2.12</td>
+<td>2.2</td>
+<td>2.28</td>
+<td>2.68</td>
+<td>3.2</td>
+<td>3.52</td>
+</tr>
+<tr>
+<td>1.44</td>
+<td>1.8</td>
+<td>2.16</td>
+<td>2.52</td>
+<td>2.76</td>
+<td>3.04</td>
+<td>3.32</td>
+<td>3.56</td>
+<td>4.08</td>
+<td>4.24</td>
+<td>4.32</td>
+</tr>
+<tr>
+<td>0.7</td>
+<td>0.84</td>
+<td>0.94</td>
+<td>1.02</td>
+<td>1.06</td>
+<td>1.1</td>
+<td>1.12</td>
+<td>1.18</td>
+<td>1.26</td>
+<td>1.42</td>
+<td>1.54</td>
+</tr>
+</tbody></table>
 
                 
             </div>
@@ -435,7 +673,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://Jav1ki4N.github.io/2025/09/04/hello-world/">http://Jav1ki4N.github.io/2025/09/04/hello-world/</a>
+                    <a href="http://Jav1ki4N.github.io/2025/09/06/%E5%BE%AE%E6%9C%BA%E6%80%BB%E7%BB%93/">http://Jav1ki4N.github.io/2025/09/06/%E5%BE%AE%E6%9C%BA%E6%80%BB%E7%BB%93/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -549,9 +787,48 @@
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
+            <div class="card">
+                <a href="/2025/09/06/%E5%BE%AE%E6%9C%BA%E6%80%BB%E7%BB%93/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/4.jpg" class="responsive-img" alt="微机原理 - 8051">
+                        
+                        <span class="card-title">微机原理 - 8051</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2025-09-06
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-user fa-fw"></i>
+                            i4N
+                            
+                        </span>
+                    </div>
+                </div>
+
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
             <div class="card">
                 <a href="/2025/09/06/%E5%BE%AE%E6%9C%BA%E5%8E%9F%E7%90%86/">
                     <div class="card-image">
@@ -569,45 +846,8 @@
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2025-09-06
-                        </span>
-                        <span class="publish-author">
-                            
-                            <i class="fas fa-user fa-fw"></i>
-                            i4N
-                            
-                        </span>
-                    </div>
-                </div>
-                
-            </div>
-        </div>
-        
-        
-        <div class="article col s12 m6" data-aos="fade-up">
-            <div class="article-badge right-badge text-color">
-                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
-            </div>
-            <div class="card">
-                <a href="/2024/06/14/STM32%20SPL%20Based%20Note%20By%20Ian%20Jav%C3%ADk/">
-                    <div class="card-image">
-                        
-                        
-                        <img src="/medias/featureimages/3.jpg" class="responsive-img" alt="STM32 SPL Based Note By Ian Javík">
-                        
-                        <span class="card-title">STM32 SPL Based Note By Ian Javík</span>
-                    </div>
-                </a>
-                <div class="card-content article-content">
-                    <div class="summary block-with-text">
-                        
-                            
-                        
-                    </div>
-                    <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2024-06-14
+                                <i class="far fa-clock fa-fw icon-date"></i>2025-09-06
                             </span>
                         <span class="publish-author">
                             
