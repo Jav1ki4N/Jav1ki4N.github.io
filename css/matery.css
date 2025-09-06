@@ -251,7 +251,8 @@ mark {
 
 
 .text-color {
-    color: #0f9d58 !important;
+    /* color: #0f9d58 !important; */
+    color: #654a6b
 }
 
 .white-color {
