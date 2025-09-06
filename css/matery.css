@@ -241,8 +241,14 @@ mark {
 }
 
 .bg-color {
-    background-image: linear-gradient( to right, #1F1C2C 0%, #928DAB  51%, #1F1C2C  100%);
+    background-image: linear-gradient(
+        to right,
+        #252525 20%,   /* 深灰色，20%位置 */
+        #404c4b 70%,   /* 墨绿色调灰，70%位置 */
+        #654a6b 100%   /* 紫色偏灰，100%位置 */
+    );
 }
+
 
 .text-color {
     color: #0f9d58 !important;
