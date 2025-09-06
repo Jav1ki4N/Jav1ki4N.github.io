@@ -4,8 +4,10 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="Hello World, i4N&#39;s Archive">
-    <meta name="description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hex">
+    <meta name="keywords" content="简单串口解析, i4N&#39;s Archive">
+    <meta name="description" content="环境：STM32F103C8T6 with HAL Lib
+2025 电赛 E 题中，舵机云台的控制如果需要视觉模块与 MCU 联动，那么视觉数据就必须通过串口通信发送到 MCU，再由 MCU 解析得到视觉数据。
+1. 发送端假设视觉模块 ">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -17,7 +19,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>Hello World | i4N&#39;s Archive</title>
+    <title>简单串口解析 | i4N&#39;s Archive</title>
     <link rel="icon" type="image/png" href="/favicon.png">
     
 
@@ -334,12 +336,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/12.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/11.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">Hello World</h1>
+                    <h1 class="description center-align post-title">简单串口解析</h1>
                 </div>
             </div>
         </div>
@@ -375,7 +377,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2025-09-04
+                    2025-09-06
                 </div>
                 
 
@@ -396,19 +398,54 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+                <p>环境：<code>STM32F103C8T6 with HAL Lib</code></p>
+<p>2025 电赛 E 题中，舵机云台的控制如果需要视觉模块与 MCU 联动，那么视觉数据就必须通过串口通信发送到 MCU，再由 MCU 解析得到视觉数据。</p>
+<h2 id="1-发送端"><a href="#1-发送端" class="headerlink" title="1. 发送端"></a>1. 发送端</h2><p>假设视觉模块 K230 获取到画面上的一个目标，其信息为 <code>(x,y)</code>, 那么需要想办法去将这个信息发送给 MCU 进行处理。</p>
+<p>假若通过串口信息发送的格式为字符串 <code>&lt;x,y&gt;</code>，那么 STM32 需要解析的内容就是 <code>x</code> 与 <code>y</code>。</p>
+<hr>
+<h2 id="2-接收端"><a href="#2-接收端" class="headerlink" title="2. 接收端"></a>2. 接收端</h2><h3 id="2-1-基本串口接收"><a href="#2-1-基本串口接收" class="headerlink" title="2.1 基本串口接收"></a>2.1 基本串口接收</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* UART 基础设置 */</span></span><br><span class="line"><span class="type">void</span> <span class="title function_">UART_App_Init</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">    HAL_UART_Receive_IT(&amp;huart1, &amp;recv_data, <span class="number">1</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* 回调函数 */</span></span><br><span class="line"><span class="type">void</span> <span class="title function_">HAL_UART_RxCpltCallback</span><span class="params">(UART_HandleTypeDef *huart)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span>(huart-&gt;Instance == USART1)</span><br><span class="line">    &#123;</span><br><span class="line">        K230_RecvData(recv_data);</span><br><span class="line">        HAL_UART_Receive_IT(&amp;huart1, &amp;recv_data, <span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+<p>首先配置好 STM32 的串口，这里以 <code>uart1</code>为例。</p>
+<p>回调函数中，除了最基本的 <code>HAL_UART_Receive_IT</code> 自动接收一次数据以外，还调用了一个自定义函数 <code>K230_RecvData</code>。</p>
+<p>这个自定义函数就是对接收到的数据进行解析的函数，放在回调函数内以保证每次接收到数据都进行解析。</p>
+<h3 id="2-2-串口解析"><a href="#2-2-串口解析" class="headerlink" title="2.2 串口解析"></a>2.2 串口解析</h3><p><code>uart_app.c:</code></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;uart_app.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">uint8_t</span> recv_data = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line"><span class="type">uint8_t</span> k230_x_buffer[<span class="number">10</span>];</span><br><span class="line"><span class="type">uint8_t</span> k230_y_buffer[<span class="number">10</span>];</span><br><span class="line"><span class="type">uint8_t</span> k230_recv_flag = <span class="number">0</span>;</span><br><span class="line"><span class="type">uint8_t</span> k230_recv_x_index = <span class="number">0</span>;</span><br><span class="line"><span class="type">uint8_t</span> k230_recv_y_index = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line"><span class="type">uint16_t</span> center_x = <span class="number">0</span>;</span><br><span class="line"><span class="type">uint16_t</span> center_y = <span class="number">0</span>; </span><br></pre></td></tr></table></figure>
 
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+<p>变量定义区域，<code>recv_data</code> 无需多言，接下来的便是串口解析相关的变量。</p>
+<p>对于信息 <code>&lt;x,y&gt;</code>, 无论 <code>x</code> 或 <code>y</code> 都是一个位数不固定的数据，比如 <code>0 - 320</code>。所以为了完整地存储这个数据，需要设置专用的数组，也就是 <code>k230_x(y)_buffer</code>。</p>
+<p>同时，为了方便对这个数组进行处理，也需要设置各自的索引变量 <code>k230_recv_x(y)_index</code>，到时候会以 <code>k230_x(y)_buffer[k230_recv_x(y)_index]</code>，也就是 <code>array[index]</code> 的方式将接收到的数据写入数组。</p>
+<p>现在来实现解析逻辑函数 <code>K230_RecvData</code>。</p>
+<p>对于信息 &lt;x,y&gt;，我们想要获取它的信息，就需要对每个字符进行分析，可以简单的看成是：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&#x27;&lt;&#x27;</span> + <span class="string">&#x27;x&#x27;</span> + <span class="string">&#x27;,&#x27;</span> + <span class="string">&#x27;y&#x27;</span> + <span class="string">&#x27;&gt;&#x27;</span></span><br></pre></td></tr></table></figure>
 
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+<p>的形式。数据 <code>&lt;</code> 与 <code>&gt;</code> 包裹有效信息外，作为字符串的头与尾，是检测的标志，一旦检测到 <code>&lt;</code> ,就说明开始接受有效数据，而一旦检测到 <code>&lt;</code>，就说明有效数据的接受完成。</p>
+<p><code>,</code> 分隔符将 <code>x</code> 和 <code>y</code> 隔离开。</p>
+<p>所以可以将解析函数写成一个状态机的形式：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">等待字符串头 - 接收x - 接收y - 结束</span><br></pre></td></tr></table></figure>
 
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+<p>每个状态的标志变量即本节开头定义的 <code>k230_recv_flag</code>。<code>0-3</code> 分别对应四个状态，初始化为 <code>0</code><br>以默认等待字符串头。</p>
+<p>接下来是函数的代码实现：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 一次数据接收流程 */</span></span><br><span class="line"><span class="type">void</span> <span class="title function_">K230_RecvData</span><span class="params">(<span class="type">uint8_t</span> recdat)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span>(k230_recv_flag == <span class="number">0</span>)        <span class="comment">// waiting for packet header &#x27;&lt;&#x27;</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(recdat == <span class="string">&#x27;&lt;&#x27;</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            k230_recv_flag = <span class="number">1</span>;    <span class="comment">// header recveived enter flag 1: receving x       </span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>recdat</code> 即入口参数，调用时填串口接收的数据 <code>recv_data</code>，如 <code>2.1</code> 中的做法。</p>
+<p>如果过当前标志位为 <code>0</code> ，说明还在等待字符串头，而一旦 <code>recdat == &#39;&lt;&#39;</code> ，就说明可以开始接收数据，此时设置标志位为 <code>1</code>，下一次启动状态机就会进入下面的状态：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">else</span> <span class="keyword">if</span> (k230_recv_flag == <span class="number">1</span>)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span>(recdat == <span class="string">&#x27;,&#x27;</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        k230_recv_flag = <span class="number">2</span>;    <span class="comment">// receving x end start to receive y</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">        k230_x_buffer[k230_recv_x_index++] = recdat;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在状态1下，如果接收到的数据不是分隔符 <code>,</code>，说明仍在接收 <code>x</code> 数据，进入 <code>else</code> 下的逻辑，将<code>x</code>的每一位都写入数组，反之进入下一个状态。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">else</span> <span class="keyword">if</span> (k230_recv_flag == <span class="number">2</span>)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span>(recdat == <span class="string">&#x27;&gt;&#x27;</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        k230_recv_flag = <span class="number">3</span>;    <span class="comment">// end receiving</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">        k230_y_buffer[k230_recv_y_index++] = recdat;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在状态2下，如果接收到的数据不是字符串尾 <code>&lt;</code>，说明仍在接收 <code>y</code> 数据，进入 <code>else</code> 下的逻辑，将<code>y</code> 的每一位都写入数组，反之进入下一个状态。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (k230_recv_flag == <span class="number">3</span>)</span><br><span class="line">    &#123;</span><br><span class="line"></span><br><span class="line">        center_x = arrayToInt(k230_x_buffer,k230_recv_x_index);</span><br><span class="line">        center_y = arrayToInt(k230_y_buffer,k230_recv_y_index);</span><br><span class="line"></span><br><span class="line">        <span class="built_in">memset</span>(k230_x_buffer,<span class="number">0</span>,<span class="keyword">sizeof</span>(k230_x_buffer));</span><br><span class="line">        <span class="built_in">memset</span>(k230_y_buffer,<span class="number">0</span>,<span class="keyword">sizeof</span>(k230_y_buffer));</span><br><span class="line"></span><br><span class="line">        k230_recv_x_index = <span class="number">0</span>;</span><br><span class="line">        k230_recv_y_index = <span class="number">0</span>;</span><br><span class="line">        </span><br><span class="line">        k230_recv_flag = <span class="number">0</span>;</span><br><span class="line">    &#125;       </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>最终，状态3下数据都接受完毕了，此时 <code>x,y</code> 的数组应当都包含了 <code>x</code> 与 <code>y</code> 的完整信息。</p>
+<p>然而，期望的 <code>x</code> 与 <code>y</code> 应当是一个数字数据，比如开头定义的 <code>uint16_t center_x(y)</code>，于是这里通过一个函数 <code>arrayToInt</code> 将数组转化为一个 <code>uint16_t</code> 类型的数据（具体实现逻辑看文末）。</p>
+<p>现在我们得到了想要的 <code>x</code> 与 <code>y</code> 数据，也就是 <code>center_x(y)</code>。这说明，本次的解析完成。</p>
+<p>最后，只需要清除数组及其索引，以及状态机的状态标志位即可。</p>
+<hr>
+<p><code>arrayToInt:</code></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 从存储x,y的数组中提出数字形式 */</span></span><br><span class="line"><span class="type">uint16_t</span> <span class="title function_">arrayToInt</span><span class="params">(<span class="type">uint8_t</span>* arr, <span class="type">uint8_t</span> length)</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (length == <span class="number">0</span> || length &gt; <span class="number">10</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="type">uint16_t</span> num = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">uint8_t</span> i = <span class="number">0</span>; i &lt; length; i++) &#123;</span><br><span class="line">        <span class="keyword">if</span>(arr[i] &gt;= <span class="string">&#x27;0&#x27;</span> &amp;&amp; arr[i] &lt;= <span class="string">&#x27;9&#x27;</span>) &#123;</span><br><span class="line">            num = num * <span class="number">10</span> + (arr[i] - <span class="string">&#x27;0&#x27;</span>);</span><br><span class="line">            <span class="keyword">if</span>(num &gt; <span class="number">320</span>) <span class="keyword">return</span> <span class="number">320</span>; <span class="comment">// 提前终止</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> num &gt; <span class="number">320</span> ? <span class="number">320</span> : num;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>10</code> 为数组长度，<code>320</code> 为 <code>x</code> 与 <code>y</code> 所允许的上限值。</p>
 
                 
             </div>
@@ -435,7 +472,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://Jav1ki4N.github.io/2025/09/04/hello-world/">http://Jav1ki4N.github.io/2025/09/04/hello-world/</a>
+                    <a href="http://Jav1ki4N.github.io/2025/09/06/%E7%AE%80%E5%8D%95%E4%B8%B2%E5%8F%A3%E8%A7%A3%E6%9E%90/">http://Jav1ki4N.github.io/2025/09/06/%E7%AE%80%E5%8D%95%E4%B8%B2%E5%8F%A3%E8%A7%A3%E6%9E%90/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -553,13 +590,13 @@
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2025/09/06/%E7%AE%80%E5%8D%95%E4%B8%B2%E5%8F%A3%E8%A7%A3%E6%9E%90/">
+                <a href="/2025/09/06/%E5%BE%AE%E6%9C%BA%E5%8E%9F%E7%90%86/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/11.jpg" class="responsive-img" alt="简单串口解析">
+                        <img src="/medias/featureimages/2.jpg" class="responsive-img" alt="微机原理 - 8086">
                         
-                        <span class="card-title">简单串口解析</span>
+                        <span class="card-title">微机原理 - 8086</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -590,13 +627,13 @@
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2024/06/14/STM32%20SPL%20Based%20Note%20By%20Ian%20Jav%C3%ADk/">
+                <a href="/2025/09/04/hello-world/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/3.jpg" class="responsive-img" alt="STM32 SPL Based Note By Ian Javík">
+                        <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="Hello World">
                         
-                        <span class="card-title">STM32 SPL Based Note By Ian Javík</span>
+                        <span class="card-title">Hello World</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -607,7 +644,7 @@
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2024-06-14
+                                <i class="far fa-clock fa-fw icon-date"></i>2025-09-04
                             </span>
                         <span class="publish-author">
                             
