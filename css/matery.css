@@ -5,6 +5,13 @@
   font-style: normal;
 }
 
+@font-face {
+  font-family: '匯文明朝體GBK';
+  src: url('../fonts/匯文明朝體GBK.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+}
+
 
 /*全局基础样式*/
 /*小屏幕下(手机类)的样式*/
@@ -610,8 +617,9 @@ header .go-back i {
 }
 
 .bg-cover .description {
-    font-weight: 300;
-    font-size: 1.25rem;
+    font-family: '匯文明朝體GBK',sans-serif;
+    font-weight: 500;
+    font-size: 2rem;
     line-height: 1.4em;
     color: #eee;
 }
