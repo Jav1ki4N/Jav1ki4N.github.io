@@ -1,3 +1,11 @@
+@font-face {
+  font-family: 'IM FEEL English';
+  src: url('../fonts/IMFeENrm28P.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+}
+
+
 /*全局基础样式*/
 /*小屏幕下(手机类)的样式*/
 @media only screen and (max-width: 601px) {
