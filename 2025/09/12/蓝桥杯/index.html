@@ -7,7 +7,7 @@
     <meta name="keywords" content="第十五届蓝桥杯嵌入式赛道 - 代码模板笔记, Heretic&#39;s Archive">
     <meta name="description" content="
 2025 蓝桥杯嵌入式赛道模版
-1. LED1234567graph TDA&amp;#123;MCU&amp;#125; --&amp;gt;B[Enable Latch]A&amp;#123;MCU&amp;#125; --&amp;gt;C[Load Data]B--&amp;gt;D[">
+1. LED123456graph TDA&amp;#123;MCU&amp;#125; --&amp;gt;B[Enable Latch]A&amp;#123;MCU&amp;#125; --&amp;gt;C[Load Data]B--&amp;gt;D[D">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -78,7 +78,7 @@
       
       <i class="fas fa-home" style="zoom: 0.6;"></i>
       
-      <span>首页</span>
+      <span>卷首 | Index</span>
     </a>
     
   </li>
@@ -122,7 +122,7 @@
       
       <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
       
-      <span>关于</span>
+      <span>策展人 | About</span>
     </a>
     
   </li>
@@ -133,7 +133,7 @@
       
       <i class="fas fa-comments" style="zoom: 0.6;"></i>
       
-      <span>留言板</span>
+      <span>回响 | Echoes</span>
     </a>
     
   </li>
@@ -144,7 +144,7 @@
       
       <i class="fas fa-address-book" style="zoom: 0.6;"></i>
       
-      <span>友情链接</span>
+      <span>议厅 | Council</span>
     </a>
     
   </li>
@@ -184,7 +184,7 @@
 			
 			    <i class="fa-fw fas fa-home"></i>
 			
-			首页
+			卷首 | Index
 		</a>
           
         </li>
@@ -228,7 +228,7 @@
 			
 			    <i class="fa-fw fas fa-user-circle"></i>
 			
-			关于
+			策展人 | About
 		</a>
           
         </li>
@@ -239,7 +239,7 @@
 			
 			    <i class="fa-fw fas fa-comments"></i>
 			
-			留言板
+			回响 | Echoes
 		</a>
           
         </li>
@@ -250,7 +250,7 @@
 			
 			    <i class="fa-fw fas fa-address-book"></i>
 			
-			友情链接
+			议厅 | Council
 		</a>
           
         </li>
@@ -398,7 +398,7 @@
             <div id="articleContent">
                 <hr>
 <p>2025 蓝桥杯嵌入式赛道模版</p>
-<h1 id="1-LED"><a href="#1-LED" class="headerlink" title="1. LED"></a>1. LED</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">graph TD</span><br><span class="line">A&#123;MCU&#125; --&gt;B[Enable Latch]</span><br><span class="line">A&#123;MCU&#125; --&gt;C[Load Data]</span><br><span class="line">B--&gt;D[Data send]</span><br><span class="line">C--&gt;D[Data Send]</span><br><span class="line">D--&gt;E[LED]</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h1 id="1-LED"><a href="#1-LED" class="headerlink" title="1. LED"></a>1. LED</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">graph TD</span><br><span class="line">A&#123;MCU&#125; --&gt;B[Enable Latch]</span><br><span class="line">A&#123;MCU&#125; --&gt;C[Load Data]</span><br><span class="line">B--&gt;D[Data send]</span><br><span class="line">C--&gt;D[Data Send]</span><br><span class="line">D--&gt;E[LED]</span><br></pre></td></tr></table></figure>
 
 
 <h2 id="1-1-GPIO-Config"><a href="#1-1-GPIO-Config" class="headerlink" title="1.1 GPIO Config"></a>1.1 GPIO Config</h2><p>以下是 LED 相关 GPIO 的 Cube 设置</p>
@@ -949,7 +949,7 @@
             contentSelector: '#articleContent',
             headingsOffset: -($(window).height() * 0.4 - 45),
             collapseDepth: Number('0'),
-            headingSelector: 'h2, h3, h4'
+            headingSelector: 'h1, h2, h3, h4'
         });
 
         // Set scroll toc fixed.
