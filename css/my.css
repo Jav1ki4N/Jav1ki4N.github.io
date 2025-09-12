@@ -1,1 +1,7 @@
+*{
+    cursor: url("/cursors/arrow.cur"),auto!important;
+}
+:active{
+    cursor: url("/cursors/arrow.cur"),auto!important;
+}
 /* Here is your custom css styles. */
