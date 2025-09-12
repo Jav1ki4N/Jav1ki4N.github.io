@@ -1,0 +1,1353 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="第十五届蓝桥杯嵌入式赛道 - 代码模板笔记, Heretic&#39;s Archive">
+    <meta name="description" content="
+2025 蓝桥杯嵌入式赛道模版
+1. LED1234567graph TDA&amp;#123;MCU&amp;#125; --&amp;gt;B[Enable Latch]A&amp;#123;MCU&amp;#125; --&amp;gt;C[Load Data]B--&amp;gt;D[">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <title>第十五届蓝桥杯嵌入式赛道 - 代码模板笔记 | Heretic&#39;s Archive</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+    
+
+
+    <!-- bg-cover style     -->
+
+
+
+<link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.min.css">
+<link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+<link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+<link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+<link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+<link rel="stylesheet" type="text/css" href="/css/matery.css">
+<link rel="stylesheet" type="text/css" href="/css/my.css">
+<link rel="stylesheet" type="text/css" href="/css/dark.css" media="none" onload="if(media!='all')media='all'">
+
+
+
+
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+    <link rel="stylesheet" href="/css/post.css">
+
+
+
+
+    
+
+
+
+    <script src="/libs/jquery/jquery-3.6.0.min.js"></script>
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/favicon.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">Heretic&#39;s Archive</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/contact" class="waves-effect waves-light">
+      
+      <i class="fas fa-comments" style="zoom: 0.6;"></i>
+      
+      <span>留言板</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/friends" class="waves-effect waves-light">
+      
+      <i class="fas fa-address-book" style="zoom: 0.6;"></i>
+      
+      <span>友情链接</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+  <li>
+    <a href="javascript:;" class="waves-effect waves-light" onclick="switchNightMode()" title="深色/浅色模式" >
+      <i id="sum-moon-icon" class="fas fa-sun" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/favicon.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">Heretic&#39;s Archive</div>
+        <div class="logo-desc">
+            
+            驕傲地滅亡
+            
+        </div>
+    </div>
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/contact" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-comments"></i>
+			
+			留言板
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/friends" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-address-book"></i>
+			
+			友情链接
+		</a>
+          
+        </li>
+        
+        
+        <li><div class="divider"></div></li>
+        <li>
+            <a href="https://github.com/Jav1ki4N/Jav1ki4N.github.io" class="waves-effect waves-light" target="_blank">
+                <i class="fab fa-github-square fa-fw"></i>Fork this site
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+
+        </div>
+
+        
+            <style>
+    .nav-transparent .github-corner {
+        display: none !important;
+    }
+
+    .github-corner {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        right: 0;
+        border: 0;
+        transform: scale(1.1);
+    }
+
+    .github-corner svg {
+        color: #654a6b;
+        fill: #252525;
+        height: 64px;
+        width: 64px;
+    }
+
+    .github-corner:hover .octo-arm {
+        animation: a 0.56s ease-in-out;
+    }
+
+    .github-corner .octo-arm {
+        animation: none;
+    }
+
+    @keyframes a {
+        0%,
+        to {
+            transform: rotate(0);
+        }
+        20%,
+        60% {
+            transform: rotate(-25deg);
+        }
+        40%,
+        80% {
+            transform: rotate(10deg);
+        }
+    }
+</style>
+
+<a href="https://github.com/Jav1ki4N/Jav1ki4N.github.io" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
+   data-tooltip="Fork this site" data-position="left" data-delay="50">
+    <svg viewBox="0 0 250 250" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+              fill="currentColor" class="octo-body"></path>
+    </svg>
+</a>
+        
+    </nav>
+
+</header>
+
+    
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/15.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">第十五届蓝桥杯嵌入式赛道 - 代码模板笔记</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                          <div class="article-tag">
+                            <span class="chip bg-color">无标签</span>
+                          </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2025-09-12
+                </div>
+                
+
+                
+
+                
+
+                
+
+                
+            </div>
+        </div>
+        <hr class="clearfix">
+
+        
+
+        
+
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <hr>
+<p>2025 蓝桥杯嵌入式赛道模版</p>
+<h1 id="1-LED"><a href="#1-LED" class="headerlink" title="1. LED"></a>1. LED</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">graph TD</span><br><span class="line">A&#123;MCU&#125; --&gt;B[Enable Latch]</span><br><span class="line">A&#123;MCU&#125; --&gt;C[Load Data]</span><br><span class="line">B--&gt;D[Data send]</span><br><span class="line">C--&gt;D[Data Send]</span><br><span class="line">D--&gt;E[LED]</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<h2 id="1-1-GPIO-Config"><a href="#1-1-GPIO-Config" class="headerlink" title="1.1 GPIO Config"></a>1.1 GPIO Config</h2><p>以下是 LED 相关 GPIO 的 Cube 设置</p>
+<p><code>PD2</code> </p>
+<ul>
+<li>Cube 配置： <code>GPIO_Output</code></li>
+<li>输出模式：   <code>Output Push and pull</code></li>
+<li>初始电平：   <code>High</code> ，也就是 <code>SET</code></li>
+<li><code>SET</code>    -  打开锁存器</li>
+<li><code>RESET</code> - 关闭锁存器</li>
+</ul>
+<p><code>PC8 - 15</code></p>
+<ul>
+<li>Cube 配置： <code>GPIO_Output</code></li>
+<li>输出模式：   <code>Output Push and pull</code></li>
+<li>初始电平：   <code>High</code></li>
+<li><code>SET</code>    -  熄灭LED</li>
+<li><code>RESET</code> - 点亮LED</li>
+</ul>
+<h2 id="1-2-led-c"><a href="#1-2-led-c" class="headerlink" title="1.2 led.c"></a>1.2 <code>led.c</code></h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta"># <span class="keyword">include</span> <span class="string">&quot;led.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">uint8_t</span> led_status[<span class="number">8</span>] = &#123;<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>&#125;;</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">Led_Proc</span><span class="params">(<span class="type">uint8_t</span> *leds)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">uint8_t</span> temp = <span class="number">0x00</span>;       <span class="comment">// 0000 0000</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">8</span>; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        temp |= leds[i]&lt;&lt;(<span class="number">7</span>-i);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    GPIOC-&gt;ODR = (temp&lt;&lt;<span class="number">8</span>);</span><br><span class="line">    HAL_GPIO_WritePin(GPIOD,GPIO_PIN_2,GPIO_PIN_SET);  </span><br><span class="line">    HAL_GPIO_WritePin(GPIOD,GPIO_PIN_2,GPIO_PIN_RESET);   </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p> 期望：一次性控制所有 GPIOC 端口，从而控制所有 LED<br> 定义 <code>led_status</code> 作为 LED 状态，分别对应 LED8 - LED1:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Array No. : 0 1 2 3 4 5 6 7 8</span><br><span class="line">LED       : 8 7 6 5 4 3 2 1 0</span><br></pre></td></tr></table></figure>
+
+<p>比如这里 <code>led_status[8] = &#123;1,1,1,1,1,1,1,1&#125;;</code> 表示全部熄灭。<br>处于外部修改的需要，在 <code>linker.h</code> 中将其以 <code>extern</code> 声明。</p>
+<hr>
+<p>由于 GPIOC 是一个 <code>16</code>  位的端口，而 <code>led_status</code> 只有八位，所以需要将他左移八位拓展成十六位。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">Led_Proc</span><span class="params">(<span class="type">uint8_t</span> *leds)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">uint8_t</span> temp = <span class="number">0x00</span>;       <span class="comment">// 0000 0000</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">8</span>; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        temp |= leds[i]&lt;&lt;(<span class="number">7</span>-i);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    GPIOC-&gt;ODR = (temp&lt;&lt;<span class="number">8</span>);</span><br><span class="line">    HAL_GPIO_WritePin(GPIOD,GPIO_PIN_2,GPIO_PIN_SET);  </span><br><span class="line">    HAL_GPIO_WritePin(GPIOD,GPIO_PIN_2,GPIO_PIN_RESET);   </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>把数组数据传入 GPIO 的第一步是使用一个 <code>uint8_t</code> 变量承接数据，这里是 <code>temp</code>，思路是使用循环与或运算（以保证每次修改独立）。但是由于数组顺序与实际 LED 标号相反，所以这里需要 <code>&lt;&lt;(7-i)</code> 来使数组元素以相反顺序写入 <code>temp</code>。</p>
+<p>最后将 <code>temp</code> 左移八位成为十六位数据赋给 GPIOC，同时短暂地开启一次锁存器。</p>
+<p>对 LED 状态的修改，只需要修改数组。</p>
+<h1 id="2-按键"><a href="#2-按键" class="headerlink" title="2. 按键"></a>2. 按键</h1><h2 id="2-1-GPIO-Config"><a href="#2-1-GPIO-Config" class="headerlink" title="2.1 GPIO Config"></a>2.1 GPIO Config</h2><p><code>PB0 - 2</code> </p>
+<ul>
+<li>Cube 配置： <code>GPIO_Input</code></li>
+<li>输入模式：   <code>Pull Up</code> (因为悬空时接<code>VDD</code>)</li>
+<li>初始电平：   <code>High</code> ，也就是 <code>SET</code></li>
+<li><code>SET</code>    -  </li>
+<li><code>RESET</code> - 按下按键 1&#x2F;2&#x2F;3</li>
+</ul>
+<p><code>PA0</code></p>
+<ul>
+<li>Cube 配置： <code>GPIO_Input</code></li>
+<li>输入模式：   <code>Pull up</code></li>
+<li>初始电平：   <code>High</code></li>
+<li><code>SET</code>    -  </li>
+<li><code>RESET</code> -  按下按键4</li>
+</ul>
+<h2 id="2-2-key-c"><a href="#2-2-key-c" class="headerlink" title="2.2 key.c"></a>2.2 key.c</h2><p>仅供参考 ↓</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;key.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* 这是按键的状态变量 */</span></span><br><span class="line"></span><br><span class="line"><span class="type">uint8_t</span> key_val;  <span class="comment">//当前检测到的键号</span></span><br><span class="line"><span class="type">uint8_t</span> key_pre;  <span class="comment">//上次检测到的键号</span></span><br><span class="line"><span class="type">uint8_t</span> key_up;   <span class="comment">//按键的上升沿</span></span><br><span class="line"><span class="type">uint8_t</span> key_down; <span class="comment">//按键的下降沿</span></span><br><span class="line"></span><br><span class="line"><span class="type">uint8_t</span> <span class="title function_">Get_Key</span><span class="params">()</span> <span class="comment">//获取键号</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">uint8_t</span> key;</span><br><span class="line">    <span class="keyword">if</span>(HAL_GPIO_ReadPin(GPIOB,GPIO_PIN_0) == GPIO_PIN_RESET)key = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">if</span>(HAL_GPIO_ReadPin(GPIOB,GPIO_PIN_1) == GPIO_PIN_RESET)key = <span class="number">2</span>;</span><br><span class="line">    <span class="keyword">if</span>(HAL_GPIO_ReadPin(GPIOB,GPIO_PIN_2) == GPIO_PIN_RESET)key = <span class="number">3</span>;</span><br><span class="line">    <span class="keyword">if</span>(HAL_GPIO_ReadPin(GPIOA,GPIO_PIN_0) == GPIO_PIN_RESET)key = <span class="number">4</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> key;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">  </span><br><span class="line"><span class="type">void</span> <span class="title function_">Key_Scan</span><span class="params">()</span> <span class="comment">//计算状态变量</span></span><br><span class="line">&#123;</span><br><span class="line">    key_val  =  Get_Key();</span><br><span class="line">    key_down   =  key_val &amp; (key_val ^ key_pre);</span><br><span class="line">    key_up = ~key_val &amp; (key_val ^ key_pre);</span><br><span class="line">    key_pre  =  key_val;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">Key_Proc</span><span class="params">()</span> <span class="comment">//具体逻辑</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">switch</span>(key_down) <span class="comment">//用下降沿作为条件，表示按下触发</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">case</span> <span class="number">1</span>:led_status[<span class="number">0</span>] = <span class="number">0</span>;<span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> <span class="number">2</span>:led_status[<span class="number">0</span>] = <span class="number">1</span>;<span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> <span class="number">3</span>:led_status[<span class="number">1</span>] = <span class="number">0</span>;<span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> <span class="number">4</span>:led_status[<span class="number">1</span>] = <span class="number">1</span>;<span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上面这个写法后面做功能的时候有些冲突。。换成了比较朴素的写法：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;key.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* 四组状态变量，分别表示按键的当前状态以及上次状态 */</span></span><br><span class="line"><span class="comment">/* 所有的上一次状态变量 kx_pre 需要初始化为1 */</span></span><br><span class="line"><span class="comment">/* 可以考虑用结构体来减少代码量，但是我懒得试错了 */</span></span><br><span class="line"><span class="type">uint8_t</span> k1;</span><br><span class="line"><span class="type">uint8_t</span> k1_pre = <span class="number">1</span>;</span><br><span class="line"><span class="type">uint8_t</span> k2;</span><br><span class="line"><span class="type">uint8_t</span> k2_pre = <span class="number">1</span>;</span><br><span class="line"><span class="type">uint8_t</span> k3;</span><br><span class="line"><span class="type">uint8_t</span> k3_pre = <span class="number">1</span>;</span><br><span class="line"><span class="type">uint8_t</span> k4;</span><br><span class="line"><span class="type">uint8_t</span> k4_pre = <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">Key_Scan</span><span class="params">()</span> <span class="comment">//更新当前状态</span></span><br><span class="line">&#123;</span><br><span class="line">    k1 = HAL_GPIO_ReadPin(GPIOB,GPIO_PIN_0);</span><br><span class="line">    k2 = HAL_GPIO_ReadPin(GPIOB,GPIO_PIN_1);</span><br><span class="line">    k3 = HAL_GPIO_ReadPin(GPIOB,GPIO_PIN_2);</span><br><span class="line">    k4 = HAL_GPIO_ReadPin(GPIOA,GPIO_PIN_0);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">Key_Proc</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span>(k1 == <span class="number">0</span> &amp;&amp; k1_pre == <span class="number">1</span>) </span><br><span class="line">    &#123;</span><br><span class="line">		<span class="comment">/* 如果按键现在处于按下状态，并且上次没按下 */</span></span><br><span class="line">		<span class="comment">/* 就反映了按键按下这一动作 */</span></span><br><span class="line">		<span class="comment">/* 这是一个瞬时动作的判断 */</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span>(k1 == <span class="number">0</span> &amp;&amp; k1_pre == <span class="number">0</span>) <span class="comment">//not released</span></span><br><span class="line">    &#123;</span><br><span class="line">	    <span class="comment">/* 如果两次检测按键都处于按下状态 */</span></span><br><span class="line">	    <span class="comment">/* 说明现在还没有松手 */</span></span><br><span class="line">		<span class="comment">/* 这是一个过程的判断 */</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span>(k1 == <span class="number">1</span> &amp;&amp; k1_pre == <span class="number">0</span>) <span class="comment">//released</span></span><br><span class="line">    &#123;</span><br><span class="line">		<span class="comment">/* 如果按键现在没按下，但是上次按下了 */</span></span><br><span class="line">		<span class="comment">/* 就反映了松开这个动作 */</span></span><br><span class="line">		<span class="comment">/* 这是一个瞬时动作的判断 */</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/*******************************************************************/</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">/* 更新状态 */</span></span><br><span class="line"></span><br><span class="line">    k1_pre = k1;</span><br><span class="line"></span><br><span class="line">    k2_pre = k2;</span><br><span class="line"></span><br><span class="line">    k3_pre = k3;</span><br><span class="line"></span><br><span class="line">    k4_pre = k4;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-3-总览"><a href="#2-3-总览" class="headerlink" title="2.3 总览"></a>2.3 总览</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">graph TD</span><br><span class="line">A&#123;定义状态变量&#125; --&gt; B[kx, 当前获取的键码]</span><br><span class="line">A&#123;定义状态变量&#125; --&gt; C[kx_pre, 上次获取的键码]</span><br><span class="line">B --&gt; D[scan方法获取kx键码]</span><br><span class="line">C --&gt; D</span><br><span class="line">D --&gt; E[Proc方法判断按键的三个状态：按下瞬间、未释放过程、释放瞬间]</span><br><span class="line">E --&gt; F[更新kx_pre]</span><br></pre></td></tr></table></figure>
+<h1 id="3-LCD"><a href="#3-LCD" class="headerlink" title="3. LCD"></a>3. LCD</h1><h2 id="3-1-认识核心顶层-API-lcd-h"><a href="#3-1-认识核心顶层-API-lcd-h" class="headerlink" title="3.1 认识核心顶层 API - lcd.h"></a>3.1 认识核心顶层 API - <code>lcd.h</code></h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">LCD_Init</span><span class="params">(<span class="type">void</span>)</span>;</span><br><span class="line"><span class="comment">// LCD初始化</span></span><br><span class="line"><span class="type">void</span> <span class="title function_">LCD_SetTextColor</span><span class="params">(vu16 Color)</span>;</span><br><span class="line"><span class="comment">// 设置文字颜色</span></span><br><span class="line"><span class="type">void</span> <span class="title function_">LCD_SetBackColor</span><span class="params">(vu16 Color)</span>;</span><br><span class="line"><span class="comment">// 设置文字背景颜色</span></span><br><span class="line"><span class="type">void</span> <span class="title function_">LCD_ClearLine</span><span class="params">(u8 Line)</span>;</span><br><span class="line"><span class="comment">// 清除一行内容</span></span><br><span class="line"><span class="type">void</span> <span class="title function_">LCD_Clear</span><span class="params">(u16 Color)</span>;</span><br><span class="line"><span class="comment">// 清除整个屏幕内容，并将屏幕设置为一个颜色</span></span><br><span class="line"><span class="type">void</span> <span class="title function_">LCD_DisplayStringLine</span><span class="params">(u8 Line, u8 *ptr)</span>;</span><br><span class="line"><span class="comment">// 在某一行显示一条字符串</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="3-2-编写应用层代码-lcd-app-c"><a href="#3-2-编写应用层代码-lcd-app-c" class="headerlink" title="3.2 编写应用层代码 - lcd_app.c"></a>3.2 编写应用层代码 - <code>lcd_app.c</code></h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;lcd_app.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">Lcd_Init_App</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">    HAL_GPIO_WritePin(GPIOD,GPIO_PIN_2,GPIO_PIN_RESET); <span class="comment">//把锁存器关掉</span></span><br><span class="line">    LCD_Init();</span><br><span class="line">    LCD_Clear(Black);</span><br><span class="line">    LCD_SetTextColor(White);</span><br><span class="line">    LCD_SetBackColor(Black);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">Lcd_Proc</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">static</span> <span class="type">uint8_t</span> cnt = <span class="number">0</span>;</span><br><span class="line">    cnt++;</span><br><span class="line">    <span class="type">char</span> str[<span class="number">21</span>];</span><br><span class="line">    <span class="built_in">sprintf</span>(str,<span class="string">&quot;test:%d&quot;</span>,cnt);</span><br><span class="line">    <span class="comment">//LCD_ShowcrosswisePicture(gImage_Picture,240,240);</span></span><br><span class="line">    LCD_DisplayStringLine(Line0,(<span class="type">uint8_t</span>*)<span class="string">&quot;      ABCDEFG      &quot;</span>);</span><br><span class="line">    LCD_DisplayStringLine(Line2,(<span class="type">uint8_t</span>*)str); </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>将初始化函数与清屏、字体颜色、背景颜色函数打包诚信的初始化函数，放在 <code>main.c</code> 中启动。</p>
+<p>由于 Lcd 函数会改变 GPIOC  的引脚状态，所以这里需要先把锁存器关掉。</p>
+<p>而显示内容的方法是，显示固定内容，只需要用 <code>LCD_DisplayStringLine</code> 选择 <code>Linex</code> 以及一个字符串就可以，比如这里直接写的是 <code>     ABCDEFG     </code>.</p>
+<p>显示可变内容的方法是，先定义一个长度为 <code>21</code> （再大屏幕放不下）的数组，用 <code>sprintf</code> 将所需格式打印进去，在调用显示函数显示这个数组。</p>
+<p>数组，或者字符串，必须转换为 <code>uint8_t*</code> 类型。</p>
+<p>同时，为了进一步避免与 LED 的冲突问题，需要对<code>LCD_Init</code>, <code>LCD_DisplayStringLine</code> 以及 <code>LCD_Clear</code> 进行一定修改：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">LCD_Init</span><span class="params">(<span class="type">void</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">uint16_t</span> led_curr_state = GPIOC-&gt;ODR;</span><br><span class="line">    LCD_CtrlLinesConfig();</span><br><span class="line">    dummy = LCD_ReadReg(<span class="number">0</span>);</span><br><span class="line">  </span><br><span class="line">    <span class="keyword">if</span>(dummy == <span class="number">0x8230</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        REG_8230_Init();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">        REG_932X_Init();</span><br><span class="line">    &#125;</span><br><span class="line">    dummy = LCD_ReadReg(<span class="number">0</span>);</span><br><span class="line">    GPIOC-&gt;ODR = led_curr_state;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">LCD_DisplayStringLine</span><span class="params">(u8 Line, u8 *ptr)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">uint16_t</span> led_curr_state = GPIOC-&gt;ODR; <span class="comment">//记录当前的LED状态</span></span><br><span class="line">    </span><br><span class="line">    u32 i = <span class="number">0</span>;</span><br><span class="line">    u16 refcolumn = <span class="number">319</span>;<span class="comment">//319;</span></span><br><span class="line">    <span class="keyword">while</span> ((*ptr != <span class="number">0</span>) &amp;&amp; (i &lt; <span class="number">20</span>))  <span class="comment">// 20</span></span><br><span class="line">    &#123;</span><br><span class="line">        LCD_DisplayChar(Line, refcolumn, *ptr);</span><br><span class="line">        refcolumn -= <span class="number">16</span>;</span><br><span class="line">        ptr++;</span><br><span class="line">        i++;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    GPIOC-&gt;ODR = led_curr_state; <span class="comment">//改了没事，还原呗</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">LCD_Clear</span><span class="params">(u16 Color)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">uint16_t</span> led_curr_state = GPIOC-&gt;ODR; <span class="comment">//记录当前的LED状态</span></span><br><span class="line">    u32 index = <span class="number">0</span>;</span><br><span class="line">    LCD_SetCursor(<span class="number">0x00</span>, <span class="number">0x0000</span>);</span><br><span class="line">    LCD_WriteRAM_Prepare(); <span class="comment">/* Prepare to write GRAM */</span></span><br><span class="line">    <span class="keyword">for</span>(index = <span class="number">0</span>; index &lt; <span class="number">76800</span>; index++)</span><br><span class="line">    &#123;</span><br><span class="line">        LCD_WriteRAM(Color);</span><br><span class="line">    &#125;</span><br><span class="line">    GPIOC-&gt;ODR = led_curr_state; <span class="comment">//改了没事，还原呗</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>至少要对这两个进行修改，才不会出现 LED 的异常，比如按键测试逻辑中，按键 <code>B4</code>按下后第二颗 LED 不能熄灭。</p>
+<h2 id="3-3-LCD-高亮显示"><a href="#3-3-LCD-高亮显示" class="headerlink" title="3.3 LCD 高亮显示"></a>3.3 LCD 高亮显示</h2><p>按键实现类似菜单选择的效果，按下按键选择到屏幕的下一行并且高亮文本。</p>
+<p>核心 API ： <code>LCD_SetBackColor()</code>.</p>
+<p>首先在按键文件中声明一个<code>extern</code>变量高亮选择 <code>high_light_select</code>， 比如这里只想要在 <code>0-2</code> 行之间轮换，就设置初始值为 0，然后在按键里将这个值自增。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">uint8_t</span> high_light_select = <span class="number">0</span>;</span><br><span class="line"><span class="comment">//...</span></span><br><span class="line">    <span class="keyword">if</span>(k2 == <span class="number">0</span> &amp;&amp; k2_pre == <span class="number">1</span>)                <span class="comment">//pressed</span></span><br><span class="line">    &#123;</span><br><span class="line">        high_light_select++;</span><br><span class="line">        <span class="keyword">if</span>(high_light_select == <span class="number">3</span>)high_light_select = <span class="number">0</span>; <span class="comment">//1-2-3</span></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>重要的是 <code>LCD.c</code> 中应该如何写。</p>
+<p>首先 <code>LCD_SetBackColor()</code> 这个函数影响的是全局文本，所以为了独立高亮，代码的逻辑应该是：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">/* if(high_light_select == x) */</span><br><span class="line">/* 上一行显示 */</span><br><span class="line">/* 启用文本高亮 */</span><br><span class="line">/* 显示第x行 */</span><br><span class="line">/* 禁用文本高亮 */</span><br><span class="line">/* 显示下一行 */</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">Lcd_Proc</span><span class="params">()</span></span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">char</span> str[<span class="number">21</span>];</span><br><span class="line">    <span class="built_in">sprintf</span>(str,<span class="string">&quot;Count:%d&quot;</span>,cnt);</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span>(high_light_select == <span class="number">0</span>)                        <span class="comment">//高亮行1</span></span><br><span class="line">    &#123;</span><br><span class="line"></span><br><span class="line">        LCD_SetBackColor(Yellow);                     <span class="comment">// 开启高亮</span></span><br><span class="line">        LCD_DisplayStringLine(Line0,(<span class="type">uint8_t</span>*)str);   <span class="comment">// 显示行1</span></span><br><span class="line">        LCD_SetBackColor(Black);                      <span class="comment">// 关闭高亮</span></span><br><span class="line"></span><br><span class="line">        LCD_DisplayStringLine(Line1,<span class="string">&quot;Hello World!&quot;</span>);  <span class="comment">// 显示其他的</span></span><br><span class="line"></span><br><span class="line">        LCD_DisplayStringLine(Line2,<span class="string">&quot;I HATE UNIVERSITY&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span>(high_light_select == <span class="number">1</span>)                      </span><br><span class="line">    &#123;</span><br><span class="line"></span><br><span class="line">        LCD_DisplayStringLine(Line0,(<span class="type">uint8_t</span>*)str);  </span><br><span class="line"></span><br><span class="line">        LCD_SetBackColor(Yellow);                      </span><br><span class="line">        LCD_DisplayStringLine(Line1,<span class="string">&quot;Hello World!&quot;</span>);</span><br><span class="line">        LCD_SetBackColor(Black);</span><br><span class="line"></span><br><span class="line">        LCD_DisplayStringLine(Line2,<span class="string">&quot;I HATE UNIVERSITY&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span>(high_light_select == <span class="number">2</span>)                        </span><br><span class="line">    &#123;</span><br><span class="line">        LCD_DisplayStringLine(Line0,(<span class="type">uint8_t</span>*)str);  </span><br><span class="line">        LCD_DisplayStringLine(Line1,<span class="string">&quot;Hello World!&quot;</span>);</span><br><span class="line"></span><br><span class="line">        LCD_SetBackColor(Yellow);  </span><br><span class="line">        LCD_DisplayStringLine(Line2,<span class="string">&quot;I HATE UNIVERSITY&quot;</span>);</span><br><span class="line">        LCD_SetBackColor(Black);  </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="4-定时器"><a href="#4-定时器" class="headerlink" title="4.  定时器"></a>4.  定时器</h1><h2 id="4-1-Cube-配置"><a href="#4-1-Cube-配置" class="headerlink" title="4.1 Cube 配置"></a>4.1 Cube 配置</h2><p>配置 <code>TIM2</code> .</p>
+<p><code>CLOCK SOURCE</code> - <code>INTERNAL CLOCK</code> (内部时钟源)</p>
+<p>定时器周期：</p>
+<p>$$ T &#x3D; \frac{1}{Freq} &#x3D; \frac{F_{base}}{(Arr+1)(Psc+1)} $$<br>$$where\space F_{base} &#x3D; 80MHz,\space Psc&lt;2^{16}-1$$<br><code>PSC</code> 对应 <code>Prescaler</code>, <code>Arr</code> 对应 <code>Counter Period</code> . </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">PSC = 8000-1</span><br><span class="line">ARR = 10000-1</span><br><span class="line"></span><br><span class="line">T = 1s</span><br></pre></td></tr></table></figure>
+
+<p>定时器定时完毕，需要触发中断，这个时候需要引入定时中断，在 <code>NVIC Setting</code> 中将 <code>TIM2  global Interrupt</code> 使能。</p>
+<h2 id="4-2-回调函数"><a href="#4-2-回调函数" class="headerlink" title="4.2 回调函数"></a>4.2 回调函数</h2><p> <code>HAL</code>库的定时器底层代码中有一个定时器专用的回调函数 <code>HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)</code></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">  * @brief  Period elapsed callback in non-blocking mode</span></span><br><span class="line"><span class="comment">  * @param  htim TIM handle</span></span><br><span class="line"><span class="comment">  * @retval None</span></span><br><span class="line"><span class="comment">  */</span></span><br><span class="line">__weak <span class="type">void</span> <span class="title function_">HAL_TIM_PeriodElapsedCallback</span><span class="params">(TIM_HandleTypeDef *htim)</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="comment">/* Prevent unused argument(s) compilation warning */</span></span><br><span class="line">  UNUSED(htim);</span><br><span class="line"></span><br><span class="line">  <span class="comment">/* NOTE : This function should not be modified, when the callback is needed,</span></span><br><span class="line"><span class="comment">            the HAL_TIM_PeriodElapsedCallback could be implemented in the user file</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>当定时器定时完毕触发中断时，中断会调用该函数以执行中断事件。也就是中断时间的逻辑需要卸载这个函数里面。</p>
+<p>由于函数有弱定义 <code>__WEAK</code> 修饰，所以允许我们在其他文件中声明并覆写，只是函数的名字与入口参数必须保持一致。</p>
+<h2 id="4-3-编写应用层代码-tim2-c"><a href="#4-3-编写应用层代码-tim2-c" class="headerlink" title="4.3 编写应用层代码 - tim2.c"></a>4.3 编写应用层代码 - tim2.c</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;tim2.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">HAL_TIM_PeriodElapsedCallback</span><span class="params">(TIM_HandleTypeDef *htim)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span>(htim-&gt;Instance == TIM2)</span><br><span class="line">    &#123;</span><br><span class="line">        led_status[<span class="number">7</span>] = -led_status[<span class="number">7</span>]+<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在文件中覆写回调函数，其中需要自己编写的部分有：</p>
+<ul>
+<li>定时器检测</li>
+<li>中断逻辑</li>
+</ul>
+<p>定时器检测是一个 <code>if</code> 语句：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(htim-&gt;Instance == TIM2)</span><br></pre></td></tr></table></figure>
+
+<p>检查了当前的定时器实例是 <code>TIM2</code>, 然后才进行逻辑的执行。逻辑部分写了一个让 LED 翻转，时间间隔就是定时器周期，所以每一秒 LED 要闪烁一次。</p>
+<h2 id="4-4-main-c-允许定时器中断"><a href="#4-4-main-c-允许定时器中断" class="headerlink" title="4.4 main.c : 允许定时器中断"></a>4.4 <code>main.c</code> : 允许定时器中断</h2><p>Cube 配了一遍，很显然不是很够… 在 <code>main.c</code> 中还要在初始化区域加上这个使能函数：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">HAL_TIM_Base_Start_IT(&amp;htim2);</span><br></pre></td></tr></table></figure>
+
+<p>现在中断应该可以正常执行。回调函数只要在别处重定义了就好，也不是一定得拖进主函数里。</p>
+<p><code>FeedBack: 亮了。</code></p>
+<h2 id="4-5-按键：长按以及短按"><a href="#4-5-按键：长按以及短按" class="headerlink" title="4.5 按键：长按以及短按"></a>4.5 按键：长按以及短按</h2><h3 id="4-5-1-计算按下时间"><a href="#4-5-1-计算按下时间" class="headerlink" title="4.5.1 计算按下时间"></a>4.5.1 计算按下时间</h3><p>定时器内部 <code>cnt</code> 从 <code>0</code> 增加到 <code>ARR+1</code> 时，就会发生一次中断。<code>cnt</code> 每次自增的时间 <code>t</code>：</p>
+<p>$$t_{0} &#x3D; \space \frac{PSC+1}{Freq}$$<br>$$ ,where\space Freq &#x3D; 80MHz. $$</p>
+<p><code>cnt</code> 从 <code>0</code> - <code>n</code> 的用时就是 $t &#x3D; n*t_{0}$ , 比如在本例中：</p>
+<p>$$ e.g. Arr &#x3D; 10000 -1 , t_{cnt &#x3D; 10000} &#x3D; 1s $$<br>所以，如果要实现按键按下长短判断逻辑，只需要计算出这个时间的值对应 <code>cnt</code> 自增到的数量就好了。</p>
+<h3 id="4-5-2-逻辑代码"><a href="#4-5-2-逻辑代码" class="headerlink" title="4.5.2  逻辑代码"></a>4.5.2  逻辑代码</h3><p>由于 <code>TIM2</code> 设置的 <code>ARR+1</code> &#x3D; <code>10000</code>, <code>cnt</code> 自增最多跑一秒，对于按键长按不是很够用，所以可以新启用一个定时器 <code>TIM3</code> 来提供更大的计数。</p>
+<p>这个定时器只是计时，不需要开启中断，不需要配置 <code>NVIC</code> . 但保持默认的大 <code>ARR</code> 值 <code>65535</code> （也不需要长按到6.5秒这种逻辑…），同时为了保证 $t_{0}$ 不变，<code>PSC</code>  的值维持在 <code>8000-1</code> 。</p>
+<p><code>key.c</code> 逻辑变动：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;key.h&quot;</span></span></span><br><span class="line"><span class="comment">/* State Indicator */</span></span><br><span class="line"><span class="comment">/* 增加了逻辑变量 kx_hold， 表示kx按键是否处于长按状态 */</span></span><br><span class="line"><span class="type">uint8_t</span> k1;</span><br><span class="line"><span class="type">uint8_t</span> k1_pre = <span class="number">1</span>;</span><br><span class="line"><span class="type">uint8_t</span> k1_hold = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line"><span class="type">uint8_t</span> k2;</span><br><span class="line"><span class="type">uint8_t</span> k2_pre = <span class="number">1</span>;</span><br><span class="line"><span class="type">uint8_t</span> k2_hold = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line"><span class="type">uint8_t</span> k3;</span><br><span class="line"><span class="type">uint8_t</span> k3_pre = <span class="number">1</span>;</span><br><span class="line"><span class="type">uint8_t</span> k3_hold = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line"><span class="type">uint8_t</span> k4;</span><br><span class="line"><span class="type">uint8_t</span> k4_pre = <span class="number">1</span>;</span><br><span class="line"><span class="type">uint8_t</span> k4_hold = <span class="number">0</span>;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">Key_Scan</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">    k1 = HAL_GPIO_ReadPin(GPIOB,GPIO_PIN_0);</span><br><span class="line">    k2 = HAL_GPIO_ReadPin(GPIOB,GPIO_PIN_1);</span><br><span class="line">    k3 = HAL_GPIO_ReadPin(GPIOB,GPIO_PIN_2);</span><br><span class="line">    k4 = HAL_GPIO_ReadPin(GPIOA,GPIO_PIN_0);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">Key_Proc</span><span class="params">()</span> <span class="comment">//这里只对于 K1 进行演示</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span>(k1 == <span class="number">0</span> &amp;&amp; k1_pre == <span class="number">1</span>) <span class="comment">//当按键按下时</span></span><br><span class="line">    &#123;</span><br><span class="line">        TIM3-&gt;CNT = <span class="number">0</span>;         <span class="comment">//定时器从0开始计时</span></span><br><span class="line">        k1_hold = <span class="number">0</span>;           <span class="comment">//未进入长按</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span>(k1 == <span class="number">0</span> &amp;&amp; k1_pre == <span class="number">0</span>)  <span class="comment">//按键按下并且还未释放</span></span><br><span class="line">    &#123;</span><br><span class="line">	   <span class="keyword">if</span>(TIM3-&gt;CNT &gt;= <span class="number">10000</span> || k1_hold == <span class="number">1</span>) <span class="comment">//如果超过1秒，进入长按逻辑 </span></span><br><span class="line">       &#123;                                       </span><br><span class="line">	        led_status[<span class="number">0</span>] = <span class="number">0</span>;</span><br><span class="line">	        k1_hold = <span class="number">1</span>; <span class="comment">//更新长按标志位</span></span><br><span class="line">       &#125;  </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span>(k1 == <span class="number">1</span> &amp;&amp; k1_pre == <span class="number">0</span>) <span class="comment">//按键松开</span></span><br><span class="line"></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(TIM3-&gt;CNT &lt; <span class="number">10000</span> &amp;&amp; k1_hold == <span class="number">0</span>) <span class="comment">//从按下到松开如果小于一秒，执行短按逻辑</span></span><br><span class="line">        &#125;    </span><br><span class="line">            led_status[<span class="number">0</span>] = <span class="number">0</span>;      </span><br><span class="line">            k1_hold = <span class="number">0</span>; <span class="comment">//更新标志位</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/*******************************************************************/</span></span><br><span class="line">    <span class="comment">/* Update */</span></span><br><span class="line"></span><br><span class="line">    k1_pre = k1;</span><br><span class="line">    k2_pre = k2;</span><br><span class="line">    k3_pre = k3;</span><br><span class="line">    k4_pre = k4;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>kx_hold</code>  的加入是为了防止某些时候短按错误地执行（比如lcd显示cnt归零）以及长按短按误触发。</p>
+<p>或者，其实也可以用 <code>HAL_GetTick()</code> 方法实现，但是我懒得试错了。</p>
+<h1 id="5-PWM-输出比较"><a href="#5-PWM-输出比较" class="headerlink" title="5. PWM 输出比较"></a>5. PWM 输出比较</h1><p>为定时器2 配置一个 <code>PWM</code> 输出。当然定时中断是不可以和 <code>PWM</code> 输出共存的，所以可以把启用定时中断注释掉了。定时器资源还是比较丰富的，用其他定时器就可以了,比如定时器4。</p>
+<h2 id="5-1-Cube-配置"><a href="#5-1-Cube-配置" class="headerlink" title="5.1 Cube 配置"></a>5.1 Cube 配置</h2><p><code>TIM2 Mode</code> - <code>Channel 2</code> - <code>PWM Generation CH2</code> 这一步为 PWM配置了定时器2的通道2进行输出。输出的引脚的是 <code>PA1</code> ，选择完后这个引脚自动被配置成 <code>TIM2 CH2</code>.</p>
+<h2 id="5-2-PWM-波参数"><a href="#5-2-PWM-波参数" class="headerlink" title="5.2 PWM 波参数"></a>5.2 PWM 波参数</h2><ul>
+<li>频率，与定时器同步<br>$$F_{pwm} &#x3D; F_{Timer} &#x3D; \frac{F_{base}}{(PSC+1)(ARR+1)}$$</li>
+<li>占空比 <code>duty cycle</code>,<br>$$DutyCycle &#x3D; \frac{CCR}{ARR+1}$$<br><code>CCR</code> 是输出比较寄存器的值，可以通过函数改变从而改变 <code>PWM</code> 波的占空比。</li>
+</ul>
+<p>总之：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">graph TD</span><br><span class="line">A[CCR] --&gt; C[Duty Cycle]</span><br><span class="line">B[ARR] --&gt; C[Duty Cycle]</span><br><span class="line">D[PSC] --&gt; E[Frequency]</span><br><span class="line">B[ARR] --&gt; E[Frequency]</span><br></pre></td></tr></table></figure>
+
+<p>比如将定时器2的 <code>PSC</code> 重新设置为 <code>800-1</code>，<code>ARR</code> 设置为 <code>100-1</code>（方便设置占空比），那么就会输出 <code>1KHz</code> 的 PWM 波了。</p>
+<h2 id="5-3-使能-PWM-并设置占空比"><a href="#5-3-使能-PWM-并设置占空比" class="headerlink" title="5.3 使能 PWM 并设置占空比"></a>5.3 使能 <code>PWM</code> 并设置占空比</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">  <span class="comment">/* USER CODE BEGIN 2 */</span></span><br><span class="line"></span><br><span class="line">  Lcd_Init_App();</span><br><span class="line"></span><br><span class="line">  HAL_TIM_PWM_Start(&amp;htim2, TIM_CHANNEL_2); <span class="comment">//使能 PWM 输出</span></span><br><span class="line">  TIM2-&gt;CCR2 = <span class="number">50</span>;                          <span class="comment">//设置占空比为50</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">//HAL_TIM_Base_Start_IT(&amp;htim2); //Interrupt</span></span><br><span class="line"></span><br><span class="line">  HAL_TIM_Base_Start(&amp;htim3); <span class="comment">//Just Timing</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">/* USER CODE END 2 */</span></span><br></pre></td></tr></table></figure>
+
+<p><code>HAL_TIM_PWM_START</code> 使能了 PWM 输出，然后设置定时器2通道2对应的 <code>CCR</code> 寄存器 <code>CCR2</code>, 由于<code>ARR</code> 是 <code>100-1</code> 所以这里设置 <code>CCR</code> 是多少占空比就是多少。</p>
+<h1 id="6-输入捕获"><a href="#6-输入捕获" class="headerlink" title="6. 输入捕获"></a>6. 输入捕获</h1><p>定时器的输入捕获主要可以用来测量输入信号的频率，比如 PWM波。</p>
+<p>在 PWM 波的一个上升沿 &#x2F; 下降沿使使 <code>CNT = 0</code>,  在下个边沿到来时获取 <code>CNT</code> 值，那么就能够得到周期，而频率是周期的倒数，也就是：</p>
+<p>$$F_{pwm} &#x3D; \frac{1}{T_{pwm}} &#x3D; \frac{1}{t_{0}<em>\Delta CNT} &#x3D; \frac{Freq}{(PSC+1)</em>\Delta CNT}$$</p>
+<p>$$where\space Freq &#x3D; 80MHz$$</p>
+<p>设置在相同边沿时产生一次中断，中断的时间间隔也就是周期。</p>
+<p>板载的两个 <code>555</code> 定时器可以产生 <code>PWM</code> 波用于测量，也可以自定义一个引脚来测量其他 <code>PWM</code> 波。</p>
+<table>
+<thead>
+<tr>
+<th>序号</th>
+<th>频率调节</th>
+<th>固定输入捕获引脚</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td><code>R39</code> 电位器</td>
+<td><code>PB4</code></td>
+</tr>
+<tr>
+<td>2</td>
+<td><code>R40</code> 电位器</td>
+<td><code>PA15</code></td>
+</tr>
+</tbody></table>
+<h2 id="6-1-Cube-配置"><a href="#6-1-Cube-配置" class="headerlink" title="6.1 Cube 配置"></a>6.1 Cube 配置</h2><p>除了上述这两个固定引脚以外，也可以使用其他引脚进行输入捕获，比如使用 <code>PA7</code> 进行输入捕获 <code>TIM2</code> 通过 <code>PA1</code> 产生的 <code>1KHz</code> PWM 波。</p>
+<ul>
+<li><code>PA7</code> - <code>TIM17_CH1</code></li>
+</ul>
+<p>定时器17的设置：</p>
+<ul>
+<li><code>PSC</code> - <code>80-1</code> - 设置该系数主要是为了让定时器的频率（采集频率）大于 <code>PWM</code> 频率，值不是固定</li>
+<li><code>NVIC Settings</code> - <code>TIM1 trigger and communication Interrupt</code>s - <code>Enable</code></li>
+<li><code>Mode</code> - <code>Channel1</code> - <code>Input Capture direct mode </code></li>
+</ul>
+<h2 id="6-2-main-c-允许输入捕获中断"><a href="#6-2-main-c-允许输入捕获中断" class="headerlink" title="6.2 main.c 允许输入捕获中断"></a>6.2 <code>main.c</code> 允许输入捕获中断</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">  <span class="comment">/* USER CODE BEGIN 2 */</span></span><br><span class="line">  Lcd_Init_App();</span><br><span class="line"></span><br><span class="line">  HAL_TIM_PWM_Start(&amp;htim2, TIM_CHANNEL_2);   <span class="comment">// TIM2 start PWM</span></span><br><span class="line">  TIM2-&gt;CCR2 = <span class="number">10</span>;                            <span class="comment">// Set TIM2 PWM Duty</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">//HAL_TIM_Base_Start_IT(&amp;htim2);            // TIM2 start timer Interrupt</span></span><br><span class="line"></span><br><span class="line">  HAL_TIM_Base_Start(&amp;htim3);                 <span class="comment">// TIM3 start timer</span></span><br><span class="line"></span><br><span class="line">  HAL_TIM_IC_Start_IT(&amp;htim17,TIM_CHANNEL_1); <span class="comment">// TIM17 start Input Caputure Interrupt</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">/* USER CODE END 2 */</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="6-3-回调函数"><a href="#6-3-回调函数" class="headerlink" title="6.3 回调函数"></a>6.3 回调函数</h2><p>创建新文件 <code>IC.c/.h</code></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;IC.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">uint32_t</span> capture_value; <span class="comment">//CNT</span></span><br><span class="line"><span class="type">uint32_t</span> freq;          <span class="comment">//Frequency calculated with CNT</span></span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">HAL_TIM_IC_CaptureCallback</span><span class="params">(TIM_HandleTypeDef *htim)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span>(htim-&gt;Instance == TIM17)</span><br><span class="line">    &#123;</span><br><span class="line">        capture_value = HAL_TIM_ReadCapturedValue(&amp;htim17,TIM_CHANNEL_1); <span class="comment">// Get                                                                                     capture                                                                               value (CNT)</span></span><br><span class="line">        </span><br><span class="line">        TIM17-&gt;CNT = <span class="number">0</span>;                                                   <span class="comment">//Reset CNT</span></span><br><span class="line">        freq = (SystemCoreClock) / ((TIM17-&gt;PSC+<span class="number">1</span>)*capture_value);        <span class="comment">//work out                                                                              the frequency</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>两个 <code>uint32_t</code> 变量，一个是捕获到的 <code>CNT</code> 值，另一个是最后计算得到的频率。</p>
+<p>在回调函数里面，首先使用 <code>HAL_TIM_ReadCapturedValue</code> 来得到捕获值，然后将 <code>CNT</code> 重置计数以备下次需要，最后计算频率。</p>
+<p><code>SystemCoreClock</code> 是一个自带变量，值就是系统频率 <code>80Mhz</code>，其他按照公式来就可以。</p>
+<p>最后调用 LCD 显示一下就可以了。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">char</span> str2[<span class="number">21</span>];</span><br><span class="line"><span class="built_in">sprintf</span>(str2,<span class="string">&quot;Freq:%d&quot;</span>,freq);</span><br><span class="line">LCD_DisplayStringLine(Line3,(<span class="type">uint8_t</span>*)str2);</span><br></pre></td></tr></table></figure>
+
+<p>将 <code>PA7</code> 与 <code>PA1</code> 相连接，可以测得频率为 <code>1001</code>。</p>
+<h2 id="6-4-555定时器"><a href="#6-4-555定时器" class="headerlink" title="6.4 555定时器"></a>6.4 <code>555</code>定时器</h2><table>
+<thead>
+<tr>
+<th>序号</th>
+<th>频率调节</th>
+<th>固定输入捕获引脚</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td><code>R39</code> 电位器</td>
+<td><code>PB4</code></td>
+</tr>
+<tr>
+<td>2</td>
+<td><code>R40</code> 电位器</td>
+<td><code>PA15</code></td>
+</tr>
+<tr>
+<td>在 <code>Cube</code> 里面，将 <code>PB4</code> 配置成 <code>TIM16_CH1</code> , <code>PA15</code> 配置成 <code>TIM2_CH1</code>。又得用定时器2了，所以暂时也将 <code>PWM</code> 相关代码注释掉。</td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>[!warning] Title<br>TIM2_CH1 默认会配置到 PA5 上，需要手动修改到 PA15</p>
+</blockquote>
+<p><code>PSC</code> 设置成 <code>80-1</code>, <code>ARR = 65535</code>。 </p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">uint32_t</span> cap_val1,cap_val2;</span><br><span class="line"><span class="type">uint32_t</span> freq1,freq2;</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">HAL_TIM_IC_CaptureCallback</span><span class="params">(TIM_HandleTypeDef *htim)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span>(htim-&gt;Instance == TIM2)</span><br><span class="line">    &#123;</span><br><span class="line">        cap_val1 = HAL_TIM_ReadCapturedValue(&amp;htim2,TIM_CHANNEL_1); <span class="comment">// Get capture value (CNT)</span></span><br><span class="line">        TIM2-&gt;CNT = <span class="number">0</span>;                                                   <span class="comment">//Reset CNT</span></span><br><span class="line">        freq1 = (SystemCoreClock) / ((TIM2-&gt;PSC+<span class="number">1</span>)*cap_val1);        <span class="comment">//work out the frequency</span></span><br><span class="line">    &#125;</span><br><span class="line">  </span><br><span class="line">    <span class="keyword">if</span>(htim-&gt;Instance == TIM16)</span><br><span class="line">    &#123;</span><br><span class="line">        cap_val2 = HAL_TIM_ReadCapturedValue(&amp;htim16,TIM_CHANNEL_1); <span class="comment">// Get capture value (CNT)</span></span><br><span class="line">        TIM16-&gt;CNT = <span class="number">0</span>;                                                   <span class="comment">//Reset CNT</span></span><br><span class="line">        freq2 = (SystemCoreClock) / ((TIM16-&gt;PSC+<span class="number">1</span>)*cap_val2);        <span class="comment">//work out the frequency</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">    <span class="type">char</span> str2[<span class="number">21</span>],str3[<span class="number">21</span>];</span><br><span class="line">    <span class="built_in">sprintf</span>(str2,<span class="string">&quot;R40 Freq:%d&quot;</span>,freq1);</span><br><span class="line">    <span class="built_in">sprintf</span>(str3,<span class="string">&quot;R39 Freq:%d&quot;</span>,freq2);</span><br><span class="line">    LCD_DisplayStringLine(Line3,(<span class="type">uint8_t</span>*)str2);</span><br><span class="line">    LCD_DisplayStringLine(Line4,(<span class="type">uint8_t</span>*)str3);</span><br></pre></td></tr></table></figure>
+
+
+<h1 id="7-ADC"><a href="#7-ADC" class="headerlink" title="7. ADC"></a>7. ADC</h1><h2 id="7-1-Cube-配置"><a href="#7-1-Cube-配置" class="headerlink" title="7.1 Cube 配置"></a>7.1 Cube 配置</h2><p>ADC测量模块连接着 <strong>R37</strong> 以及 <strong>R38</strong> 两个可调电阻。</p>
+<table>
+<thead>
+<tr>
+<th>Resistor</th>
+<th>Pin</th>
+<th>Func</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>R37</strong></td>
+<td>PB15</td>
+<td><code>ADC2_IN15</code></td>
+</tr>
+<tr>
+<td><strong>R38</strong></td>
+<td>PB2</td>
+<td><code>ADC1_IN11</code></td>
+</tr>
+<tr>
+<td>Cube 配置：</td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<p><code>ADC1</code> - <code>IN11</code> - <code>Single ended</code><br><code>ADC2</code> - <code>IN15</code> -  <code>Single ended</code></p>
+<h2 id="7-2-ADC-测量AD值"><a href="#7-2-ADC-测量AD值" class="headerlink" title="7.2 ADC 测量AD值"></a>7.2 ADC 测量AD值</h2><p><code>linker.h</code> 中引用一下 <code>adc.h</code>。</p>
+<p><code>lcd_app.h</code></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">    HAL_ADC_Start(&amp;hadc1); <span class="comment">// start 1 ADC convertion, to keep on converting</span></span><br><span class="line">    HAL_ADC_Start(&amp;hadc2); <span class="comment">// put this in while loop instead of initialization area</span></span><br><span class="line"></span><br><span class="line">    <span class="built_in">sprintf</span>(str4,<span class="string">&quot;R37 ADValue:%d&quot;</span>,(<span class="type">uint32_t</span>)HAL_ADC_GetValue(&amp;hadc2));</span><br><span class="line">    <span class="built_in">sprintf</span>(str5,<span class="string">&quot;R38 ADValue:%d&quot;</span>,(<span class="type">uint32_t</span>)HAL_ADC_GetValue(&amp;hadc1));</span><br><span class="line"></span><br><span class="line">    LCD_DisplayStringLine(Line5,(<span class="type">uint8_t</span>*)str4);</span><br><span class="line">    LCD_DisplayStringLine(Line6,(<span class="type">uint8_t</span>*)str5);</span><br></pre></td></tr></table></figure>
+
+<p><code>HAL_ADC_Start</code> API 调用时只进行一次转换，为了获取连续的转换值，必须在循环中进行调用，这里我将 <code>lcd_app.c</code> 写到了 <code>while</code> 循环中，所以是可以的。</p>
+<p><code>HAL_ADC_GetValue</code> 返回 <code>uint32_t</code> 类型的转换值。</p>
+<h2 id="7-3-ADC-测量电压"><a href="#7-3-ADC-测量电压" class="headerlink" title="7.3 ADC 测量电压"></a>7.3 ADC 测量电压</h2><p>为了模块化，新建一个 <code>adc_app.c/h </code>.</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;adc_app.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> VREF 3.3</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> RESOLUTION 4096</span></span><br><span class="line"></span><br><span class="line"><span class="type">double</span> <span class="title function_">Get_Voltage</span><span class="params">(ADC_HandleTypeDef *hadc)</span></span><br><span class="line">&#123;</span><br><span class="line">    HAL_ADC_Start(hadc);                            <span class="comment">//start one convertion</span></span><br><span class="line">    <span class="type">uint32_t</span> ad_value = HAL_ADC_GetValue(hadc);     <span class="comment">//get ad value</span></span><br><span class="line">    <span class="type">double</span> voltage = VREF * ad_value / RESOLUTION;   <span class="comment">//calculate voltage</span></span><br><span class="line">    <span class="keyword">return</span> voltage;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>我们希望返回一个双精度浮点数类型的电压值，其计算公式为：</p>
+<p>$$Voltagex&#x3D; V_{ref}*\frac{AD\space Value}{resolution}$$</p>
+<p>$$ where\space V_{ref} &#x3D; 3.3V, resolution &#x3D; 4096 $$</p>
+<p>这是模拟值与电压值之间的一个映射关系，参数由 MCU 的 ADC 决定，在这里为上述条件。</p>
+ <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">char</span> str4[<span class="number">21</span>],str5[<span class="number">21</span>];</span><br><span class="line"></span><br><span class="line"> <span class="built_in">sprintf</span>(str4,<span class="string">&quot;R37 Voltage:%.2f V&quot;</span>,Get_Voltage(&amp;hadc2));</span><br><span class="line"> <span class="built_in">sprintf</span>(str5,<span class="string">&quot;R38 Voltage:%.2f V&quot;</span>,Get_Voltage(&amp;hadc1));</span><br><span class="line"></span><br><span class="line">LCD_DisplayStringLine(Line5,(<span class="type">uint8_t</span>*)str4);</span><br><span class="line">LCD_DisplayStringLine(Line6,(<span class="type">uint8_t</span>*)str5);</span><br></pre></td></tr></table></figure>
+
+<p>格式化打印需要使用 <code>%f</code> 来打印 <code>double</code> 类型的变量，这里 <code>%.2f</code> 保留两位小数。</p>
+<h1 id="8-串口通信"><a href="#8-串口通信" class="headerlink" title="8. 串口通信"></a>8. 串口通信</h1><h2 id="8-1-Cube-配置"><a href="#8-1-Cube-配置" class="headerlink" title="8.1 Cube 配置"></a>8.1 Cube 配置</h2><p><code>USART1</code>  - <code>Asynchronous</code>，配置为异步模式。</p>
+<p>默认的 <code>TX</code> 与 <code>RX</code> 配置到 <code>PC4</code> 与 <code>PC5</code>，改成 <code>PA9</code> 与 <code>PA10</code> 以对应开发板。</p>
+<p><code>Baud Rate</code> - <code>115200</code> 设置波特率。</p>
+<p><code>NVIC Settings</code> - <code>USART1 Global Interrupt</code> - <code>Enable</code> 开启串口中断。</p>
+<h2 id="8-2-串口发送数据"><a href="#8-2-串口发送数据" class="headerlink" title="8.2 串口发送数据"></a>8.2 串口发送数据</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">uart_app.c</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;uart_app.h&quot;</span></span></span><br><span class="line"></span><br><span class="line">  </span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">UART_Transmit</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">char</span> str[<span class="number">21</span>];</span><br><span class="line">    <span class="built_in">sprintf</span>(str, <span class="string">&quot;Hello World!\r\n&quot;</span>);</span><br><span class="line">    HAL_UART_Transmit(&amp;huart1, (<span class="type">uint8_t</span> *)str, <span class="keyword">sizeof</span>(str), <span class="number">50</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* IF YOU MEANT TO TRANSMIT PER SEC,</span></span><br><span class="line"><span class="comment">    CALL THIS FUNCTION IN A 1S TIMER INTERRUPT */</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>核心 <code>API</code> <code>HAL_UART_Transmit</code>, 最后的两个参数分别是要接受的数据个数以及超时等待时间，这里直接用 <code>sizeof</code> 获取数组长度，字符串的末尾 <code>\r\n</code> 表示换行。</p>
+<h2 id="8-3-串口接收数据"><a href="#8-3-串口接收数据" class="headerlink" title="8.3 串口接收数据"></a>8.3 串口接收数据</h2><p>串口接收数据之后需要通过串口中断来进行操作，串口中断的回调函数是 <code>HAL_RxCpltCallback</code>。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">main.c</span><br><span class="line"></span><br><span class="line">  <span class="comment">/* USER CODE BEGIN 2 */</span></span><br><span class="line">  Lcd_Init_App();</span><br><span class="line">  </span><br><span class="line">  <span class="comment">//HAL_TIM_Base_Start_IT(&amp;htim2);              // TIM2 start timer Interrupt</span></span><br><span class="line">  <span class="comment">//HAL_TIM_PWM_Start(&amp;htim2, TIM_CHANNEL_2);   // TIM2 start PWM</span></span><br><span class="line">  <span class="comment">//TIM2-&gt;CCR2 = 10;                            // Set TIM2 PWM Duty</span></span><br><span class="line">  HAL_TIM_IC_Start_IT(&amp;htim2,TIM_CHANNEL_1);    <span class="comment">// TIM2 start Input Capture Interrupt</span></span><br><span class="line"></span><br><span class="line">  HAL_TIM_Base_Start(&amp;htim3);                   <span class="comment">// TIM3 start timer</span></span><br><span class="line"></span><br><span class="line">  HAL_TIM_IC_Start_IT(&amp;htim16,TIM_CHANNEL_1);   <span class="comment">// TIM16 start Input Caputure Interrupt</span></span><br><span class="line"></span><br><span class="line">  HAL_TIM_IC_Start_IT(&amp;htim17,TIM_CHANNEL_1);   <span class="comment">// TIM17 start Input Caputure Interrupt</span></span><br><span class="line"></span><br><span class="line">  HAL_UART_Receive_IT(&amp;huart1,rx_buffer,<span class="number">1</span>);     <span class="comment">// UART1 start receive Interrupt once</span></span><br><span class="line">  <span class="comment">/* USER CODE END 2 */</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">uart_app.c</span><br><span class="line"></span><br><span class="line"><span class="type">uint8_t</span> rx_data</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">HAL_UART_RxCpltCallback</span><span class="params">(UART_HandleTypeDef *huart)</span> <span class="comment">//  Recv Interrupt Callback</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span>(huart-&gt;Instance == USART1)</span><br><span class="line">    &#123;</span><br><span class="line">        HAL_UART_Transmit(&amp;huart1, &amp;rx_data, <span class="number">1</span>, <span class="number">50</span>);   <span class="comment">//  Test</span></span><br><span class="line">        HAL_UART_Receive_IT(&amp;huart1, &amp;rx_data, <span class="number">1</span>);     <span class="comment">//  Keep on IT and call back</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>中断回调函数只有在触发中断时才会进入，而一开始没有中断。所以我们需要主动进入，在主函数初始化时主动进入中断，也就是调用 <code>HAL_UART_Receive_IT</code>, 进入第一次的回调，而回调函数里面也有一个 <code>HAL_UART_Receive_IT</code>, 进入下一次中断，这样就能保证回调函数不断进入执行逻辑。</p>
+<p>第一次回调之后就要发送，所以接收逻辑（或者其他需要串口中断实现的东西）写在最上面。</p>
+<h2 id="8-4-数据判断"><a href="#8-4-数据判断" class="headerlink" title="8.4 数据判断"></a>8.4 数据判断</h2><p>上面的串口接收每次只能接受一字节，这对于需要进行信息比对（比如检测收到的信息）并不方便，如果能收取字符串后一起比对就好了，这时候需要用到定时器。</p>
+<p>对于波特率为<code>9600</code>的串口通信，其一次发送的数据帧组成为</p>
+<p><code>1Bit 起始位</code> - <code>8Bit 数据</code> - <code>1Bit 停止位</code>， 共<code>10</code>个<code>Bit</code>。</p>
+<p>所以完成一次发送或者接受的用时就是：</p>
+<p>$$T_{uart} &#x3D; 10*\frac{1}{BaudRate} &#x3D; 1.04ms$$<br>$$where\space BaudRate &#x3D; 9600\space Bits&#x2F;sec$$</p>
+<p>给出以下的方法：</p>
+<p><code>接收一次</code> - <code>接收一次</code> - … - <code>接收一次</code> - <code>接收一次</code><br><code>CNT = 0</code>    <code>CNT = 0</code>          <code>CNT = 0</code>    <code>CNT = 0</code> </p>
+<p>每接收一次就清零记时，并判断 <code>CNT</code> 是否对应 <code>1.04ms</code> ，如果超出这个数值说明全部的字节都接受完毕了，也就是收取完了一个字符串。</p>
+<p>假设定时器配置：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PSC = <span class="number">8000</span> - <span class="number">1</span></span><br></pre></td></tr></table></figure>
+
+<p>那么 <code>CNT</code> 自增间隔就是 </p>
+<p>$$T_{0} &#x3D; \frac{PSC+1}{Freq} &#x3D; \frac{1}{10000}$$</p>
+<p>如果设置超时 <code>0.4ms</code> 判定为接收完毕，也就是 <code>1.04 + 0.4 = 1.44ms</code>，对应 <code>CNT</code> 向上取 <code>15</code>，那么当检测 <code>CNT&gt;15</code> 的时候，数据就已经接收完毕了。</p>
+<p>随便配置一个定时器4.</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">uart_app.c</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;uart_app.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">uint8_t</span> rx_data;       <span class="comment">//串口单次接收到的数据</span></span><br><span class="line"><span class="type">uint8_t</span> rx_index;      <span class="comment">//接收存放数组的索引</span></span><br><span class="line"><span class="type">uint8_t</span> rx_buffer[<span class="number">20</span>]; <span class="comment">//存放接收数据的数组，接收完毕后用于比对</span></span><br><span class="line"><span class="type">uint8_t</span> rx_flag;       <span class="comment">//接收标志位，确实收到才处理</span></span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">UART_Transmit</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">char</span> str[<span class="number">21</span>];</span><br><span class="line">    <span class="built_in">sprintf</span>(str, <span class="string">&quot;Hello World!\r\n&quot;</span>);</span><br><span class="line">    HAL_UART_Transmit(&amp;huart1, (<span class="type">uint8_t</span> *)str, <span class="keyword">sizeof</span>(str), <span class="number">50</span>);</span><br><span class="line">    <span class="comment">/* IF YOU MEANT TO TRANSMIT PER SEC,</span></span><br><span class="line"><span class="comment">    CALL THIS FUNCTION IN A 1S TIMER INTERRUPT */</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">  </span><br><span class="line"><span class="type">void</span> <span class="title function_">HAL_UART_RxCpltCallback</span><span class="params">(UART_HandleTypeDef *huart)</span> <span class="comment">//进入回调函数就代表接收到一次数据</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span>(huart-&gt;Instance == USART1)</span><br><span class="line">    &#123;</span><br><span class="line">        TIM4-&gt;CNT = <span class="number">0</span>;                                 <span class="comment">//  清除CNT,准备下次</span></span><br><span class="line">        rx_flag = <span class="number">1</span>;                                   <span class="comment">//  确实接收到了数据，可以进行处理</span></span><br><span class="line"></span><br><span class="line">        rx_buffer[rx_index] = rx_data;                 <span class="comment">//  将接收到的字符存入数组以备处理</span></span><br><span class="line">        rx_index++;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//HAL_UART_Transmit(&amp;huart1, &amp;rx_data, 1, 50); //  逻辑要经过判断，不写在这里</span></span><br><span class="line"></span><br><span class="line">        HAL_UART_Receive_IT(&amp;huart1, &amp;rx_data, <span class="number">1</span>);     <span class="comment">//  继续准备接收</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>接下来是核心处理部分：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">UART_Recv</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span>(rx_flag) <span class="comment">// 如果确实接收到了数据</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(TIM4-&gt;CNT &gt; <span class="number">15</span>) <span class="comment">//而且超时1.5ms CNT都没有清零</span></span><br><span class="line">        &#123;                  <span class="comment">//说明数据已经接收完毕</span></span><br><span class="line">        </span><br><span class="line">          <span class="comment">/* 下面来来判断接收到的数据是否正确 */</span></span><br><span class="line"></span><br><span class="line">          <span class="keyword">if</span>(rx_buffer[<span class="number">0</span>] == <span class="string">&#x27;S&#x27;</span> &amp;&amp; rx_buffer[<span class="number">1</span>] == <span class="string">&#x27;B&#x27;</span> &amp;&amp; rx_index == <span class="number">3</span>) <span class="comment">//正确</span></span><br><span class="line">          &#123;                          <span class="comment">//记住rx_index在最后一次接收也++了，所以得加1</span></span><br><span class="line">             <span class="comment">/* 执行具体的逻辑 */</span></span><br><span class="line">             HAL_UART_Transmit(&amp;huart1, rx_buffer, <span class="keyword">sizeof</span>(rx_buffer), <span class="number">50</span>);</span><br><span class="line">          &#125;</span><br><span class="line">          <span class="comment">/* 否则报错，不匹配 */</span></span><br><span class="line">          <span class="keyword">else</span> HAL_UART_Transmit(&amp;huart1, <span class="string">&quot;Error\r\n&quot;</span>, <span class="keyword">sizeof</span>(<span class="string">&quot;Error\r\n&quot;</span>), <span class="number">50</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        rx_flag = <span class="number">0</span>; <span class="comment">//重置标志位，等待下一次接收</span></span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span>; i &lt; rx_index; i++) <span class="comment">//数组清零，便于接收新数据</span></span><br><span class="line">        &#123;</span><br><span class="line">            rx_buffer[i] = <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        rx_index = <span class="number">0</span>; <span class="comment">//索引清零，便于接收新数据</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>或者干脆封装成：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">UART_RecvReset</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">    rx_flag = <span class="number">0</span>;                             <span class="comment">//clear rx_flag</span></span><br><span class="line">    rx_index = <span class="number">0</span>;                            <span class="comment">//clear index</span></span><br><span class="line">    <span class="built_in">memset</span>(rx_buffer, <span class="number">0</span>, <span class="keyword">sizeof</span>(rx_buffer)); <span class="comment">//clear buffer</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然后在 <code>UART_Recv</code> 里面调用。</p>
+<h1 id="9-I2C-模块"><a href="#9-I2C-模块" class="headerlink" title="9. I2C 模块"></a>9. I2C 模块</h1><h2 id="9-1-EEPROM"><a href="#9-1-EEPROM" class="headerlink" title="9.1 EEPROM"></a>9.1 EEPROM</h2><p><strong>EEPROM</strong> 连接到 <code>PB6,7</code> 引脚并将其作为 I2C 的 <code>SDA</code> 与 <code>SCL</code> , 也就是蓝桥杯只提供了软件 I2C 驱动。</p>
+<p>在开始之前，将 Cube 中 <code>PB6,7</code> 配置为推挽输出并默认上拉。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">eeprom.h</span><br><span class="line"><span class="meta">#<span class="keyword">ifndef</span> _EEPROM_H</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> _EEPROM_H</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> EEPROM_WRITE 0xa0 <span class="comment">//0b1010 0000</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> EEPROM_READ  0xa1 <span class="comment">//0b1010 0001</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;linker.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">EEPROM_Init</span><span class="params">(<span class="type">void</span>)</span>;</span><br><span class="line"><span class="type">void</span> <span class="title function_">EEPROM_Write</span><span class="params">(<span class="type">uint8_t</span> addr,<span class="type">uint8_t</span> data)</span>;</span><br><span class="line"><span class="type">uint8_t</span> <span class="title function_">EEPROM_Read</span><span class="params">(<span class="type">uint8_t</span> addr)</span>;</span><br><span class="line"><span class="type">void</span> <span class="title function_">EEPROM_Proc</span><span class="params">(<span class="type">void</span>)</span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line">eeprom.c</span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;eeprom.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">EEPROM_Init</span><span class="params">(<span class="type">void</span>)</span> <span class="comment">// 板载EEPROM依赖于软件I2C</span></span><br><span class="line">&#123;</span><br><span class="line">    I2CInit(); <span class="comment">//软件初始化的I2C，需要写入主函数</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">EEPROM_Write</span><span class="params">(<span class="type">uint8_t</span> addr, <span class="type">uint8_t</span> data)</span></span><br><span class="line"><span class="comment">/*!这个函数要求PB6和PB7引脚必须在Cube中初始化才有效!*/</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="comment">/* 选中设备并配置为写模式 */</span></span><br><span class="line">    I2CStart();</span><br><span class="line">    I2CSendByte(EEPROM_WRITE); <span class="comment">// EEPROM_WRITE = 0xa0 a是设备地址，0表示写入</span></span><br><span class="line">    I2CWaitAck();              <span class="comment">// 等待应答</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">/* 写模式下发送需要写入的地址 */</span></span><br><span class="line">    I2CSendByte(addr);  </span><br><span class="line">    I2CWaitAck();</span><br><span class="line">    <span class="comment">/* 写模式下发送需要写入地址的数据 */</span></span><br><span class="line">    I2CSendByte(data); </span><br><span class="line">    I2CWaitAck();</span><br><span class="line">	<span class="comment">/* 结束 */</span></span><br><span class="line">    I2CStop();</span><br><span class="line"></span><br><span class="line">    HAL_Delay(<span class="number">30</span>);    <span class="comment">//I2C太慢了，等等它</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">  </span><br><span class="line"></span><br><span class="line"><span class="type">uint8_t</span> <span class="title function_">EEPROM_Read</span><span class="params">(<span class="type">uint8_t</span> addr)</span></span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">/* 读也得先选中地址，先配置成写 */</span></span><br><span class="line">    I2CStart();</span><br><span class="line">    I2CSendByte(EEPROM_WRITE);</span><br><span class="line">    I2CWaitAck();</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* 选地址 */</span></span><br><span class="line">    I2CSendByte(addr); </span><br><span class="line">    I2CStop(); <span class="comment">//选好地址了，接下来要切换工作模式，必须重启I2C</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">/* 重启，配置成读模式 */</span></span><br><span class="line">    I2CStart();</span><br><span class="line">    I2CSendByte(EEPROM_READ);</span><br><span class="line">    I2CWaitAck();</span><br><span class="line"></span><br><span class="line">	<span class="comment">/* 读一个数据 */</span></span><br><span class="line">    <span class="type">uint8_t</span> data = I2CReceiveByte(); </span><br><span class="line">    I2CSendNotAck(); <span class="comment">// 读数据之后不应答，因为只需要读一个       </span></span><br><span class="line">    I2CStop(); <span class="comment">//结束</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> data;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">  </span><br><span class="line"><span class="type">void</span> <span class="title function_">EEPROM_Proc</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">    EEPROM_Write(<span class="number">0</span>,<span class="number">10</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">LCD_app.c</span><br><span class="line"><span class="comment">/* 显示EEPROM数据 */</span></span><br><span class="line">LCD_Proc()</span><br><span class="line">&#123;</span><br><span class="line">	...</span><br><span class="line">	<span class="comment">/* EEPROM */</span></span><br><span class="line">    <span class="type">char</span> str6[<span class="number">21</span>];</span><br><span class="line">    <span class="built_in">sprintf</span>(str6,<span class="string">&quot;EEPROM:%d&quot;</span>,EEPROM_Read(<span class="number">0</span>));</span><br><span class="line">    LCD_DisplayStringLine(Line7,(<span class="type">uint8_t</span>*)str6);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="9-2-MCP4017"><a href="#9-2-MCP4017" class="headerlink" title="9.2 MCP4017"></a>9.2 MCP4017</h2><p>MCP4017 是一个 I2C 控制的数字电位器（ $Potentiometer$ ）。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">pot.h</span><br><span class="line"><span class="meta">#<span class="keyword">ifndef</span> _POT_H</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> _POT_H</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;linker.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> POT_WRITE 0x5e</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> POT_READ  0x5f</span></span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">POT_Write</span><span class="params">(<span class="type">uint8_t</span> data)</span>;</span><br><span class="line"><span class="type">void</span> <span class="title function_">POT_Read</span><span class="params">(<span class="type">void</span>)</span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">pot.c</span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;pot.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">POT_Write</span><span class="params">(<span class="type">uint8_t</span> data)</span></span><br><span class="line">&#123;</span><br><span class="line">    I2CStart();</span><br><span class="line">    I2CSendByte(POT_WRITE); <span class="comment">//器件没有内部存储地址，直接选设备以及模式</span></span><br><span class="line">    I2CWaitAck();           </span><br><span class="line"></span><br><span class="line">    I2CStop();</span><br><span class="line">    HAL_Delay(<span class="number">30</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">uint8_t</span> <span class="title function_">POT_Read</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">    I2CStart();</span><br><span class="line">    </span><br><span class="line">    I2CSendByte(POT_READ); <span class="comment">// 不用选择地址的话无需配置成写模式                     </span></span><br><span class="line">    I2CWaitAck();</span><br><span class="line">    </span><br><span class="line">    <span class="type">uint8_t</span> recv_data = I2CReceiveByte();</span><br><span class="line">    I2CSendNotAck();</span><br><span class="line"></span><br><span class="line">    I2CStop();</span><br><span class="line">    <span class="keyword">return</span> recv_data;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<hr>
+<h1 id="Cube-配置总览"><a href="#Cube-配置总览" class="headerlink" title="Cube 配置总览"></a>Cube 配置总览</h1><p>定时器</p>
+<p>输入捕获 - PSC 80-1 ARR 65535 - 中断开</p>
+<p>PWM - PSC x, ARR 100-1 - 中断不开</p>
+<p>key- psc 80-1， arr 10000-1 - 开</p>
+
+                
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="/about" rel="external nofollow noreferrer">i4N</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="http://Jav1ki4N.github.io/2025/09/12/%E8%93%9D%E6%A1%A5%E6%9D%AF/">http://Jav1ki4N.github.io/2025/09/12/%E8%93%9D%E6%A1%A5%E6%9D%AF/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="/about" target="_blank">i4N</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            <span class="chip bg-color">无标签</span>
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+<div id="article-share">
+
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/2025/09/12/%E5%9F%BA%E4%BA%8E51%E5%8D%95%E7%89%87%E6%9C%BA%E7%9A%84%E8%93%9D%E7%89%99%E6%8E%A7%E5%88%B6%E7%BA%A2%E5%A4%96%E5%BE%AA%E8%BF%B9%E6%99%BA%E8%83%BD%E5%B0%8F%E8%BD%A6/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/11.jpg" class="responsive-img" alt="项目：基于51单片机的红外循迹小车 （大一上）">
+                        
+                        <span class="card-title">项目：基于51单片机的红外循迹小车 （大一上）</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2025-09-12
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-user fa-fw"></i>
+                            i4N
+                            
+                        </span>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2025/09/06/%E5%BE%AE%E6%9C%BA%E6%80%BB%E7%BB%93/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/4.jpg" class="responsive-img" alt="学习：微机原理 - 8051">
+                        
+                        <span class="card-title">学习：微机原理 - 8051</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2025-09-06
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-user fa-fw"></i>
+                            i4N
+                            
+                        </span>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget card" style="background-color: white;">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('0'),
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+
+    <footer class="page-footer bg-color">
+    
+
+    <div class="container row center-align"
+         style="margin-bottom: 15px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            
+                <span id="year">2025</span>
+            
+            <a href="/about" target="_blank">i4N</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            
+            <br>
+            
+            
+            
+                
+            
+            
+                <span id="busuanzi_container_site_pv">
+                &nbsp;|&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;
+                    <span id="busuanzi_value_site_pv" class="white-color"></span>
+            </span>
+            
+            
+                <span id="busuanzi_container_site_uv">
+                &nbsp;|&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;
+                    <span id="busuanzi_value_site_uv" class="white-color"></span>
+            </span>
+            
+            <br>
+
+            <!-- 运行天数提醒. -->
+            
+                <span id="sitetime"> Loading ...</span>
+                <script>
+                    var calcSiteTime = function () {
+                        var seconds = 1000;
+                        var minutes = seconds * 60;
+                        var hours = minutes * 60;
+                        var days = hours * 24;
+                        var years = days * 365;
+                        var today = new Date();
+                        var startYear = "2025";
+                        var startMonth = "9";
+                        var startDate = "4";
+                        var startHour = "13";
+                        var startMinute = "48";
+                        var startSecond = "0";
+                        var todayYear = today.getFullYear();
+                        var todayMonth = today.getMonth() + 1;
+                        var todayDate = today.getDate();
+                        var todayHour = today.getHours();
+                        var todayMinute = today.getMinutes();
+                        var todaySecond = today.getSeconds();
+                        var t1 = Date.UTC(startYear, startMonth, startDate, startHour, startMinute, startSecond);
+                        var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
+                        var diff = t2 - t1;
+                        var diffYears = Math.floor(diff / years);
+                        var diffDays = Math.floor((diff / days) - diffYears * 365);
+
+                        // 区分是否有年份.
+                        var language = 'zh-CN';
+                        if (startYear === String(todayYear)) {
+                            document.getElementById("year").innerHTML = todayYear;
+                            var daysTip = 'This site has been running for ' + diffDays + ' days';
+                            if (language === 'zh-CN') {
+                                daysTip = '此般静默已历 ' + diffDays + ' 日';
+                            } else if (language === 'zh-HK') {
+                                daysTip = '本站已運行 ' + diffDays + ' 天';
+                            }
+                            document.getElementById("sitetime").innerHTML = daysTip;
+                        } else {
+                            document.getElementById("year").innerHTML = startYear + " - " + todayYear;
+                            var yearsAndDaysTip = 'This site has been running for ' + diffYears + ' years and '
+                                + diffDays + ' days';
+                            if (language === 'zh-CN') {
+                                yearsAndDaysTip = '此般静默已历 ' + Math.floor(diffYears/100)+ '纪'+diffYears + ' 年 ' + diffDays + ' 日';
+                            } else if (language === 'zh-HK') {
+                                yearsAndDaysTip = '本站已運行 ' + diffYears + ' 年 ' + diffDays + ' 天';
+                            }
+                            document.getElementById("sitetime").innerHTML = yearsAndDaysTip;
+                        }
+                    }
+
+                    calcSiteTime();
+                </script>
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com/Jav1ki4N" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:i4Nomercyshown@outlook.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=3068732148" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 3068732148" data-position="top" data-delay="50">
+        <i class="fab fa-qq"></i>
+    </a>
+
+
+
+
+
+    <a href="https://www.zhihu.com/people/retrocket" class="tooltipped" target="_blank" data-tooltip="关注我的知乎: https://www.zhihu.com/people/retrocket" data-position="top" data-delay="50">
+        <i class="fab fa-zhihu1">知</i>
+    </a>
+
+
+
+    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+        <i class="fas fa-rss"></i>
+    </a>
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+$(function () {
+    var searchFunc = function (path, search_id, content_id) {
+        'use strict';
+        $.ajax({
+            url: path,
+            dataType: "xml",
+            success: function (xmlResponse) {
+                // get the contents from search data
+                var datas = $("entry", xmlResponse).map(function () {
+                    return {
+                        title: $("title", this).text(),
+                        content: $("content", this).text(),
+                        url: $("url", this).text()
+                    };
+                }).get();
+                var $input = document.getElementById(search_id);
+                var $resultContent = document.getElementById(content_id);
+                $input.addEventListener('input', function () {
+                    var str = '<ul class=\"search-result-list\">';
+                    var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                    $resultContent.innerHTML = "";
+                    if (this.value.trim().length <= 0) {
+                        return;
+                    }
+                    // perform local searching
+                    datas.forEach(function (data) {
+                        var isMatch = true;
+                        var data_title = data.title.trim().toLowerCase();
+                        var data_content = data.content.trim().replace(/<[^>]+>/g, "").toLowerCase();
+                        var data_url = data.url;
+                        data_url = data_url.indexOf('/') === 0 ? data.url : '/' + data_url;
+                        var index_title = -1;
+                        var index_content = -1;
+                        var first_occur = -1;
+                        // only match artiles with not empty titles and contents
+                        if (data_title !== '' && data_content !== '') {
+                            keywords.forEach(function (keyword, i) {
+                                index_title = data_title.indexOf(keyword);
+                                index_content = data_content.indexOf(keyword);
+                                if (index_title < 0 && index_content < 0) {
+                                    isMatch = false;
+                                } else {
+                                    if (index_content < 0) {
+                                        index_content = 0;
+                                    }
+                                    if (i === 0) {
+                                        first_occur = index_content;
+                                    }
+                                }
+                            });
+                        }
+                        // show search results
+                        if (isMatch) {
+                            str += "<li><a href='" + data_url + "' class='search-result-title'>" + data_title + "</a>";
+                            var content = data.content.trim().replace(/<[^>]+>/g, "");
+                            if (first_occur >= 0) {
+                                // cut out 100 characters
+                                var start = first_occur - 20;
+                                var end = first_occur + 80;
+                                if (start < 0) {
+                                    start = 0;
+                                }
+                                if (start === 0) {
+                                    end = 100;
+                                }
+                                if (end > content.length) {
+                                    end = content.length;
+                                }
+                                var match_content = content.substr(start, end);
+                                // highlight all keywords
+                                keywords.forEach(function (keyword) {
+                                    var regS = new RegExp(keyword, "gi");
+                                    match_content = match_content.replace(regS, "<em class=\"search-keyword\">" + keyword + "</em>");
+                                });
+
+                                str += "<p class=\"search-result\">" + match_content + "...</p>"
+                            }
+                            str += "</li>";
+                        }
+                    });
+                    str += "</ul>";
+                    $resultContent.innerHTML = str;
+                });
+            }
+        });
+    };
+
+    searchFunc('/search.xml', 'searchInput', 'searchResult');
+});
+</script>
+
+    <!-- 白天和黑夜主题 -->
+<div class="stars-con">
+    <div id="stars"></div>
+    <div id="stars2"></div>
+    <div id="stars3"></div>  
+</div>
+
+<script>
+    function switchNightMode() {
+        $('<div class="Cuteen_DarkSky"><div class="Cuteen_DarkPlanet"></div></div>').appendTo($('body')),
+        setTimeout(function () {
+            $('body').hasClass('DarkMode') 
+            ? ($('body').removeClass('DarkMode'), localStorage.setItem('isDark', '0'), $('#sum-moon-icon').removeClass("fa-sun").addClass('fa-moon')) 
+            : ($('body').addClass('DarkMode'), localStorage.setItem('isDark', '1'), $('#sum-moon-icon').addClass("fa-sun").removeClass('fa-moon')),
+            
+            setTimeout(function () {
+            $('.Cuteen_DarkSky').fadeOut(1e3, function () {
+                $(this).remove()
+            })
+            }, 2e3)
+        })
+    }
+</script>
+
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    
+
+    
+    
+    
+
+    <!-- 雪花特效 -->
+    
+
+    <!-- 鼠标星星特效 -->
+    
+
+     
+        <script src="https://ssl.captcha.qq.com/TCaptcha.js"></script>
+        <script src="/libs/others/TencentCaptcha.js"></script>
+        <button id="TencentCaptcha" data-appid="xxxxxxxxxx" data-cbfn="callback" type="button" hidden></button>
+    
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+    
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+    
+
+    <!--腾讯兔小巢-->
+    
+    
+
+    
+
+    
+    <script type="text/javascript" src="/libs/background/ribbon-dynamic.js" async="async"></script>
+    
+
+    
+    <script src="/libs/instantpage/instantpage.js" type="module"></script>
+    
+
+</body>
+
+</html>
