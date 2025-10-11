@@ -4301,9 +4301,14 @@ figure.highlight pre .javascript .function {
 }
 #page-header.full_page #site-info {
   position: absolute;
-  top: 43%;
+  top: 50%;
   padding: 0 10px;
   width: 100%;
+  -webkit-transform: translateY(-50%);
+  -moz-transform: translateY(-50%);
+  -o-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
 }
 #page-header #site-title,
 #page-header #site-subtitle,
