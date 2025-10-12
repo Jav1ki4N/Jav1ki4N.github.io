@@ -1856,7 +1856,7 @@ a:hover {
 .site-name,
 #aside-content .author-info-name,
 #aside-content .author-info-description {
-  font-family: 'Garamond', Arial, serif;
+  font-family: 'Georgia', Arial, serif;
 }
 .text-center {
   text-align: center;
@@ -4339,10 +4339,12 @@ figure.highlight pre .javascript .function {
 #page-header #site-subtitle {
   color: var(--light-grey);
   font-size: 2em;
+  font-style: italic;
 }
 @media screen and (min-width: 768px) {
   #page-header #site-subtitle {
     font-size: 2.2em;
+    font-style: italic;
   }
 }
 #page-header #site_social_icons {
