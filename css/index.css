@@ -4186,11 +4186,7 @@ figure.highlight pre .javascript .function {
 }
 #footer {
   position: relative;
-  background: -webkit-linear-gradient(left, #272727 0%, #3e5b52 70%, #977699 100%);
-  background: -moz-linear-gradient(left, #272727 0%, #3e5b52 70%, #977699 100%);
-  background: -o-linear-gradient(left, #272727 0%, #3e5b52 70%, #977699 100%);
-  background: -ms-linear-gradient(left, #272727 0%, #3e5b52 70%, #977699 100%);
-  background: linear-gradient(to right, #272727 0%, #3e5b52 70%, #977699 100%);
+  background: #1b1b1b;
   background-attachment: scroll;
   background-position: bottom;
   background-size: cover;
@@ -4299,13 +4295,6 @@ figure.highlight pre .javascript .function {
   -ms-transition: all 0.5s;
   transition: all 0.5s;
 }
-#page-header:not(.not-top-img):before {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  background-color: var(--mark-bg);
-  content: '';
-}
 #page-header.full_page {
   height: 100vh;
   background-attachment: fixed;
@@ -4338,6 +4327,8 @@ figure.highlight pre .javascript .function {
   #page-header #site-title {
     font-size: 8em;
     font-weight: normal;
+    color: transparent;
+    text-shadow: none;
   }
 }
 #page-header #site-subtitle {
@@ -4462,6 +4453,7 @@ figure.highlight pre .javascript .function {
 }
 #page-header.nav-fixed #nav #blog-info {
   color: var(--font-color);
+  font-weight: normal;
 }
 #page-header.nav-fixed #nav #blog-info:hover {
   color: #49b1f5;
@@ -4678,7 +4670,7 @@ figure.highlight pre .javascript .function {
 }
 #nav .site-name {
   text-shadow: 2px 2px 4px rgba(0,0,0,0.15);
-  font-weight: bold;
+  font-weight: normal;
 }
 #nav .menus_items {
   display: inline;
