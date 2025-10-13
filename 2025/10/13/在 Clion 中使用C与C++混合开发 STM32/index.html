@@ -1,0 +1,261 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>在 Clion 中使用 C/C++ 混合开发 STM32 | Fusyōn.</title><meta name="author" content="i4N"><meta name="copyright" content="i4N"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="1. 混合C &#x2F; C++1.1. C 与 C++ 的相互包含关系C++ 可以包含 C 的头文件与代码，因为其本身类似 C 的超集，然而对于一个 C 文件，其无法直接引用 C++ 的头文件或者函数，当编译一个 C 文件的时候，由于 gcc 不能识别 C++ 语法，所以会报错。 比如，main.c 引用了含有 C++ 语法的 mycpp.h 时就会出现错误。 如果要使这个 .h 文件能够成">
+<meta property="og:type" content="article">
+<meta property="og:title" content="在 Clion 中使用 C&#x2F;C++ 混合开发 STM32">
+<meta property="og:url" content="http://jav1ki4n.github.io/2025/10/13/%E5%9C%A8%20Clion%20%E4%B8%AD%E4%BD%BF%E7%94%A8C%E4%B8%8EC++%E6%B7%B7%E5%90%88%E5%BC%80%E5%8F%91%20STM32/index.html">
+<meta property="og:site_name" content="Fusyōn.">
+<meta property="og:description" content="1. 混合C &#x2F; C++1.1. C 与 C++ 的相互包含关系C++ 可以包含 C 的头文件与代码，因为其本身类似 C 的超集，然而对于一个 C 文件，其无法直接引用 C++ 的头文件或者函数，当编译一个 C 文件的时候，由于 gcc 不能识别 C++ 语法，所以会报错。 比如，main.c 引用了含有 C++ 语法的 mycpp.h 时就会出现错误。 如果要使这个 .h 文件能够成">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://jav1ki4n.github.io/img/i4N.png">
+<meta property="article:published_time" content="2025-10-13T12:23:15.899Z">
+<meta property="article:modified_time" content="2025-10-13T12:21:56.869Z">
+<meta property="article:author" content="i4N">
+<meta property="article:tag" content="embedded,STM32">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://jav1ki4n.github.io/img/i4N.png"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "在 Clion 中使用 C/C++ 混合开发 STM32",
+  "url": "http://jav1ki4n.github.io/2025/10/13/%E5%9C%A8%20Clion%20%E4%B8%AD%E4%BD%BF%E7%94%A8C%E4%B8%8EC++%E6%B7%B7%E5%90%88%E5%BC%80%E5%8F%91%20STM32/",
+  "image": "http://jav1ki4n.github.io/img/i4N.png",
+  "datePublished": "2025-10-13T12:23:15.899Z",
+  "dateModified": "2025-10-13T12:21:56.869Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "i4N",
+      "url": "http://jav1ki4n.github.io"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://jav1ki4n.github.io/2025/10/13/%E5%9C%A8%20Clion%20%E4%B8%AD%E4%BD%BF%E7%94%A8C%E4%B8%8EC++%E6%B7%B7%E5%90%88%E5%BC%80%E5%8F%91%20STM32/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=5.5.1"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":true},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.12.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '在 Clion 中使用 C/C++ 混合开发 STM32',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 8.0.0"></head><body><div class="post" id="body-wrap"><header class="post-bg fixed" id="page-header" style="background-image: url(/img/bck.png);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><img class="site-icon" src="/img/i4N_small.png" alt="Logo"><span class="site-name">Fusyōn.</span></a><a class="nav-page-title" href="/"><span class="site-name">在 Clion 中使用 C/C++ 混合开发 STM32</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"></div></nav><div id="post-info"><h1 class="post-title">在 Clion 中使用 C/C++ 混合开发 STM32</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-10-13T12:23:15.899Z" title="发表于 2025-10-13 20:23:15">2025-10-13</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-10-13T12:21:56.869Z" title="更新于 2025-10-13 20:21:56">2025-10-13</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><hr>
+<h1 id="1-混合C-C"><a href="#1-混合C-C" class="headerlink" title="1. 混合C &#x2F; C++"></a>1. 混合C &#x2F; C++</h1><h2 id="1-1-C-与-C-的相互包含关系"><a href="#1-1-C-与-C-的相互包含关系" class="headerlink" title="1.1. C 与 C++ 的相互包含关系"></a>1.1. C 与 C++ 的相互包含关系</h2><p><code>C++</code> 可以包含 <code>C</code> 的头文件与代码，因为其本身类似 <code>C</code> 的超集，然而对于一个 <code>C</code> 文件，其无法直接引用 <code>C++</code> 的头文件或者函数，当编译一个 <code>C</code> 文件的时候，由于 <code>gcc</code> 不能识别 <code>C++</code> 语法，所以会报错。</p>
+<p>比如，<code>main.c</code> 引用了含有 <code>C++</code> 语法的 <code>mycpp.h</code> 时就会出现错误。</p>
+<p>如果要使这个 <code>.h</code> 文件能够成功被 <code>gcc</code> 解析，就需要用到一对 <code>C++</code> 宏：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//mycpp.h</span></span><br><span class="line"><span class="meta">#<span class="keyword">ifdef</span> __cplusplus</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">foo</span><span class="params">()</span></span>;</span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br></pre></td></tr></table></figure>
+
+<p>我们假设 <code>foo()</code> 是一个 <code>C++</code> 函数，当在 <code>main.c</code> 的编译单元里编译时， <code>gcc</code> 由于宏 <code>__cplusplus</code> 并没有被定义，所以 <code>#ifdef</code> 和 <code>#endif</code> 条件为假，<code>void foo()</code> 不会被执行，也就避免了在 <code>C</code> 文件中引入 <code>C++</code> 的特性，也就是等效于：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//mycpp.h</span></span><br><span class="line"><span class="comment">//void foo();</span></span><br></pre></td></tr></table></figure>
+
+<p>对于 <code>gcc</code> 来说，这没有任何问题。</p>
+<p>从中可以总结几个地方：</p>
+<ul>
+<li>任何包含 <code>C++</code> 特性的 函数 &#x2F; 语句 &#x2F; … 等内容不能够在 <code>C</code> 文件中 <strong>直接</strong> 使用</li>
+<li><code>C++</code> 内容如果需要在 <code>gcc</code> 下通过编译<sup>1</sup>，必须使用 <code>#ifdef __cplusplus</code> 条件来保护</li>
+</ul>
+<p>那么作为一个 <code>C++</code> 文件，在编译 <code>mycpp.h</code> 自身的时候，<code>g++</code> 认为 <code>#ifdef __cplusplus</code> 条件为真，所有包含 <code>C++</code> 特性的内容都会参与编译，也就是等效于</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//mycpp.h</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">foo</span><span class="params">()</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p><sup>1</sup><span style="color:#676767">: 这里说的 “通过编译 “ 指的是 gcc 编译不报错，而不是指将 C++ 内容编译，因为此时的 C++ 内容相当于注释。</span></p>
+<hr>
+<h2 id="1-2-混合使用"><a href="#1-2-混合使用" class="headerlink" title="1.2 混合使用"></a>1.2 混合使用</h2><p>上面说了，<code>C++</code> 内容不可以在 <code>C</code> 中被 <code>gcc</code> 编译，只能够被 <code>g++</code> 编译，而能够被 <code>C</code> 与 <code>C++</code> 双方识别的自然只有纯 <code>C</code> 内容。</p>
+<p>现在，假如我在 <code>mycpp.h</code> 中插入一段需要在 <code>main.c</code> 中使用的纯 <code>C</code> 内容：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//mycpp.h</span></span><br><span class="line"><span class="meta">#<span class="keyword">ifdef</span> __cplusplus</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">foo</span><span class="params">()</span></span>;</span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* Pure C contents */</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;someCstuff.h&quot;</span></span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">dosomething</span><span class="params">()</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>在 <code>gcc</code> 眼中，此时 <code>mycpp.h</code> 等效为</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//mycpp.h</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;someCstuff.h&quot;</span></span></span><br><span class="line"><span class="type">void</span> <span class="title function_">dosomething</span><span class="params">()</span>;</span><br></pre></td></tr></table></figure>
+
+<p>那么这些内容都是可以在 <code>main.c</code> 使用的。</p>
+<p>但是既然这是在一个 <code>C++</code> 头文件内，那么我们肯定希望这个 <code>C++</code> 文件也能被 <code>g++</code> 编译，否则 <code>C++</code> 特性就没有用处了。</p>
+<p>假如 <code>mycpp.h</code> 同时被 <code>mycpp.cpp</code> 包含，那么在其编译单元内 <code>mycpp.h</code> 就会被 <code>g++</code> 编译，此时纯 <code>C</code> 的函数 <code>dosomething()</code> 就会出现一些情况：</p>
+<ul>
+<li><p>对于 <code>foo()</code> ，这个函数不可能被 <code>gcc</code> 编译，所以 <code>g++</code> 在处理它的时候会正确地将其修饰为 <code>C++</code> 名称 <code>_Z3foov</code> (<code>name mangling</code>) 以支持函数重载特性。</p>
+</li>
+<li><p>对于 <code>dosomething()</code> , 这个函数既要被 <code>gcc</code> 编译，也要被 <code>g++</code> 编译，这就导致了最后其修饰出来的名称不匹配（因为 <code>g++</code> ），链接器就会报错。</p>
+</li>
+</ul>
+<p>所以我们的核心诉求就是让 <code>g++</code> 在编译 <code>dosomething()</code> 的时候，<strong>生成与 <code>gcc</code> 一致的名称</strong>。</p>
+<p>这个要求需要用到 <code>C++</code> 的 <code>extern &quot;C&quot;{}</code> 来完成：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//mycpp.h</span></span><br><span class="line"><span class="meta">#<span class="keyword">ifdef</span> __cplusplus</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">foo</span><span class="params">()</span></span>;</span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* Pure C contents */</span></span><br><span class="line"><span class="meta">#<span class="keyword">ifdef</span> __cplusplus</span></span><br><span class="line"><span class="keyword">extern</span> <span class="string">&quot;C&quot;</span>&#123;</span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;someCstuff.h&quot;</span></span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">dosomething</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">ifdef</span> __cplusplus</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br></pre></td></tr></table></figure>
+
+<p>此时，对于 <code>gcc</code> ,其仍为：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//mycpp.h</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;someCstuff.h&quot;</span></span></span><br><span class="line"><span class="type">void</span> <span class="title function_">dosomething</span><span class="params">()</span>;</span><br></pre></td></tr></table></figure>
+
+<p>而对于 <code>g++</code> ，则为：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//mycpp.h</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">foo</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* Pure C contents */</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">extern</span> <span class="string">&quot;C&quot;</span>&#123;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;someCstuff.h&quot;</span></span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">dosomething</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>此时 <code>dosomething()</code> 修饰出来的名字无论在 <code>g++</code> 还是 <code>gcc</code> 下都按照 <code>gcc</code> 的规则，所以不会出现任何错误。</p>
+<p>相应地 <code>someCstuff.h</code> 中的所有函数也需要使用 <code>ifdef __cplusplus</code> 以及 <code>extern &quot;C&quot;</code> 来保护。</p>
+<hr>
+<h1 id="2-CubeMX-工程文件夹的配置"><a href="#2-CubeMX-工程文件夹的配置" class="headerlink" title="2. CubeMX 工程文件夹的配置"></a>2. CubeMX 工程文件夹的配置</h1><h2 id="2-1-创建-cppmain-cpp-h"><a href="#2-1-创建-cppmain-cpp-h" class="headerlink" title="2.1 创建 cppmain.cpp/.h"></a>2.1 创建 <code>cppmain.cpp/.h</code></h2><p>默认的 <code>CubeMX</code> 文件夹创建后在 <code>CLion</code> 里面打开大概是这样的：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">i4N@i4N_escape MINGW64 /d/Project.i4N/STM32_CMAKE/MyDemo</span><br><span class="line">$ tree -L 2 -a</span><br><span class="line">.</span><br><span class="line">├── .idea</span><br><span class="line">│   ├── .gitignore</span><br><span class="line">│   ├── MyDemo.iml</span><br><span class="line">│   ├── copilot.data.migration.agent.xml</span><br><span class="line">│   ├── misc.xml</span><br><span class="line">│   ├── modules.xml</span><br><span class="line">│   └── workspace.xml</span><br><span class="line">├── .mxproject</span><br><span class="line">├── CMakeLists.txt</span><br><span class="line">├── CMakePresets.json</span><br><span class="line">├── Core</span><br><span class="line">│   ├── Inc</span><br><span class="line">│   └── Src</span><br><span class="line">├── Drivers</span><br><span class="line">│   ├── CMSIS</span><br><span class="line">│   └── STM32F4xx_HAL_Driver</span><br><span class="line">├── MyDemo.ioc</span><br><span class="line">├── STM32F411XX_FLASH.ld</span><br><span class="line">├── cmake</span><br><span class="line">│   ├── gcc-arm-none-eabi.cmake</span><br><span class="line">│   └── stm32cubemx</span><br><span class="line">├── cmake-build-debug</span><br><span class="line">│   ├── .cmake</span><br><span class="line">│   ├── .gitignore</span><br><span class="line">│   ├── CMakeCache.txt</span><br><span class="line">│   ├── CMakeFiles</span><br><span class="line">│   ├── Testing</span><br><span class="line">│   ├── build.ninja</span><br><span class="line">│   ├── cmake</span><br><span class="line">│   ├── cmake_install.cmake</span><br><span class="line">│   └── compile_commands.json</span><br><span class="line">└── startup_stm32f411xe.s</span><br><span class="line"></span><br><span class="line">15 directories, 18 files</span><br></pre></td></tr></table></figure>
+
+<p><code>CubeMX</code> 生成的 <code>main.c</code> 位于 <code>/Core/Inc</code> 下，由于其编译配置被<br><code>cmake/stm32cubemx/CMakeLists.txt</code> 所指定，必须参与编译。</p>
+<p>如果我们想在 <code>main.c</code> 里面使用 <code>C++</code> 编写的代码，需要一个中间层来进行编译。</p>
+<p>这个中间层就是一对 <code>.cpp/.h</code> ，在这里我在根目录下创建文件夹 <code>/System.i4N</code>，然后分别创建 <code>/System.i4N/cppmain.c</code> 以及 <code>/System.i4N/cppmain.h</code> 。</p>
+<p>假如我在 <code>cppmain.c</code> 里定义了一个函数 <code>cppmain()</code> :</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//cppmain.c</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> cppmain.h</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">cppmain</span><span class="params">()</span>  </span></span><br><span class="line"><span class="function"></span>&#123;  </span><br><span class="line">    <span class="comment">/* Init */</span>  </span><br><span class="line">    <span class="keyword">for</span> (;;)  </span><br><span class="line">    &#123;  </span><br><span class="line">        <span class="comment">/* main logic */</span>  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这个函数具有一个无限循环 <code>for(;;)</code> 或者 <code>while(1)</code> ,当我将它插入到 <code>main.c</code> 的 <code>while(1)</code> 前面时候，会优先执行此函数中的无尽循环，从而起到了一种替代作用。</p>
+<p>为了将之引出到 <code>main.c</code>，考虑在 <code>main.h</code> 中引用 <code>cppmain.h</code> ，并在 <code>cppmain.h</code> 中声明 <code>cppmain()</code>：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//cppmian.h</span></span><br><span class="line"><span class="meta">#<span class="keyword">pragma</span> once  </span></span><br><span class="line"><span class="meta">#<span class="keyword">ifdef</span> __cplusplus  </span></span><br><span class="line"><span class="keyword">extern</span> <span class="string">&quot;C&quot;</span>&#123;  </span><br><span class="line"><span class="meta">#<span class="keyword">endif</span>  </span></span><br><span class="line">  </span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;main.h&gt;</span>  <span class="comment">// C文件不存在双向引用问题</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;gpio.h&gt;</span>  </span></span><br><span class="line">  </span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">cppmain</span><span class="params">()</span></span>;  </span><br><span class="line">  </span><br><span class="line"><span class="meta">#<span class="keyword">ifdef</span> __cplusplus  </span></span><br><span class="line">&#125;    </span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br></pre></td></tr></table></figure>
+
+<p>加上 <code>ifdef __cplusplus</code>  是为了：</p>
+<ul>
+<li><p>使 <code>extern &quot;C&quot;{}</code> 在 <code>g++</code> 编译环境下生效，这样在 <code>cppmain.cpp</code> 里 <code>cppmain()</code> 的名字修饰与在 <code>main.c</code> 里一致</p>
+</li>
+<li><p>使 <code>extern &quot;C&quot;{}</code> 在 <code>gcc</code> 编译环境下不可见，毕竟这是 <code>C++</code> 语法。</p>
+</li>
+</ul>
+<p>总而言之，<code>cppmain</code> 需要在 <code>C/C++</code> 文件中混合使用，所以它应当被 <code>extern &quot;C&quot;{}</code> 所包裹，而需要混合使用的头文件也是如此，比如 <code>main.h</code> 或者 <code>gpio.h</code> 。</p>
+<h2 id="2-2-修改-CMakeLists-txt"><a href="#2-2-修改-CMakeLists-txt" class="headerlink" title="2.2 修改 CMakeLists.txt"></a>2.2 修改 CMakeLists.txt</h2><p>虽然 <code>cppmain.c</code> 和 <code>cppmain.h</code> 都已经妥当，但尚未能够直接插入到 <code>main.c/.h</code> 之中，因为根目录（不是 <code>cmake/stm32cubemx/</code>  下那个）下的 <code>CMakeLists.txt</code> 还未配置这些新文件的路径。</p>
+<p>首先开启 <code>C++</code> 支持，如下添加</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Setup compiler settings  </span></span><br><span class="line"></span><br><span class="line"><span class="comment">#...(此处为默认生成的 C 的配置)</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">set</span>(CMAKE_CXX_STANDARD <span class="number">23</span>)  </span><br><span class="line"><span class="keyword">set</span>(CMAKE_CXX_STANDARD_REQUIRED <span class="keyword">ON</span>)  </span><br><span class="line"><span class="keyword">set</span>(CMAKE_CXX_EXTENSIONS <span class="keyword">ON</span>)</span><br></pre></td></tr></table></figure>
+
+<p>这里的 <code>C++</code> 标准由于我使用的是 <code>arm-none-eabi-gcc</code> 最新版，所以支持部分 <code>C++23</code> 的语法，默认的话可以填 <code>17</code> 。</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Enable CMake support for ASM and C languages  </span></span><br><span class="line"><span class="keyword">enable_language</span>(C CXX ASM)</span><br></pre></td></tr></table></figure>
+
+<p>此处需要多加上一个 <code>CXX</code> 。</p>
+<p>再之后，将新添加的文件路径配置好：</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Create an executable object type  </span></span><br><span class="line"><span class="keyword">add_executable</span>(<span class="variable">$&#123;CMAKE_PROJECT_NAME&#125;</span>  </span><br><span class="line">        System.i4N/cppmain.cpp  </span><br><span class="line">        System.i4N/cppmain.h</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Add sources to executable  </span></span><br><span class="line"><span class="keyword">target_sources</span>(<span class="variable">$&#123;CMAKE_PROJECT_NAME&#125;</span> PRIVATE  </span><br><span class="line">    <span class="comment"># Add user sources here  </span></span><br><span class="line">        <span class="variable">$&#123;CMAKE_CURRENT_SOURCE_DIR&#125;</span>/System.i4N  </span><br><span class="line">)  </span><br><span class="line">  </span><br><span class="line"><span class="comment"># Add include paths  </span></span><br><span class="line"><span class="keyword">target_include_directories</span>(<span class="variable">$&#123;CMAKE_PROJECT_NAME&#125;</span> PRIVATE  </span><br><span class="line">    <span class="comment"># Add user defined include paths  </span></span><br><span class="line">        <span class="variable">$&#123;CMAKE_CURRENT_SOURCE_DIR&#125;</span>/System.i4N  </span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<p>这时候就可以回到 <code>main.h</code> 引用 <code>cppmain.h</code> ，然后在 <code>main.c</code> 里面调用 <code>cppmain()</code> 了：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//main.c</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">/* Initialize all configured peripherals */</span>  </span><br><span class="line">  MX_GPIO_Init();  </span><br><span class="line">  MX_I2C1_Init();  </span><br><span class="line">  MX_USART1_UART_Init();  </span><br><span class="line">  <span class="comment">/* USER CODE BEGIN 2 */</span>  </span><br><span class="line">  cppmain();  <span class="comment">//              &lt;-------------------------------- 此处</span></span><br><span class="line">  <span class="comment">/* USER CODE END 2 */</span>  </span><br><span class="line">  </span><br><span class="line">  <span class="comment">/* Infinite loop */</span>  </span><br><span class="line">  <span class="comment">/* USER CODE BEGIN WHILE */</span>  </span><br><span class="line">  <span class="keyword">while</span> (<span class="number">1</span>)  </span><br><span class="line">  &#123;  </span><br><span class="line">    <span class="comment">/* USER CODE END WHILE */</span>  </span><br><span class="line">  </span><br><span class="line">    <span class="comment">/* USER CODE BEGIN 3 */</span>  </span><br><span class="line">  &#125;  </span><br><span class="line">  <span class="comment">/* USER CODE END 3 */</span>  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-3-cppmain"><a href="#2-3-cppmain" class="headerlink" title="2.3 cppmain()"></a>2.3 <code>cppmain()</code></h2><p>现在 <code>cppmain()</code> 以及取代了原来的 <code>while(1)</code> 的作用，所以业务代码都可以在 <code>cppmain()</code> 里面写，无需再去 <code>main.c</code> 了。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//cppmain.c</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">cppmain</span><span class="params">()</span>  </span></span><br><span class="line"><span class="function"></span>&#123;  </span><br><span class="line">    <span class="comment">/* Init */</span>  </span><br><span class="line">    <span class="keyword">for</span> (;;)  </span><br><span class="line">    &#123;  </span><br><span class="line">        <span class="comment">/* main logic */</span>  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>比如初始化函数可以写在 <code>for(;;)</code> 外，而其他可以写在里面。</p>
+<h2 id="2-4-添加其他文件"><a href="#2-4-添加其他文件" class="headerlink" title="2.4 添加其他文件"></a>2.4 添加其他文件</h2><p>如果需要添加其他 <code>C/C++</code> 外设的文件：</p>
+<ul>
+<li>如果是混合使用的 <code>C</code> 文件，需要用 <code>ifdef __cplusplus</code> 与 <code>extern&quot;C&quot;{}</code> 来保护函数，然而</li>
+<li>如果是 <code>C++</code> 文件，那么由于其只在 <code>cppmain.cpp</code> 下使用，所以只需要注意其头文件在插入 <code>cppmain.h</code> 的时候用 <code>ifdef __cplusplus</code> 保护。</li>
+<li>无论何种类型，都需要在 <code>CMakeLists.txt</code> 中配置好路径。</li>
+</ul>
+<p>$e.g.$ </p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// cppmain.h   </span></span><br><span class="line"><span class="meta">#<span class="keyword">pragma</span> once  </span></span><br><span class="line"><span class="meta">#<span class="keyword">ifdef</span> __cplusplus  </span></span><br><span class="line"><span class="keyword">extern</span> <span class="string">&quot;C&quot;</span>&#123;  </span><br><span class="line"><span class="meta">#<span class="keyword">endif</span>  </span></span><br><span class="line">  </span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;main.h&gt;</span> <span class="comment">// -------|</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;gpio.h&gt;</span> <span class="comment">//        |--------&gt; 需要参与混合编程的文件（即会被main.c调用）</span></span></span><br><span class="line">				  <span class="comment">//		|          的 cppmain() 以及含有 C 代码的文件，写在</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">cppmain</span><span class="params">()</span></span>;   <span class="comment">//--------|          extern &quot;C&quot;&#123;&#125; 里面</span></span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line"><span class="meta">#<span class="keyword">ifdef</span> __cplusplus  </span></span><br><span class="line">&#125;  </span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;bme280.h&quot;</span> <span class="comment">// --------------&gt; 只需要在 cppmain() 里使用的C++文件如外设</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">endif</span>              <span class="comment">//                 用 ifdef __cplusplus 包裹就好了。</span></span></span><br></pre></td></tr></table></figure>
+
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="http://jav1ki4n.github.io">i4N</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="http://jav1ki4n.github.io/2025/10/13/%E5%9C%A8%20Clion%20%E4%B8%AD%E4%BD%BF%E7%94%A8C%E4%B8%8EC++%E6%B7%B7%E5%90%88%E5%BC%80%E5%8F%91%20STM32/">http://jav1ki4n.github.io/2025/10/13/%E5%9C%A8%20Clion%20%E4%B8%AD%E4%BD%BF%E7%94%A8C%E4%B8%8EC++%E6%B7%B7%E5%90%88%E5%BC%80%E5%8F%91%20STM32/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="http://jav1ki4n.github.io" target="_blank">Fusyōn.</a>！</span></div></div><div class="tag_share"><div class="post-share"><div class="social-share" data-image="/img/i4N.png" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related full-width" href="/2025/10/12/2025/" title="2025 月度记录 其九"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">2025 月度记录 其九</div></div><div class="info-2"><div class="info-item-1"> SeptemberSep.25th 补充了 C++ 中有关字符串的一些小知识： 传参时的空格问题 - std::ws 以及 cin.ignore() 作为入口参数时使用 std::string_view 来节省性能开销 了解了一下字面值 std::string_literal，一般可以直接将 C  风格字符串直接转为 string 对象，但我觉得可能不是很常用。     Sep.26th 补充了 C++ 中有关变量和运算的一些小知识：  静态转换 static_cast （对比强制转换） 常量表达式 constexpr 与 const 的适用场合，我暂时没想到我该怎么用。 位运算对象 bitset （不错）   了解了命名空间 namespace，包括其与子级的创建与调用。  前向声明 ( forward declartion ) 允许不定义函数就调用，但是包含这个函数定义的文件必须也参与编译。  inline 修饰符允许函数在单独的头文件中直接 定义， 并且被多个 cpp 文件调用。 在旧版本 C++ 中，这个修饰符的作用是将函数调用改为直接执行函数的代码段以节省开销，现代 ...</div></div></div></a></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/i4N.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">i4N</div><div class="author-info-description"></div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">3</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">0</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/jav1ki4N"><i class="fab fa-github"></i><span>Github</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>关于 / Aboout</span></div><div class="announcement_content">Ain't nothing new here</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-%E6%B7%B7%E5%90%88C-C"><span class="toc-number">1.</span> <span class="toc-text">1. 混合C &#x2F; C++</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-1-C-%E4%B8%8E-C-%E7%9A%84%E7%9B%B8%E4%BA%92%E5%8C%85%E5%90%AB%E5%85%B3%E7%B3%BB"><span class="toc-number">1.1.</span> <span class="toc-text">1.1. C 与 C++ 的相互包含关系</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-2-%E6%B7%B7%E5%90%88%E4%BD%BF%E7%94%A8"><span class="toc-number">1.2.</span> <span class="toc-text">1.2 混合使用</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-CubeMX-%E5%B7%A5%E7%A8%8B%E6%96%87%E4%BB%B6%E5%A4%B9%E7%9A%84%E9%85%8D%E7%BD%AE"><span class="toc-number">2.</span> <span class="toc-text">2. CubeMX 工程文件夹的配置</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-1-%E5%88%9B%E5%BB%BA-cppmain-cpp-h"><span class="toc-number">2.1.</span> <span class="toc-text">2.1 创建 cppmain.cpp&#x2F;.h</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-2-%E4%BF%AE%E6%94%B9-CMakeLists-txt"><span class="toc-number">2.2.</span> <span class="toc-text">2.2 修改 CMakeLists.txt</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-3-cppmain"><span class="toc-number">2.3.</span> <span class="toc-text">2.3 cppmain()</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-4-%E6%B7%BB%E5%8A%A0%E5%85%B6%E4%BB%96%E6%96%87%E4%BB%B6"><span class="toc-number">2.4.</span> <span class="toc-text">2.4 添加其他文件</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/10/13/%E5%9C%A8%20Clion%20%E4%B8%AD%E4%BD%BF%E7%94%A8C%E4%B8%8EC++%E6%B7%B7%E5%90%88%E5%BC%80%E5%8F%91%20STM32/" title="在 Clion 中使用 C/C++ 混合开发 STM32">在 Clion 中使用 C/C++ 混合开发 STM32</a><time datetime="2025-10-13T12:23:15.899Z" title="发表于 2025-10-13 20:23:15">2025-10-13</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/10/12/2025/" title="2025 月度记录 其九">2025 月度记录 其九</a><time datetime="2025-10-12T06:25:58.373Z" title="发表于 2025-10-12 14:25:58">2025-10-12</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/10/12/C%20%E4%B8%8E%20C++%20%E9%9A%8F%E6%9C%BA%E6%95%B0%E7%94%9F%E6%88%90/" title="C/C++：随机数生成">C/C++：随机数生成</a><time datetime="2025-10-11T16:39:32.613Z" title="发表于 2025-10-12 00:39:32">2025-10-12</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 By i4N</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 8.0.0</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.5.1</a></span></div><div class="footer_custom_text">Le cadavre exquis boira le vin nouveau.</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.1"></script><script src="/js/main.js?v=5.5.1"></script><script src="/js/tw_cn.js?v=5.5.1"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
