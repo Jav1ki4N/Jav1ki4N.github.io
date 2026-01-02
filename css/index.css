@@ -4301,6 +4301,8 @@ figure.highlight pre .javascript .function {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
+/* Custom fonts */
+  font-family: 'DukePlus', serif;
   margin: 0;
   color: var(--white);
   font-size: 1.85em;
