@@ -4302,14 +4302,14 @@ figure.highlight pre .javascript .function {
   -moz-user-select: none;
   -ms-user-select: none;
 /* Custom fonts */
-  font-family: 'DukePlus', serif;
+  font-family: 'Dukeplus', serif;
   margin: 0;
   color: var(--white);
   font-size: 1.85em;
 }
 @media screen and (min-width: 768px) {
   #page-header #site-title {
-    font-size: 2.85em;
+    font-size: 3em;
   }
 }
 #page-header #site-subtitle {
@@ -7863,4 +7863,11 @@ blockquote.pullquote.right {
     -ms-transform: rotate(360deg);
     transform: rotate(360deg);
   }
+}
+@font-face {
+  font-family: 'Dukeplus';
+  src: url("../fonts/DUKEPLUS.woff2") format('woff2'), url("../fonts/DUKEPLUS.woff") format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
 }
