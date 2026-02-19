@@ -1,0 +1,326 @@
+<!DOCTYPE html><html lang="zh-HK" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>串口环形缓冲区FIFO的设计模式 | Clairvoyance</title><meta name="author" content="i4N"><meta name="copyright" content="i4N"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="[!warning] ImportantThis post is currently in progress.  1. 理论对于一个线性缓冲区 Buffer，假设往其中不断地填入数据包，那么很快就会发生数据溢出。  然而，如果在存入的同时对前面的一帧数据进行处理后释放其占用的空间，这样缓冲区就出现了富余，此时就可以将原本塞不下的数据存到前面，比如说这里数据包 A 已经完成解析，就可以将其推出缓">
+<meta property="og:type" content="article">
+<meta property="og:title" content="串口环形缓冲区FIFO的设计模式">
+<meta property="og:url" content="http://example.com/2026/02/19/%E7%8E%AF%E5%BD%A2%E7%BC%93%E5%86%B2%E5%8C%BA%20FIFO%20%E7%9A%84%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/index.html">
+<meta property="og:site_name" content="Clairvoyance">
+<meta property="og:description" content="[!warning] ImportantThis post is currently in progress.  1. 理论对于一个线性缓冲区 Buffer，假设往其中不断地填入数据包，那么很快就会发生数据溢出。  然而，如果在存入的同时对前面的一帧数据进行处理后释放其占用的空间，这样缓冲区就出现了富余，此时就可以将原本塞不下的数据存到前面，比如说这里数据包 A 已经完成解析，就可以将其推出缓">
+<meta property="og:locale" content="zh_HK">
+<meta property="og:image" content="http://example.com/img/IR.jpg">
+<meta property="article:published_time" content="2026-02-19T07:36:56.265Z">
+<meta property="article:modified_time" content="2026-02-19T08:04:48.344Z">
+<meta property="article:author" content="i4N">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/img/IR.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "串口环形缓冲区FIFO的设计模式",
+  "url": "http://example.com/2026/02/19/%E7%8E%AF%E5%BD%A2%E7%BC%93%E5%86%B2%E5%8C%BA%20FIFO%20%E7%9A%84%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/",
+  "image": "http://example.com/img/IR.jpg",
+  "datePublished": "2026-02-19T07:36:56.265Z",
+  "dateModified": "2026-02-19T08:04:48.344Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "i4N",
+      "url": "http://example.com"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/icon.png"><link rel="canonical" href="http://example.com/2026/02/19/%E7%8E%AF%E5%BD%A2%E7%BC%93%E5%86%B2%E5%8C%BA%20FIFO%20%E7%9A%84%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=5.5.3"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":true,"highlightMacStyle":true},
+  copy: {
+    success: '複製成功',
+    error: '複製失敗',
+    noSupport: '瀏覽器不支援'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '剛剛',
+    min: '分鐘前',
+    hour: '小時前',
+    day: '天前',
+    month: '個月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.12.0/dist/infinitegrid.min.js',
+    buttonText: '加載更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '串口环形缓冲区FIFO的设计模式',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 8.1.1"></head><body><div class="bg-animation" id="web_bg" style="background-image: url(/img/Aurora_Borealis.jpg);"></div><div class="post" id="body-wrap"><header class="post-bg fixed" id="page-header" style="background-image: url(/img/Aurora_Borealis.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">Clairvoyance</span></a><a class="nav-page-title" href="/"><span class="site-name">串口环形缓冲区FIFO的设计模式</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首頁</span></span></a></span><div id="menus"></div></nav><div id="post-info"><h1 class="post-title">串口环形缓冲区FIFO的设计模式</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">發表於</span><time class="post-meta-date-created" datetime="2026-02-19T07:36:56.265Z" title="發表於 2026-02-19 15:36:56">2026-02-19</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新於</span><time class="post-meta-date-updated" datetime="2026-02-19T08:04:48.344Z" title="更新於 2026-02-19 16:04:48">2026-02-19</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">瀏覽量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><hr>
+<blockquote>
+<p>[!warning] Important<br>This post is currently in progress.</p>
+</blockquote>
+<h1 id="1-理论"><a href="#1-理论" class="headerlink" title="1. 理论"></a>1. 理论</h1><p>对于一个线性缓冲区 <code>Buffer</code>，假设往其中不断地填入数据包，那么很快就会发生数据溢出。</p>
+<p><img src="https://pic1.zhimg.com/80/v2-016282e4b94644f417563bfcb9c94578_1440w.webp"></p>
+<p>然而，如果在存入的同时对前面的一帧数据进行处理后释放其占用的空间，这样缓冲区就出现了富余，此时就可以将原本塞不下的数据存到前面，比如说这里数据包 A 已经完成解析，就可以将其推出缓冲区，而数据包 C 的溢出部分就可以存入前面这一块空出来的位置。</p>
+<p><img src="https://pic2.zhimg.com/80/v2-9d4c8933b64fbb808025b0f1a367e415_1440w.webp"></p>
+<p>这实际上就形成了一种遵循 FIFO ( First In First Out ) 的环形数据结构：</p>
+<p><img src="https://pic3.zhimg.com/80/v2-9d3d4eeff6f6e18ec5f8adff6bc984aa_1440w.webp"></p>
+<p>在上面的例子中也就是：</p>
+<p><img src="https://pic3.zhimg.com/80/v2-606700de560c5af3da84b8870e8fcdd0_1440w.webp"></p>
+<p>其中：</p>
+<ul>
+<li><code>Head</code> 为数据包往缓冲区中开始写入的位置</li>
+<li><code>Tail</code> 为数据包从缓冲区中开始读出的位置</li>
+</ul>
+<p>由图可以看出 <code>Head</code> 并不总是领先于 <code>Tail</code> ，比如说写入的数据包溢出，一处部分就将回到开头。上图中新数据会从  <code>Package C remains</code> 末尾开始写入，而从 <code>Tail</code> 开始 <code>Package B</code> 将会被弹出。</p>
+<p>随着数据的不断写入，<code>Head Index</code> 增加，一旦 <code>Head index</code> &gt; 缓冲区总长，那么 <code>Head Index</code> 就会回到开头。同样，随着数据的不断弹出，<code>Tail_Index</code> 增加，一旦大于缓冲区总长，那么也会回到开头。</p>
+<p>所以在这个数据结构中，<code>Head</code> 和 <code>Tail</code> 实际上有这样几种情况：</p>
+<ul>
+<li><code>Head</code> &gt; <code>Tail</code></li>
+<li><code>Head</code>&lt; <code>Tail</code></li>
+<li><code>Head</code> &#x3D; <code>Tail</code></li>
+</ul>
+<p>然而第三种情况下数据读写的位置重合，很难进行操作，所以一般约定头尾之间留一位不写满：</p>
+<p><img src="https://pic2.zhimg.com/80/v2-9d4c8933b64fbb808025b0f1a367e415_1440w.webp"></p>
+<p>比如说认为这样就处于满的状态。</p>
+<h1 id="2-算法实现"><a href="#2-算法实现" class="headerlink" title="2. 算法实现"></a>2. 算法实现</h1><h2 id="2-1-变量"><a href="#2-1-变量" class="headerlink" title="2.1 变量"></a>2.1 变量</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">static</span> <span class="keyword">constexpr</span> <span class="type">uint16_t</span> MAX_FIFO_SIZE&#123;<span class="number">256</span>&#125;;</span><br><span class="line"><span class="type">uint8_t</span>  Ring[MAX_FIFO_SIZE]&#123;<span class="number">0</span>&#125;;</span><br><span class="line"><span class="type">uint16_t</span> head_index&#123;<span class="number">0</span>&#125;;</span><br><span class="line"><span class="type">uint16_t</span> tail_index&#123;<span class="number">0</span>&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>声明环形缓冲区以及两个索引变量，分别指示数据的头尾。</p>
+<h2 id="2-2-方法"><a href="#2-2-方法" class="headerlink" title="2.2 方法"></a>2.2 方法</h2><p>首先我们认为，<code>head_index</code> 与 <code>tail_index</code> 与 <code>Ring</code> 的下标是一一对应的，也就是在 <code>MAX_FIFO_SIZE</code> &#x3D; <code>256</code> 的情况下，<code>head_index</code> &amp; <code>tail_index</code> 都在 <code>[0,255]</code> 这个范围内。</p>
+<h3 id="2-2-1-Get-xxxSpace"><a href="#2-2-1-Get-xxxSpace" class="headerlink" title="2.2.1 Get_xxxSpace"></a>2.2.1 Get_xxxSpace</h3><p>这一组方法用于获取数组中各部分的容量。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">uint16_t</span> <span class="title">Get_OccupiedSpace</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;<span class="comment">//return (head_index + MAX_FIFO_SIZE - tail_index) % MAX_FIFO_SIZE;</span></span><br><span class="line">   <span class="keyword">return</span> (head_index + MAX_FIFO_SIZE - tail_index) &amp; (MAX_FIFO_SIZE<span class="number">-1</span>);</span><br></pre></td></tr></table></figure>
+
+<p>获取缓冲区中被占用（数据）量。</p>
+<p>假设一个 <code>9</code> 字节的缓冲区，存有 <code>5</code> 字节的数据，可能的形式为：</p>
+<p><img src="https://picx.zhimg.com/80/v2-91cf111d96eb0cd11c7b3f9ee06e4b99_1440w.webp"></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">(<span class="number">6</span><span class="number">-1</span><span class="number">+9</span>)%<span class="number">9</span> = <span class="number">5</span></span><br><span class="line">(<span class="number">2</span><span class="number">-6</span><span class="number">+9</span>)%<span class="number">9</span> = <span class="number">5</span> </span><br></pre></td></tr></table></figure>
+
+<p>从绝对意义上来说：$$head-tail &#x3D; length$$，而当 <code>head</code> 回到开头的时候，由于限制 <code>head</code> 必然会回到开始索引，导致该式为一个负数。但是从环形模型上看，<code>head</code> 此时的距离已经经过一次缓冲区的总长，所以将一个缓冲区总长补偿上去，也就是将环延展成一条铺开的无限线性直线。这个时候：</p>
+<p>$$head+length_{R}$$</p>
+<p>的意义相当于 <code>head</code> 的绝对索引（实际上缓冲区在 <code>Ring[8]</code> 就已经结束）：</p>
+<p><img src="https://pica.zhimg.com/80/v2-93093ccffc17a1235998c7959b6ec9da_1440w.webp"></p>
+<p>很显然此时$$head+length_R-tail &#x3D; length$$<br>那么对于</p>
+<p>$$\begin{cases}length&amp;&#x3D;head-tail&amp;,head&gt;tail\length&amp;&#x3D;head+length_R-tail&amp;,haed&lt;tail\end{cases}$$</p>
+<p>根据模 $N$ 运算的定理：</p>
+<p>$$(a−b)modN&#x3D;(a+N−b)modN$$</p>
+<p>方程组可以简化为:</p>
+<p>$$(head+length_R-tail)\space mod\space (length_R)$$</p>
+<p>也就是函数内的算法。</p>
+<p>为了对运行速度做优化，<strong>在这里总是将缓冲区数组的长度设置为 $2^k$</strong>，这样的结果是</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">head_index + MAX_FIFO_SIZE - tail_index) % MAX_FIFO_SIZE</span><br></pre></td></tr></table></figure>
+
+<p>实际等价于</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">head_index + MAX_FIFO_SIZE - tail_index) &amp; (MAX_FIFO_SIZE<span class="number">-1</span>)</span><br></pre></td></tr></table></figure>
+
+<p>而后者的执行速度更快。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">uint16_t</span> <span class="title">Get_FreeSpace</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;<span class="keyword">return</span> MAX_FIFO_SIZE - <span class="built_in">Get_OccupiedSpace</span>()<span class="number">-1</span>;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>前面说过，由于索引与结构的限制，该缓冲区不能被填满，这就导致总有一位是空的，也就是：</p>
+<p>$$length_R &#x3D; length_{O}+length_{F}+1$$<br>所以获取空闲空间长度的时候就需要额外减去一个 <code>1</code>。</p>
+<h3 id="2-2-2-Push-Pop"><a href="#2-2-2-Push-Pop" class="headerlink" title="2.2.2 Push &amp; Pop"></a>2.2.2 Push &amp; Pop</h3><p>Push &amp; Pop 也就是需要存入的数据调用 Push 送入缓冲区，而已经分析完毕的数据调用 Pop 弹出缓冲区。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">Push</span><span class="params">(<span class="type">uint8_t</span> *data, <span class="type">uint16_t</span> length)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(length &gt; <span class="built_in">Get_FreeSpace</span>()||length == <span class="number">0</span>)<span class="keyword">return</span>;</span><br><span class="line">	<span class="type">uint16_t</span> first_chunk = std::<span class="built_in">min</span>&lt;<span class="type">uint16_t</span>&gt;(length,MAX_FIFO_SIZE - head_index),</span><br><span class="line">			 second_chunk = length - first_chunk;</span><br><span class="line"></span><br><span class="line">    std::<span class="built_in">memcpy</span>(&amp;Ring[head_index],data,first_chunk);</span><br><span class="line">	<span class="keyword">if</span>(second_chunk &gt; <span class="number">0</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		std::<span class="built_in">memcpy</span>(&amp;Ring[<span class="number">0</span>],&amp;data[first_chunk],second_chunk);</span><br><span class="line">	&#125;</span><br><span class="line">	head_index = (head_index + length) &amp; (MAX_FIFO_SIZE<span class="number">-1</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果数据包本身根本就无法存入缓冲区，比如说其总长度比缓冲区一共的可用长度还要长，那么判断数据无法存入。</p>
+<p>总是考虑将数据包拆分成两段进行送入：</p>
+<ul>
+<li><code>first_chunk</code> - 能线性存入缓冲区直至末尾的部分</li>
+<li><code>second_chunk</code> - 需要回到缓冲区开头存入的另一部分</li>
+</ul>
+<p>其中：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">first_chunk = std::<span class="built_in">min</span>&lt;<span class="type">uint16_t</span>&gt;(length,MAX_FIFO_SIZE - head_index),</span><br></pre></td></tr></table></figure>
+
+<p>表示，如果数据的长度 <code>length</code> 超越缓冲区剩余长度，那么第一份数据只能够利用从 <code>head_index</code> 开始的剩余部分长度（此时该值 <code>MAX_FIFO_SIZE-head_index</code> 小于 <code>length</code>），而如果没有，那么可利用区域的长度就是数据的总长 <code>length</code> 。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">second_chunk = length - first_chunk;</span><br></pre></td></tr></table></figure>
+
+<p>当数据长度大于剩余长度时，该值不为 <code>0</code> ，表示需要在开头存入第二部分数据。当数据长度小于剩余长度时，该值为 <code>0</code>，表示没有第二部分数据需要存入。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">std::<span class="built_in">memcpy</span>(&amp;Ring[head_index],data,first_chunk);</span><br><span class="line"><span class="keyword">if</span>(second_chunk &gt; <span class="number">0</span>)</span><br><span class="line">&#123;</span><br><span class="line">	std::<span class="built_in">memcpy</span>(&amp;Ring[<span class="number">0</span>],&amp;data[first_chunk],second_chunk);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>分别在对应位置存入数据。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">head_index = (head_index + length <span class="number">-1</span>) &amp; MAX_FIFO_SIZE;</span><br></pre></td></tr></table></figure>
+
+<p>最后更新 <code>head</code> 的位置。</p>
+<p>接下来看如何将数据弹出.</p>
+<p><img src="https://pica.zhimg.com/80/v2-a9bb4d90337e5c787efc4c9586ad1878_1440w.webp"></p>
+<p>考虑一个极限情况，假如现在 <code>tail</code> 在数据包 A 的第一个字节上，而 <code>head</code> 在数据包 B 之后，也就是空余的那一位上，这种情况下缓冲区已满，想要存下 <code>3</code> 字节的数据包 C，就必须请准备送去解析的数据包 A 弹出以进行空间周转。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">Pop</span><span class="params">(<span class="type">uint8_t</span> *data, <span class="type">uint16_t</span> length)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(length &gt; <span class="built_in">Get_OccupiedSpace</span>()||length == <span class="number">0</span>)<span class="keyword">return</span>;</span><br><span class="line">	<span class="type">uint16_t</span> first_chunk = std::<span class="built_in">min</span>&lt;<span class="type">uint16_t</span>&gt;(length,MAX_FIFO_SIZE - tail_index),</span><br><span class="line">			 second_chunk = length - first_chunk;</span><br><span class="line">	std::<span class="built_in">memcpy</span>(data,&amp;Ring[tail_index],first_chunk);</span><br><span class="line">	<span class="keyword">if</span>(second_chunk &gt; <span class="number">0</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		std::<span class="built_in">memcpy</span>(&amp;data[first_chunk],&amp;Ring[<span class="number">0</span>],second_chunk);</span><br><span class="line">	&#125;</span><br><span class="line">	tail_index = (tail_index + length) &amp; (MAX_FIFO_SIZE<span class="number">-1</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这也就是一个 <code>Push</code> 的镜像版本，从 <code>tail_index</code> 位置开始弹出 <code>length</code> 长度的数据到 <code>data</code>中，只不过操作对象与数据搬运顺序稍有不同。</p>
+<h3 id="2-2-3-Todo"><a href="#2-2-3-Todo" class="headerlink" title="2.2.3 Todo"></a>2.2.3 Todo</h3> <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">TODO - <span class="number">2026</span>/<span class="number">2</span>/<span class="number">19</span></span><br></pre></td></tr></table></figure>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="http://example.com">i4N</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章連結: </span><span class="post-copyright-info"><a href="http://example.com/2026/02/19/%E7%8E%AF%E5%BD%A2%E7%BC%93%E5%86%B2%E5%8C%BA%20FIFO%20%E7%9A%84%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">http://example.com/2026/02/19/%E7%8E%AF%E5%BD%A2%E7%BC%93%E5%86%B2%E5%8C%BA%20FIFO%20%E7%9A%84%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版權聲明: </span><span class="post-copyright-info">除特別聲明外，本博客所有文章均採用<a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 授權協議。轉載請註明出處：<a href="http://example.com">Clairvoyance</a>。</span></div></div><div class="tag_share"><div class="post-share"><div class="social-share" data-image="/img/IR.jpg" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related full-width" href="/2026/02/19/%E8%BF%81%E7%A7%BB%20STM32%20%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E5%88%B0%E6%88%91%E7%9A%84%E6%96%B0%E7%94%B5%E8%84%91/" title="Trouble Shooting : 迁移 STM32 开发环境到我的新电脑"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info"><div class="info-1"><div class="info-item-1">上一頁</div><div class="info-item-2">Trouble Shooting : 迁移 STM32 开发环境到我的新电脑</div></div><div class="info-2"><div class="info-item-1">  [!warning] ImportantThis is an out-dated content  将原电脑的开发环境迁移到新电脑，记录一下过程。 1. 安装 VSCodeAdminstartor 组内的用户默认具有管理员权限，所以必须用 System Installer 进行安装，而非网站默认提供的 User Installer 。 2. 安装 MSYS2 与工具链启动 MSYS2 UCRT64，安装工具链。 2.1 Clangd12NEO@i4N-H4CKD3CK UCRT64 ~pacman -S mingw-w64-ucrt-x86_64-clang-tools-extra  安装完成后，键入 123NEO@i4N-H4CKD3CK UCRT64 ~$ where clangdD:\Dev.i4N\MSYS2\ucrt64\bin\clangd.exe  2.2 CMake &amp; Ninja1$ pacman -S mingw-w64-ucrt-x86_64-cmake  123NEO@i4N-H4CKD3CK UCRT64 ~$ where cmakeD:\D...</div></div></div></a></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/IR.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">i4N</div><div class="author-info-description"></div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">4</div></a><a href="/tags/"><div class="headline">標籤</div><div class="length-num">0</div></a><a href="/categories/"><div class="headline">分類</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Jav1ki4N"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目錄</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-%E7%90%86%E8%AE%BA"><span class="toc-number">1.</span> <span class="toc-text">1. 理论</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-%E7%AE%97%E6%B3%95%E5%AE%9E%E7%8E%B0"><span class="toc-number">2.</span> <span class="toc-text">2. 算法实现</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-1-%E5%8F%98%E9%87%8F"><span class="toc-number">2.1.</span> <span class="toc-text">2.1 变量</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-2-%E6%96%B9%E6%B3%95"><span class="toc-number">2.2.</span> <span class="toc-text">2.2 方法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-1-Get-xxxSpace"><span class="toc-number">2.2.1.</span> <span class="toc-text">2.2.1 Get_xxxSpace</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-2-Push-Pop"><span class="toc-number">2.2.2.</span> <span class="toc-text">2.2.2 Push &amp; Pop</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-3-Todo"><span class="toc-number">2.2.3.</span> <span class="toc-text">2.2.3 Todo</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/02/19/%E5%9C%A8%20Git%20Bash%20%E4%B8%AD%E4%BD%BF%E7%94%A8%E7%8B%AC%E7%AB%8B%20MSYS2%20%E5%B7%A5%E5%85%B7/" title="在 GitBash 中使用独立 MSYS2 工具">在 GitBash 中使用独立 MSYS2 工具</a><time datetime="2026-02-19T07:56:46.613Z" title="發表於 2026-02-19 15:56:46">2026-02-19</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/02/19/%E5%9C%A8%E6%88%91%E7%9A%84%E6%96%B0%E7%94%B5%E8%84%91%E4%B8%8A%E9%87%8D%E6%96%B0%E4%BD%BF%E7%94%A8%20Hexo%20%E5%BB%BA%E7%AB%99/" title="在我的新电脑上重新使用 Hexo 建站">在我的新电脑上重新使用 Hexo 建站</a><time datetime="2026-02-19T07:56:40.966Z" title="發表於 2026-02-19 15:56:40">2026-02-19</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/02/19/%E8%BF%81%E7%A7%BB%20STM32%20%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E5%88%B0%E6%88%91%E7%9A%84%E6%96%B0%E7%94%B5%E8%84%91/" title="Trouble Shooting : 迁移 STM32 开发环境到我的新电脑">Trouble Shooting : 迁移 STM32 开发环境到我的新电脑</a><time datetime="2026-02-19T07:55:58.135Z" title="發表於 2026-02-19 15:55:58">2026-02-19</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/02/19/%E7%8E%AF%E5%BD%A2%E7%BC%93%E5%86%B2%E5%8C%BA%20FIFO%20%E7%9A%84%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" title="串口环形缓冲区FIFO的设计模式">串口环形缓冲区FIFO的设计模式</a><time datetime="2026-02-19T07:36:56.265Z" title="發表於 2026-02-19 15:36:56">2026-02-19</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 - 2026 By i4N</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 8.1.1</a><span class="footer-separator">|</span><span>主題 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.5.3</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="閱讀模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="切換日夜模式"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="單欄與雙欄切換"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="設定"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目錄"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到頂部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.3"></script><script src="/js/main.js?v=5.5.3"></script><div class="js-pjax"><script>(() => {
+  const loadMathjax = () => {
+    if (!window.MathJax) {
+      window.MathJax = {
+        loader: {
+          load: [
+            // Four font extension packages (optional)
+            //- '[tex]/bbm',
+            //- '[tex]/bboldx',
+            //- '[tex]/dsfont',
+            '[tex]/mhchem'
+          ],
+          paths: {
+            'mathjax-newcm': '[mathjax]/../@mathjax/mathjax-newcm-font',
+
+            //- // Four font extension packages (optional)
+            //- 'mathjax-bbm-extension': '[mathjax]/../@mathjax/mathjax-bbm-font-extension',
+            //- 'mathjax-bboldx-extension': '[mathjax]/../@mathjax/mathjax-bboldx-font-extension',
+            //- 'mathjax-dsfont-extension': '[mathjax]/../@mathjax/mathjax-dsfont-font-extension',
+            'mathjax-mhchem-extension': '[mathjax]/../@mathjax/mathjax-mhchem-font-extension'
+          }
+        },
+        output: {
+          font: 'mathjax-newcm',
+        },
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']],
+          tags: 'none',
+          packages: {
+            '[+]': [
+              'mhchem'
+            ]
+          }
+        },
+        chtml: {
+          scale: 1.1
+        },
+        options: {
+          enableMenu: true,
+          menuOptions: {
+            settings: {
+              enrich: false  // Turn off Braille and voice narration text automatic generation
+            }
+          },
+          renderActions: {
+            findScript: [10, doc => {
+              for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+                const display = !!node.type.match(/; *mode=display/)
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+                const text = document.createTextNode('')
+                node.parentNode.replaceChild(text, node)
+                math.start = {node: text, delim: '', n: 0}
+                math.end = {node: text, delim: '', n: 0}
+                doc.math.push(math)
+              }
+            }, '']
+          }
+        }
+      }
+
+      const script = document.createElement('script')
+      script.src = 'https://cdn.jsdelivr.net/npm/mathjax@4.0.0/tex-mml-chtml.min.js'
+      script.id = 'MathJax-script'
+      script.async = true
+      document.head.appendChild(script)
+    } else {
+      MathJax.startup.document.state(0)
+      MathJax.texReset()
+      MathJax.typesetPromise()
+    }
+  }
+
+  btf.addGlobalFn('encrypt', loadMathjax, 'mathjax')
+  window.pjax ? loadMathjax() : window.addEventListener('load', loadMathjax)
+})()</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
