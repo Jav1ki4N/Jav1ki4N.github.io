@@ -1,0 +1,312 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>排序算法 I : 插入/快速/归并/堆 | Clairvoyance</title><meta name="author" content="i4N"><meta name="copyright" content="i4N"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="A. 直接插入排序12345678910111213141516#include &lt;vector&gt;void Insertion_Sort(std::vector&lt;int&gt;&amp; arr)&#123;    for(auto i&#123;1&#125;;i&lt;arr.size();i++)    &#123;        int key&#123;arr[i]&amp;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="排序算法 I : 插入&#x2F;快速&#x2F;归并&#x2F;堆">
+<meta property="og:url" content="http://jav1ki4n.github.io/2026/02/26/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95A/index.html">
+<meta property="og:site_name" content="Clairvoyance">
+<meta property="og:description" content="A. 直接插入排序12345678910111213141516#include &lt;vector&gt;void Insertion_Sort(std::vector&lt;int&gt;&amp; arr)&#123;    for(auto i&#123;1&#125;;i&lt;arr.size();i++)    &#123;        int key&#123;arr[i]&amp;">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://jav1ki4n.github.io/img/IR.jpg">
+<meta property="article:published_time" content="2026-02-26T12:00:32.287Z">
+<meta property="article:modified_time" content="2026-02-26T12:03:02.497Z">
+<meta property="article:author" content="i4N">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://jav1ki4n.github.io/img/IR.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "排序算法 I : 插入/快速/归并/堆",
+  "url": "http://jav1ki4n.github.io/2026/02/26/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95A/",
+  "image": "http://jav1ki4n.github.io/img/IR.jpg",
+  "datePublished": "2026-02-26T12:00:32.287Z",
+  "dateModified": "2026-02-26T12:03:02.497Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "i4N",
+      "url": "http://Jav1ki4N.github.io"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/icon.png"><link rel="canonical" href="http://jav1ki4n.github.io/2026/02/26/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95A/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=5.5.3"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":true,"highlightMacStyle":true},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.12.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '排序算法 I : 插入/快速/归并/堆',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 8.1.1"></head><body><div class="bg-animation" id="web_bg" style="background-image: url(/img/Aurora_Borealis.jpg);"></div><div class="post" id="body-wrap"><header class="post-bg fixed" id="page-header" style="background-image: url(/img/Aurora_Borealis.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">Clairvoyance</span></a><a class="nav-page-title" href="/"><span class="site-name">排序算法 I : 插入/快速/归并/堆</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"></div></nav><div id="post-info"><h1 class="post-title">排序算法 I : 插入/快速/归并/堆</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-02-26T12:00:32.287Z" title="发表于 2026-02-26 20:00:32">2026-02-26</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-02-26T12:03:02.497Z" title="更新于 2026-02-26 20:03:02">2026-02-26</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><hr>
+<h1 id="A-直接插入排序"><a href="#A-直接插入排序" class="headerlink" title="A. 直接插入排序"></a>A. 直接插入排序</h1><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;vector&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">Insertion_Sort</span><span class="params">(std::vector&lt;<span class="type">int</span>&gt;&amp; arr)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">auto</span> i&#123;<span class="number">1</span>&#125;;i&lt;arr.<span class="built_in">size</span>();i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="type">int</span> key&#123;arr[i]&#125;;</span><br><span class="line">        <span class="type">int</span> j&#123;i<span class="number">-1</span>&#125;;      </span><br><span class="line">        <span class="keyword">while</span>(j&gt;=<span class="number">0</span> &amp;&amp; arr[j]&gt;key)</span><br><span class="line">        &#123;</span><br><span class="line">            arr[j<span class="number">+1</span>] = arr[j];</span><br><span class="line">            j--;</span><br><span class="line">        &#125;</span><br><span class="line">        arr[j<span class="number">+1</span>] = key;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>默认数组的第一个元素 <code>arr[0]</code> 已经进行了排序，从 <code>arr[1]</code> 开始遍历数组，第 <code>i</code> 个元素 <code>arr[i]</code> 存储为 <code>key</code>；从这个元素的前一个元素 <code>arr[j]</code> 开始向数组首部前进（这个时候 <code>j</code> 就成为向前遍历的索引），如果观测到前面的元素大于 <code>key</code>，那么就需要将其向前进一位 (覆盖 <code>arr[i]</code>也无妨，因为值已存储)，直到某个元素不再大于 <code>key</code>，那么将 <code>key</code>在此处的下一位插入。</p>
+<h1 id="B-快速排序"><a href="#B-快速排序" class="headerlink" title="B. 快速排序"></a>B. 快速排序</h1><p>此处使用 Hoare 的双指针法：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;utility&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">Partition</span><span class="params">(<span class="type">int</span>* arr, <span class="type">int</span> start, <span class="type">int</span> end)</span> </span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">int</span> pivot = arr[start];</span><br><span class="line">    <span class="type">int</span> i = start - <span class="number">1</span>;</span><br><span class="line">    <span class="type">int</span> j = end + <span class="number">1</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">while</span> (<span class="literal">true</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">do</span> &#123; i++; &#125; <span class="keyword">while</span> (arr[i] &lt; pivot);</span><br><span class="line">        <span class="keyword">do</span> &#123; j--; &#125; <span class="keyword">while</span> (arr[j] &gt; pivot);</span><br><span class="line">        <span class="keyword">if</span> (i &gt;= j) <span class="keyword">return</span> j;</span><br><span class="line">        std::<span class="built_in">swap</span>(arr[i], arr[j]);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">Quick_Sort</span><span class="params">(<span class="type">int</span> *arr, <span class="type">int</span> start, <span class="type">int</span> end)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(start &gt;= end)<span class="keyword">return</span>;</span><br><span class="line">    <span class="type">int</span> divide = <span class="built_in">Partition</span>(arr, start, end);</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">Quick_Sort</span>(arr, start, divide);</span><br><span class="line">    <span class="built_in">Quick_Sort</span>(arr, divide + <span class="number">1</span>, end);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>首先，函数 <code>Partition</code> 入口参数为一个数组以及它两端的数组下标 <code>start</code> 和 <code>end</code><br>, 取 <code>i</code> 和 <code>j</code> 分别向两端拓展一位（因为下面的 <code>do while</code> 会先执行一次，这之后 <code>i</code> 与 <code>j</code> 始终位于 <code>start</code> 与 <code>end</code> 之间）。</p>
+<p><code>pivot</code> 是选取用来作为比较对象的数组元素，此处取第一位。这个函数的目的就是以 <code>pivot</code> 为中心，将比它大的元素放在数组右边，小的放在数组左边。</p>
+<p>这之后，先从左侧开始向中间遍历，如果 <code>arr[i]</code>（即左侧部分）始终满足小于 <code>pivot</code> ，那么就继续向右遍历，直到找到一个 <code>arr[i]</code> 大于 <code>pivot</code> ，这之后右侧的指针也开始遍历，直到也找到一个 <code>arr[j]</code> 小于 <code>pivot</code>. 这时候这两个元素的位置应当互换以满足大小顺序。</p>
+<p>需要注意的是 <code>pivot</code> 作为左侧的第一个元素，也会立即参与交换。</p>
+<p>循环往复，直到 <code>i</code> 遍历到 <code>j</code>的位置，满足 <code>arr[i]&gt;pivot</code> ，此时 <code>i=j</code> 。<code>j</code> 继续往右遍历，必然去到 <code>i-1</code> 的位置，且 <code>arr[j]=arr[i-1]&lt;pivot</code> ，<code>j&lt;i</code>。由于满足 <code>i&gt;=j</code> ，此时</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (i &gt;= j) <span class="keyword">return</span> j;</span><br></pre></td></tr></table></figure>
+
+<p>退出循环并记录 <code>j</code>（新分界点）的位置。</p>
+<div style="text-align: center;">  
+<img src="https://pic1.zhimg.com/80/v2-0e6321b7ce3a9bb612099a74fee6ea01_720w.webp?source=d16d100b">  
+</div>
+
+<p>比如说上面这个过程就是以 <code>arr[0]=7</code> 为 <code>pivot</code> 最终得到新分界点 <code>j=arr[5]=4</code>。</p>
+<p>这之后，数组满足 <code>[0,j]</code>中的元素都小于 <code>pivot</code> <code>[j+1,end]</code> 中的元素都大于等于 <code>pivot</code> 。那么对于 <code>[0,j]</code> 和 <code>j+1,end</code> 这两个区间递归进行操作，也就是各个区间的第一个元素作为新的 <code>pivot</code>.</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">Quick_Sort</span><span class="params">(<span class="type">int</span> *arr, <span class="type">int</span> start, <span class="type">int</span> end)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(start &gt;= end)<span class="keyword">return</span>;</span><br><span class="line">    <span class="type">int</span> divide = <span class="built_in">Partition</span>(arr, start, end);</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">Quick_Sort</span>(arr, start, divide);</span><br><span class="line">    <span class="built_in">Quick_Sort</span>(arr, divide + <span class="number">1</span>, end);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>总函数就是这样的一个过程，首先进行第一次拆分，从分界点 <code>j</code> 也即 <code>divide</code> 划分 <code>[start,divide]</code> 和 <code>[divide+1,end]</code> 两个区间，并且对各自的区间递归调用一次 <code>Quick_Sort()</code> , 直到区间不可再分 (<code>start&gt;=end</code>) ，这时保证最小的元素都已经在最小的区间内完成排序。 </p>
+<h1 id="C-归并排序"><a href="#C-归并排序" class="headerlink" title="C. 归并排序"></a>C. 归并排序</h1><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;vector&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> std::vector;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">Merge</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; arr, <span class="type">int</span> start, <span class="type">int</span> mid, <span class="type">int</span> end)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">int</span> n1 = mid - start + <span class="number">1</span>,</span><br><span class="line">        n2 = end - mid;</span><br><span class="line">    </span><br><span class="line">    <span class="function">vector&lt;<span class="type">int</span>&gt; <span class="title">left</span><span class="params">(n1)</span>, <span class="title">right</span><span class="params">(n2)</span></span>;</span><br><span class="line"></span><br><span class="line">    std::<span class="built_in">copy</span>(arr.<span class="built_in">begin</span>() + start, arr.<span class="built_in">begin</span>() + mid + <span class="number">1</span>, left.<span class="built_in">begin</span>());</span><br><span class="line">    std::<span class="built_in">copy</span>(arr.<span class="built_in">begin</span>() + mid + <span class="number">1</span>, arr.<span class="built_in">begin</span>() + end + <span class="number">1</span>, right.<span class="built_in">begin</span>());</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> i = <span class="number">0</span>, j = <span class="number">0</span>, k = start;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span>(i &lt; n1 &amp;&amp; j &lt; n2)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(left[i]&lt;=right[j])arr[k++] = left[i++];</span><br><span class="line">        <span class="keyword">else</span>                 arr[k++] = right[j++];   </span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">while</span>(i&lt;n1)arr[k++] = left[i++];</span><br><span class="line">    <span class="keyword">while</span>(j&lt;n2)arr[k++] = right[j++];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">Merge_Sort</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; arr, <span class="type">int</span> start, <span class="type">int</span> end)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(start &lt; end)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="type">int</span> mid = start + (end - start)/<span class="number">2</span>;</span><br><span class="line">        <span class="built_in">Merge_Sort</span>(arr, start, mid);</span><br><span class="line">        <span class="built_in">Merge_Sort</span>(arr, mid + <span class="number">1</span>, end);</span><br><span class="line">        <span class="built_in">Merge</span>(arr, start, mid, end);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>merge()</code> 函数的功能是将两个 <strong>有序</strong> 的数组进行排序。</p>
+<p>先假定一个 <code>arr</code> 数组，从 <code>mid</code> 作为分界点，<code>[start,mid]</code> 和 <code>(mid,end]</code> 是两块 <strong>各自有序</strong> 的数组，比如说 <code>[1,2,5,7,8,9,3,4,6,10]</code> 可以分为 <code>[1,2,5,7,8,9]</code> 和 <code>[3,4,6,10]</code>。</p>
+<p>申请两块内存来存储这两个有序数组</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> n1 = mid - start + <span class="number">1</span>,</span><br><span class="line">    n2 = end - mid;</span><br><span class="line">    </span><br><span class="line"><span class="function">vector&lt;<span class="type">int</span>&gt; <span class="title">left</span><span class="params">(n1)</span>, <span class="title">right</span><span class="params">(n2)</span></span>;</span><br><span class="line"></span><br><span class="line">std::<span class="built_in">copy</span>(arr.<span class="built_in">begin</span>() + start, arr.<span class="built_in">begin</span>() + mid + <span class="number">1</span>, left.<span class="built_in">begin</span>());</span><br><span class="line">std::<span class="built_in">copy</span>(arr.<span class="built_in">begin</span>() + mid + <span class="number">1</span>, arr.<span class="built_in">begin</span>() + end + <span class="number">1</span>, right.<span class="built_in">begin</span>());</span><br></pre></td></tr></table></figure>
+
+<p>这之后，同时遍历左右两个数组，比较每一个 <code>left[i]</code> 与 <code>right[j]</code>, 将较小者按顺序写回 <code>arr</code>。由于这两个数组各自是有序的，按这个方法就能将这两个数组中的元素有序合并。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span>(i &lt; n1 &amp;&amp; j &lt; n2)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span>(left[i]&lt;=right[j])arr[k++] = left[i++];</span><br><span class="line">    <span class="keyword">else</span>                 arr[k++] = right[j++];   </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>当然由于 <code>i</code> 与 <code>j</code> 不一定相等，所以当一边的数组已经耗尽，那么就需要将另一边剩余的元素全部排进 <code>arr</code> , 也就是两个 <code>while</code> 循环。由于耗尽（或已排入 <code>arr</code>）的元素必定有序且小于剩余元素，且剩余元素本身是有序的，所以可以直接这样塞进去。最后得到了一个有序的 <code>arr</code>.</p>
+<div style="text-align: center;">  
+<img src="https://pic1.zhimg.com/80/v2-37d0f4aa8b814f4ce83d67161d2a55d2_720w.webp?source=d16d100b">  
+</div>
+
+<p>要如何去保证 <code>arr</code> 一定是由两个有序的数组组成的呢？首先对于一个数组来说，单元素数组必定是有序的，所以任意一个 <code>2</code> 元素的数组必定会满足 <code>merge</code> 的条件。</p>
+<p>假如一个有一个乱序数组，需要做的就是把它分成 <code>N</code> 个单元素数组，由于现在每两个数组都满足有序条件，就可以进行有序合并 <code>merge</code> 了（<code>N</code> 为奇数的时候，单独剩下的和第一次合并好的有序 <code>2</code> 元素数组合并即可）。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">Merge_Sort</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; arr, <span class="type">int</span> start, <span class="type">int</span> end)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(start &lt; end)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="type">int</span> mid = start + (end - start)/<span class="number">2</span>;</span><br><span class="line">        <span class="built_in">Merge_Sort</span>(arr, start, mid);</span><br><span class="line">        <span class="built_in">Merge_Sort</span>(arr, mid + <span class="number">1</span>, end);</span><br><span class="line">        <span class="built_in">Merge</span>(arr, start, mid, end);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>递归条件为 <code>start&lt;end</code> ，也就是当数组为单元素数组时，递归停止。</p>
+<p>递归的两个 <code>Merge_Sort</code> 将整个乱序数组不断拆分为左右两部分（这是因为每一级递归，都会对当前级的数组以 <code>mid</code> 为界再拆分）,比如说：</p>
+<p><code>[7,1]</code> 左拆分之后就是 <code>[7]</code> ，由于不满足 <code>start &lt; end</code> 条件，返回到 <code>[7,1]</code> 的右拆分，得到 <code>[1]</code> ，同理不满足，返回到 <code>[7,1]</code> 的 <code>merge</code> 将 <code>[1] [7]</code> 有序合并成为 <code>[1,7]</code>，又因为上述操作属 <code>[7,1,5,3]</code> 的 <code>merge_sort(arr,start,mid)</code> 流程，所以右侧的 <code>[5,3]</code> 也进行一次，最后 <code>[7,1,5,3]</code> 的 <code>merge</code> 将 <code>[1,7]</code> <code>[3,5]</code> 合并为 <code>[1,3,5,7]</code> ，并且返回更上一级…</p>
+<div style="text-align: center;">  
+<img src="https://picx.zhimg.com/80/v2-6d4f371cd3327926943ac06928f6480c_720w.webp?source=d16d100b">  
+</div>
+
+<p>如此循环往复，直到恰好最后两块有序数组最后一次 <code>merge</code> 合并成完整的 <code>N</code> 元素有序数组。</p>
+<h1 id="D-堆排序"><a href="#D-堆排序" class="headerlink" title="D. 堆排序"></a>D. 堆排序</h1><p>堆是一根完全二叉树，也就是叶节点连续从左排列。</p>
+<div style="text-align: center;">  
+<img src="https://pic4.zhimg.com/80/v2-715213fff561f7e22751d3aa235ffea3_720w.webp">  
+</div>
+
+<p>比如这里 <code>F</code> 就不可以放在 <code>C</code> 的右节点。</p>
+<p>当所有父节点大于等于子节点时，堆成为大根堆，反之成为小根堆，这表示根节点最大或者最小，用数组存储上面的堆结构就是 <code>[A,B,C,D,E,F]</code> ，满足逐层，且每层自左往右顺序排列。</p>
+<p>此时对于节点 <code>i</code> ，其具有序号为 <code>(i-1)/2</code> 的父节点以及 <code>2i+1</code> <code>2i+2</code> 的左 &#x2F; 右子节点。</p>
+<p>对于一个非堆的数组，考虑遍历其所有的节点，如果某个节点不满足堆的结构，那么就对其进行修正。比如说大根堆的 <strong>下滤</strong>：当一个父节点小于其子节点时，那么互相交换，将小的节点下滤到合适的位置。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">Heapify</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; arr, <span class="type">int</span> n, <span class="type">int</span> i)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">int</span> largest = i;</span><br><span class="line">    <span class="type">int</span> left = <span class="number">2</span> * i + <span class="number">1</span>;</span><br><span class="line">    <span class="type">int</span> right = <span class="number">2</span> * i + <span class="number">2</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>(left&lt;n &amp;&amp; arr[left]&gt;arr[largest])  largest = left;</span><br><span class="line">    <span class="keyword">if</span>(right&lt;n &amp;&amp; arr[right]&gt;arr[largest])largest = right;</span><br><span class="line">    <span class="keyword">if</span>(largest!=i)</span><br><span class="line">    &#123;</span><br><span class="line">        std::<span class="built_in">swap</span>(arr[i], arr[largest]);</span><br><span class="line">        <span class="built_in">Heapify</span>(arr, n, largest);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>遍历到的节点为 <code>arr[i]</code> ，其具有子节点 <code>arr[left]</code> 与 <code>arr[right]</code>，比较左右节点，更新 <code>largest</code> ，如果父节点 <code>i</code> 不满足 <code>largest</code> ，那么进行下滤（交换）。同时，该父节点为了保证能够去到合适位置，需要不断向下进行此操作，所以假设以及建立的堆有 <code>n</code> 层，该父节点就必须在 <code>n</code> 层内递归下滤，直到 <code>largest = i</code> 表示其确实去到了某层的最大位置，这个节点的处理完成。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">Heap_Sort</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; arr)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">int</span> n = arr.<span class="built_in">size</span>();</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i = n/<span class="number">2</span> - <span class="number">1</span>; i&gt;=<span class="number">0</span>; i--)<span class="built_in">Heapify</span>(arr, n, i);</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i = n - <span class="number">1</span>; i &gt; <span class="number">0</span>; i--)</span><br><span class="line">    &#123;</span><br><span class="line">        std::<span class="built_in">swap</span>(arr[<span class="number">0</span>], arr[i]);</span><br><span class="line">        <span class="built_in">Heapify</span>(arr, i, <span class="number">0</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>首先需要对数组建堆。由于叶节点肯定是堆，于是就从最后一个非叶子节点（序号为 <code>n/2-1</code>, 因为 <code>n</code> 必定是叶节点）开始进行下滤，并最终建立起一个大根堆。</p>
+<p>此时，堆处于局部有序状态，因为不能保证同一层的各个节点是有序的，只能保证父子节点之间的有序（而且在数组中整体呈现逆序）。</p>
+<p>所以，这时做的操作是，将最大的元素（由于建堆，所以可以保证父节点一定最大）与最后一个叶节点交换，然后对交换后除最大元素外的 <code>n</code> 个元素再进行一次建堆：</p>
+<div style="text-align: center;">  
+
+</div>
+<div style="text-align: center;">  
+<img src="https://pic3.zhimg.com/80/v2-8fe784a1b94b142463b18c09865602de_720w.webp">  
+</div>
+
+<p>然后 <code>[1,5,3,4]</code> 建堆就会变成 <code>[5,4,3,1]</code>，合并 <code>[5,4,3,1,10]</code>，这之后将 <code>5</code> 与 <code>1</code> 交换，重复此过程，直到得到 <code>[1,3,4,5,10]</code> 为止。</p>
+<p>本质就是构造一个满足堆序性质的完全二叉树以得到一定最大的堆顶元素并移出，再重新调整剩余结构找到下一个，重复。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="http://Jav1ki4N.github.io">i4N</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="http://jav1ki4n.github.io/2026/02/26/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95A/">http://jav1ki4n.github.io/2026/02/26/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95A/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="http://Jav1ki4N.github.io" target="_blank">Clairvoyance</a>！</span></div></div><div class="tag_share"><div class="post-share"><div class="social-share" data-image="/img/IR.jpg" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related full-width" href="/2026/02/19/%E5%9C%A8%20Git%20Bash%20%E4%B8%AD%E4%BD%BF%E7%94%A8%E7%8B%AC%E7%AB%8B%20MSYS2%20%E5%B7%A5%E5%85%B7/" title="在 GitBash 中使用独立 MSYS2 工具"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">在 GitBash 中使用独立 MSYS2 工具</div></div><div class="info-2"><div class="info-item-1"> 我的 VSCode 终端使用的是 Git Bash, 而我自己同时有一个单独安装的 MSYS2 环境. 假如我需要在Git Bash中使用 MSYS2 下的 tree 工具, 首先在 MSYS2 中安装 tree: 1234567891011121314151617181920NEO@i4N-H4CKD3CK UCRT64 ~$ pacman -S treeresolving dependencies...looking for conflicting packages...Packages (1) tree-2.2.1-1Total Download Size:   0.04 MiBTotal Installed Size:  0.08 MiB:: Proceed with installation? [Y/n]:: Retrieving packages... tree-2.2.1-1-x86_64              39.7 KiB  15.1 KiB/s 00:03 [###############################] 100%(1/1) chec...</div></div></div></a></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/IR.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">i4N</div><div class="author-info-description"></div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">5</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">0</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Jav1ki4N"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#A-%E7%9B%B4%E6%8E%A5%E6%8F%92%E5%85%A5%E6%8E%92%E5%BA%8F"><span class="toc-number">1.</span> <span class="toc-text">A. 直接插入排序</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#B-%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F"><span class="toc-number">2.</span> <span class="toc-text">B. 快速排序</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#C-%E5%BD%92%E5%B9%B6%E6%8E%92%E5%BA%8F"><span class="toc-number">3.</span> <span class="toc-text">C. 归并排序</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#D-%E5%A0%86%E6%8E%92%E5%BA%8F"><span class="toc-number">4.</span> <span class="toc-text">D. 堆排序</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/02/26/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95A/" title="排序算法 I : 插入/快速/归并/堆">排序算法 I : 插入/快速/归并/堆</a><time datetime="2026-02-26T12:00:32.287Z" title="发表于 2026-02-26 20:00:32">2026-02-26</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/02/19/%E5%9C%A8%20Git%20Bash%20%E4%B8%AD%E4%BD%BF%E7%94%A8%E7%8B%AC%E7%AB%8B%20MSYS2%20%E5%B7%A5%E5%85%B7/" title="在 GitBash 中使用独立 MSYS2 工具">在 GitBash 中使用独立 MSYS2 工具</a><time datetime="2026-02-19T07:56:46.613Z" title="发表于 2026-02-19 15:56:46">2026-02-19</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/02/19/%E5%9C%A8%E6%88%91%E7%9A%84%E6%96%B0%E7%94%B5%E8%84%91%E4%B8%8A%E9%87%8D%E6%96%B0%E4%BD%BF%E7%94%A8%20Hexo%20%E5%BB%BA%E7%AB%99/" title="在我的新电脑上重新使用 Hexo 建站">在我的新电脑上重新使用 Hexo 建站</a><time datetime="2026-02-19T07:56:40.966Z" title="发表于 2026-02-19 15:56:40">2026-02-19</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/02/19/%E8%BF%81%E7%A7%BB%20STM32%20%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E5%88%B0%E6%88%91%E7%9A%84%E6%96%B0%E7%94%B5%E8%84%91/" title="Trouble Shooting : 迁移 STM32 开发环境到我的新电脑">Trouble Shooting : 迁移 STM32 开发环境到我的新电脑</a><time datetime="2026-02-19T07:55:58.135Z" title="发表于 2026-02-19 15:55:58">2026-02-19</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/02/19/%E7%8E%AF%E5%BD%A2%E7%BC%93%E5%86%B2%E5%8C%BA%20FIFO%20%E7%9A%84%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" title="串口环形缓冲区FIFO的设计模式">串口环形缓冲区FIFO的设计模式</a><time datetime="2026-02-19T07:36:56.265Z" title="发表于 2026-02-19 15:36:56">2026-02-19</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 - 2026 By i4N</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 8.1.1</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.5.3</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.3"></script><script src="/js/main.js?v=5.5.3"></script><div class="js-pjax"><script>(() => {
+  const loadMathjax = () => {
+    if (!window.MathJax) {
+      window.MathJax = {
+        loader: {
+          load: [
+            // Four font extension packages (optional)
+            //- '[tex]/bbm',
+            //- '[tex]/bboldx',
+            //- '[tex]/dsfont',
+            '[tex]/mhchem'
+          ],
+          paths: {
+            'mathjax-newcm': '[mathjax]/../@mathjax/mathjax-newcm-font',
+
+            //- // Four font extension packages (optional)
+            //- 'mathjax-bbm-extension': '[mathjax]/../@mathjax/mathjax-bbm-font-extension',
+            //- 'mathjax-bboldx-extension': '[mathjax]/../@mathjax/mathjax-bboldx-font-extension',
+            //- 'mathjax-dsfont-extension': '[mathjax]/../@mathjax/mathjax-dsfont-font-extension',
+            'mathjax-mhchem-extension': '[mathjax]/../@mathjax/mathjax-mhchem-font-extension'
+          }
+        },
+        output: {
+          font: 'mathjax-newcm',
+        },
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']],
+          tags: 'none',
+          packages: {
+            '[+]': [
+              'mhchem'
+            ]
+          }
+        },
+        chtml: {
+          scale: 1.1
+        },
+        options: {
+          enableMenu: true,
+          menuOptions: {
+            settings: {
+              enrich: false  // Turn off Braille and voice narration text automatic generation
+            }
+          },
+          renderActions: {
+            findScript: [10, doc => {
+              for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+                const display = !!node.type.match(/; *mode=display/)
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+                const text = document.createTextNode('')
+                node.parentNode.replaceChild(text, node)
+                math.start = {node: text, delim: '', n: 0}
+                math.end = {node: text, delim: '', n: 0}
+                doc.math.push(math)
+              }
+            }, '']
+          }
+        }
+      }
+
+      const script = document.createElement('script')
+      script.src = 'https://cdn.jsdelivr.net/npm/mathjax@4.0.0/tex-mml-chtml.min.js'
+      script.id = 'MathJax-script'
+      script.async = true
+      document.head.appendChild(script)
+    } else {
+      MathJax.startup.document.state(0)
+      MathJax.texReset()
+      MathJax.typesetPromise()
+    }
+  }
+
+  btf.addGlobalFn('encrypt', loadMathjax, 'mathjax')
+  window.pjax ? loadMathjax() : window.addEventListener('load', loadMathjax)
+})()</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
