@@ -1,0 +1,365 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>协议知识的补充与拓展 | Clairvoyance</title><meta name="author" content="i4N"><meta name="copyright" content="i4N"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="1. CANCAN  - Controller Area Network 即控制器局域网协议 1.1 差分信号与电平逻辑CAN 依赖专门的收发器芯片来与单片机进行通讯。普通的电平信号经过其转化变成差分信号，具体的逻辑根据两条线的压差来决定，而差分信号也可以通过该芯片转化为普通的电平信号。  Recessive - 隐形电平，表示逻辑1 Dominamt - 显性电平，表示逻辑0  差分信号由于受">
+<meta property="og:type" content="article">
+<meta property="og:title" content="协议知识的补充与拓展">
+<meta property="og:url" content="http://jav1ki4n.github.io/2026/04/10/%E5%8D%8F%E8%AE%AE%E7%9F%A5%E8%AF%86%E7%9A%84%E8%A1%A5%E5%85%85%E4%B8%8E%E6%8B%93%E5%B1%95/index.html">
+<meta property="og:site_name" content="Clairvoyance">
+<meta property="og:description" content="1. CANCAN  - Controller Area Network 即控制器局域网协议 1.1 差分信号与电平逻辑CAN 依赖专门的收发器芯片来与单片机进行通讯。普通的电平信号经过其转化变成差分信号，具体的逻辑根据两条线的压差来决定，而差分信号也可以通过该芯片转化为普通的电平信号。  Recessive - 隐形电平，表示逻辑1 Dominamt - 显性电平，表示逻辑0  差分信号由于受">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://jav1ki4n.github.io/img/IR.jpg">
+<meta property="article:published_time" content="2026-04-10T10:33:34.335Z">
+<meta property="article:modified_time" content="2026-04-10T10:34:10.682Z">
+<meta property="article:author" content="i4N">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://jav1ki4n.github.io/img/IR.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "协议知识的补充与拓展",
+  "url": "http://jav1ki4n.github.io/2026/04/10/%E5%8D%8F%E8%AE%AE%E7%9F%A5%E8%AF%86%E7%9A%84%E8%A1%A5%E5%85%85%E4%B8%8E%E6%8B%93%E5%B1%95/",
+  "image": "http://jav1ki4n.github.io/img/IR.jpg",
+  "datePublished": "2026-04-10T10:33:34.335Z",
+  "dateModified": "2026-04-10T10:34:10.682Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "i4N",
+      "url": "http://Jav1ki4N.github.io"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/icon.png"><link rel="canonical" href="http://jav1ki4n.github.io/2026/04/10/%E5%8D%8F%E8%AE%AE%E7%9F%A5%E8%AF%86%E7%9A%84%E8%A1%A5%E5%85%85%E4%B8%8E%E6%8B%93%E5%B1%95/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=5.5.3"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":true,"highlightMacStyle":true},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.12.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '协议知识的补充与拓展',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 8.1.1"></head><body><div class="bg-animation" id="web_bg" style="background-image: url(/img/Aurora_Borealis.jpg);"></div><div class="post" id="body-wrap"><header class="post-bg fixed" id="page-header" style="background-image: url(/img/Aurora_Borealis.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">Clairvoyance</span></a><a class="nav-page-title" href="/"><span class="site-name">协议知识的补充与拓展</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"></div></nav><div id="post-info"><h1 class="post-title">协议知识的补充与拓展</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-04-10T10:33:34.335Z" title="发表于 2026-04-10 18:33:34">2026-04-10</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-04-10T10:34:10.682Z" title="更新于 2026-04-10 18:34:10">2026-04-10</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><hr>
+<h1 id="1-CAN"><a href="#1-CAN" class="headerlink" title="1. CAN"></a>1. CAN</h1><p><code>CAN</code>  - <code>Controller Area Network</code> 即控制器局域网协议</p>
+<h2 id="1-1-差分信号与电平逻辑"><a href="#1-1-差分信号与电平逻辑" class="headerlink" title="1.1 差分信号与电平逻辑"></a>1.1 差分信号与电平逻辑</h2><p><code>CAN</code> 依赖专门的收发器芯片来与单片机进行通讯。普通的电平信号经过其转化变成差分信号，具体的逻辑根据两条线的压差来决定，而差分信号也可以通过该芯片转化为普通的电平信号。</p>
+<ul>
+<li><code>Recessive</code> - 隐形电平，表示逻辑1</li>
+<li><code>Dominamt</code> - 显性电平，表示逻辑0</li>
+</ul>
+<p>差分信号由于受到干扰双绞线共同受到干扰，其压差变化幅度基本与未受干扰前相差不大，因此差分信号抗干扰能力强，这也使得 <code>CAN</code> 的通讯距离较长。</p>
+<h2 id="1-2-数据帧结构"><a href="#1-2-数据帧结构" class="headerlink" title="1.2 数据帧结构"></a>1.2 数据帧结构</h2><div style="text-align: center;">  
+<img src="https://pica.zhimg.com/v2-691a8e52724ff9deb9da47951d00045a_r.jpg">  
+</div>
+
+<ul>
+<li><code>SOF</code> 显性电平</li>
+<li>仲裁段包括 <code>ID(Identifier)</code> 与 <code>RTR</code>:<ul>
+<li><code>ID</code> 为 <code>11</code> 字节，由于区分总线上挂载的设备</li>
+<li><code>RTR</code> 为 <code>1</code> 字节，表示帧是数据帧 (0) 还是遥控帧 (1)</li>
+</ul>
+</li>
+<li>控制段包括 <code>IDE(Identifier Extension)</code> 与 <code>r0</code>, <code>DLC(Data Length Code)</code><ul>
+<li><code>IDE</code> 用于区分这一帧是拓展帧还是标准帧，<code>0</code> 为标准。</li>
+<li><code>r0</code> 为保留位</li>
+<li><code>DLC</code> 表示数据部分的长度，<code>4</code> 字节，表示数据的长度 (<code>0-8Bits</code>)</li>
+</ul>
+</li>
+<li>数据段根据 <code>DLC</code> 的具体数值决定</li>
+<li><code>CRC</code> 校验段包括 <code>CRC</code> 与 <code>CRC Delimiter</code> 即定界符<ul>
+<li><code>CRC</code> 为循环冗余校验码 <code>15Bits</code></li>
+<li>定界符 <code>1Bit</code></li>
+</ul>
+</li>
+<li><code>ACK</code> 段包括 <code>ACK</code> 槽及其定界符，均为 <code>1Bit</code>，发送时为隐性电平，如果确认收到则拉高</li>
+<li><code>EOF</code> 隐性电平</li>
+</ul>
+<p>遥控帧对比数据帧的区别是，他没有数据段，是接收单元发给发送节点请求数据帧的。</p>
+<p>拓展帧与普通帧的区别在于：</p>
+<ul>
+<li><code>ID</code> 后 <code>RTR</code> 去除，换为显性的 <code>SRR</code> 占位</li>
+<li><code>IDE</code> 后加入 <code>18</code> 位拓展 <code>ID</code></li>
+<li>拓展 <code>ID</code> 后跟随 <code>RTR</code> 以及两个保留位 <code>RO/R1</code></li>
+</ul>
+<h2 id="1-3-CAN-仲裁"><a href="#1-3-CAN-仲裁" class="headerlink" title="1.3 CAN 仲裁"></a>1.3 CAN 仲裁</h2><ol>
+<li><p>在总线空闲时，<strong>最先开始发送</strong> 的节点获得发送权，一旦开始发送，不会被其他节点抢占。</p>
+</li>
+<li><p>多个节点同时开始发送时，各发送节点从仲裁段的第一位开始进行仲裁。连续输出 <strong>显性电平</strong> 最多的节点可继续发送。</p>
+</li>
+<li><p>具有相同ID的数据帧和遥控帧在总线上竞争时，数据帧具有优先权可继续发送。</p>
+</li>
+<li><p>​标准格式ID与具有相同ID的遥控帧或者扩展格式的数据帧在总线上竞争时，标准格式的RTR 位为显性位的具有优先权可继续发送。</p>
+</li>
+</ol>
+<h2 id="1-4-CAN-波特率与位同步（略）"><a href="#1-4-CAN-波特率与位同步（略）" class="headerlink" title="1.4 CAN 波特率与位同步（略）"></a>1.4 CAN 波特率与位同步（略）</h2><p>由于缺失时钟线，所以 <code>CAN</code> 是异步通信。</p>
+<p>每个数据位都由若干个时间单元 <code>Time Quanta</code> 所组成，而每个数据位又可以分成不同时间单元长度的几个段：</p>
+<table>
+<thead>
+<tr>
+<th>SYNC_SEG</th>
+<th>BS1</th>
+<th>BS2</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>同步段</td>
+<td>Prop+Phase1</td>
+<td>Phase2</td>
+</tr>
+<tr>
+<td>而波特率可以这样得到：</td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<p>$$BaudRate &#x3D; \frac{1}{BitTime}&#x3D;\frac{1}{Tq\times(SS+BS1+BS2)}$$<br> 由于同步段常为 <code>1</code> 个时间单位，所以一般可以认为：</p>
+<p>$$ BaudRate &#x3D; \frac{f_{CAN}}{PSC\times(1+BS1+BS2)}&#x3D;\frac{f_{APB}}{…} $$<br>$$Tq &#x3D; \frac{PSC}{f_{APB}}$$</p>
+<p> 位同步机制则通过实现边缘检测实现。</p>
+<h2 id="1-5-CAN-过滤"><a href="#1-5-CAN-过滤" class="headerlink" title="1.5 CAN 过滤"></a>1.5 CAN 过滤</h2><p><code>CAN</code> 依靠过滤机制决定某个节点是否接受来自某个 <code>ID</code> 的报文。</p>
+<p>总线上任何一帧报文所有节点都会物理上收到，但并不是每个节点都关心所有 <code>ID</code>，如果全部进中断，<code>CPU</code> 负担会很重。</p>
+<h2 id="1-6-CubeMX-HAL"><a href="#1-6-CubeMX-HAL" class="headerlink" title="1.6 CubeMX &amp; HAL"></a>1.6 CubeMX &amp; HAL</h2><ul>
+<li><code>Prescaler</code> - 决定时间单元大小</li>
+<li><code>BS1</code> - 设置时间单元数</li>
+<li><code>BS2</code>- 设置时间单元数</li>
+<li><code>SJY</code>- 设置时间单元数（<code>SJY</code> 就是 <code>Synchronization Jump Width</code> ,检测到相位误差时，允许对当前比特时间进行的“最大调整幅度）</li>
+</ul>
+<p>$$f_{CAN}&#x3D;Tq\times(BS1+BS2+SJY) &#x3D; \frac{PSC}{f_{APB}}$$<br><code>STM32F103</code> 的 <code>CAN</code> 有两个发送邮箱 <code>FIFO0/1</code> 和三个接受邮箱 (启用接收中断以及时处理报文)。</p>
+<p>节点在接受报文时，有以下几个过滤模式：</p>
+<ul>
+<li>列表模式：列表存储期望通过的 <code>ID</code>，比对完全一致就接受</li>
+<li>掩码模式：只比较 <code>ID</code> 中的特征点 (验证码与屏蔽码)，不全部检测</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>工作模式</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>32位列表</td>
+<td><code>CAN_FxR1</code>寄存器和<code>CAN_FxR2</code>寄存器都用来存储某个期望通过的<code>CAN ID</code>，这样就可以存入<code>2</code>个期望通过的<code>CAN ID</code>(标准<code>CAN ID</code>和扩展<code>CAN ID</code>均可)。</td>
+</tr>
+<tr>
+<td>16位列表</td>
+<td>两寄存器定义一样，且各自拆成两个，则总共可以写入<code>4</code>个标准<code>CAN ID</code>。</td>
+</tr>
+<tr>
+<td>32位掩码</td>
+<td><code>CAN_FxR1</code>用做<code>32</code>位宽的验证码，而<code>CAN_FxR2</code>则用作<code>32</code>位宽的屏蔽码。</td>
+</tr>
+<tr>
+<td>16位掩码</td>
+<td>可以当做<code>2</code>对验证码+屏蔽码组合来用，但它只能对标准<code>CAN ID</code>进行过滤。</td>
+</tr>
+<tr>
+<td>下面来看一些 <code>API</code>:</td>
+<td></td>
+</tr>
+</tbody></table>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">CAN_Filter_Config</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	CAN_Filter can_filter&#123;<span class="number">0</span>&#125;;</span><br><span class="line">	can_filter.FilterNumber = ...</span><br><span class="line">	can_filter.FilterMode = ...</span><br><span class="line">	...</span><br><span class="line">	<span class="built_in">HAL_CAN_ConfigFilter</span>(&amp;hcan,&amp;can_filter);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>创建过滤器结构体，配置过滤器参数并调用 <code>HAL</code> 的API。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">HAL_CAN_Start</span>(&amp;hcan);</span><br><span class="line"><span class="built_in">HAL_CAN_ActivateNotification</span>(&amp;hcan,CAN_IT_RX_FIFO0_MSG_PENDING);</span><br></pre></td></tr></table></figure>
+
+<p>启动 <code>CAN</code> 并且开启 <code>FIFO0</code> 接收中断。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">uint8_t</span> <span class="title">CANx_SendStdData</span><span class="params">(CAN_HandleTypeDef* hcan,<span class="type">uint16_t</span> ID,<span class="type">uint8_t</span> *pData,<span class="type">uint16_t</span> Len)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="type">static</span> CAN_TxHeaderTypeDef   Tx_Header;</span><br><span class="line">	</span><br><span class="line">	Tx_Header.StdId=ID;</span><br><span class="line">	Tx_Header.ExtId=<span class="number">0</span>;</span><br><span class="line">	Tx_Header.IDE=<span class="number">0</span>;</span><br><span class="line">	Tx_Header.RTR=<span class="number">0</span>;</span><br><span class="line">	Tx_Header.DLC=Len;</span><br><span class="line">	</span><br><span class="line">	<span class="type">uint32_t</span> TX_Mailbox = ...</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">if</span>(<span class="built_in">HAL_CAN_AddTxMessage</span>(&amp;hcan, &amp;Tx_Header, pData,&amp;TX_Mailbox)!= HAL_OK)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span>(<span class="built_in">HAL_CAN_AddTxMessage</span>(hcan, &amp;Tx_Header, pData,                                   (<span class="type">uint32_t</span>*)CAN_TX_MAILBOX1) != HAL_OK)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="built_in">HAL_CAN_AddTxMessage</span>(hcan, &amp;Tx_Header, pData,                                      (<span class="type">uint32_t</span>*)CAN_TX_MAILBOX2);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>编写 <code>CAN</code> 发送函数，创建报文结构体以及填写信息，再调用 <code>HAL</code> 的 <code>API</code>（这里使用哪个邮箱也可以自己写）。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">uint8_t</span> rxData1[<span class="number">8</span>]; </span><br><span class="line"><span class="type">uint8_t</span> rxData2[<span class="number">8</span>];</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">HAL_CAN_RxFifo0MsgPendingCallback</span><span class="params">(CAN_HandleTypeDef *hcan)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	CAN_RxHeaderTypeDef RxHeader; </span><br><span class="line">	<span class="keyword">if</span>(hcan-&gt;Instance ==CAN1)</span><br><span class="line">	&#123;</span><br><span class="line">	  <span class="built_in">HAL_CAN_GetRxMessage</span>(&amp;hcan, CAN_RX_FIFO0, &amp;RxHeader, rxData1); </span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span> <span class="keyword">if</span>(hcan-&gt;Instance == CAN2)</span><br><span class="line">	&#123;</span><br><span class="line">	  <span class="built_in">HAL_CAN_GetRxMessage</span>(&amp;hcan, CAN_RX_FIFO0, &amp;RxHeader,rxData2); </span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>编写接收回调。</p>
+<hr>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="http://Jav1ki4N.github.io">i4N</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="http://jav1ki4n.github.io/2026/04/10/%E5%8D%8F%E8%AE%AE%E7%9F%A5%E8%AF%86%E7%9A%84%E8%A1%A5%E5%85%85%E4%B8%8E%E6%8B%93%E5%B1%95/">http://jav1ki4n.github.io/2026/04/10/%E5%8D%8F%E8%AE%AE%E7%9F%A5%E8%AF%86%E7%9A%84%E8%A1%A5%E5%85%85%E4%B8%8E%E6%8B%93%E5%B1%95/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="http://Jav1ki4N.github.io" target="_blank">Clairvoyance</a>！</span></div></div><div class="tag_share"><div class="post-share"><div class="social-share" data-image="/img/IR.jpg" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2026/04/10/%E5%B7%A5%E7%A8%8B%E7%AE%97%E6%B3%95%E7%9A%84%E7%9F%A5%E8%AF%86%E4%B8%8E%E6%8B%93%E5%B1%95/" title="工程算法的知识与拓展"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">工程算法的知识与拓展</div></div><div class="info-2"><div class="info-item-1"> 1 一阶低通滤波（IIR）$$Y(n) &#x3D; \alpha X(n)+(1-\alpha)Y(n-1)$$其中 $Y(n)$ 表示当前系统的输出，$X(n)$ 则为系统当前的输入；$\alpha\in(0,1)$ 为滤波系数，而 $Y(n-1)$ 为前一次的输出。 12345int filter_out; static int filter_prev; float filter_coeff = 0.7; filter_out = (filter_coeff * filter_prev) + ((1-filter_coeff) * val); filter_prev = filter_out;   其中 filter_prev 对应前一次执行时的输出项，static 修饰保证了其能够继承 filter_prev = filter_out 的效果，进行下一轮运算。 filter_coeff 即滤波系数，假设系统输入为 val ，那么 filter_out ，即当前系统输出的计算形式就对应上文中的公式。最后只需要更新 filter_prev 就可以了。 2 卡尔曼滤波总体来说...</div></div></div></a><a class="pagination-related" href="/2026/04/10/C%E4%B8%8EC++%E7%9A%84%E5%86%85%E5%AD%98%E5%B8%83%E5%B1%80/" title="C与C++的内存布局"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">C与C++的内存布局</div></div><div class="info-2"><div class="info-item-1">  $fix: .data\ first,\ then\ .bss$ 1 编译时间确定这些段的大小与位置在运行之前就会被编译器与链接器确定。 1.1 代码（文本）段 .text 文本段存放程序经过编译 - 汇编 - 链接后生成的机器码。  1234graph LRA[Code]--&gt;|Compilation|B[ASM]B--&gt;|Assembly|C[Binary]C--&gt;|Linker|D[.text]  1.2 静态数据段1.2.1 只读数据段该段落存放常量，包括字符串常量，const 修饰的全局变量以及硬编码数据等。 1.2.2 数据段该段落存放具有初值的全局或者局部变量。 1.2.3 BSS段.bss 段也就是 Blocked Start By Symbol ，存放未初始化或者初始化为 0 的变量。 2 运行时间确定这些内存空间在程序运行时动态进行分配。 2.1 堆堆是一个用于动态分配的内存区。这片区域的内存由程序员手动申请与管理。    C C++     malloc new    free delete 忘记释放内存将会导致内存泄漏   在操作系统...</div></div></div></a></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/IR.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">i4N</div><div class="author-info-description"></div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">9</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">0</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Jav1ki4N"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-CAN"><span class="toc-number">1.</span> <span class="toc-text">1. CAN</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-1-%E5%B7%AE%E5%88%86%E4%BF%A1%E5%8F%B7%E4%B8%8E%E7%94%B5%E5%B9%B3%E9%80%BB%E8%BE%91"><span class="toc-number">1.1.</span> <span class="toc-text">1.1 差分信号与电平逻辑</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-2-%E6%95%B0%E6%8D%AE%E5%B8%A7%E7%BB%93%E6%9E%84"><span class="toc-number">1.2.</span> <span class="toc-text">1.2 数据帧结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-3-CAN-%E4%BB%B2%E8%A3%81"><span class="toc-number">1.3.</span> <span class="toc-text">1.3 CAN 仲裁</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-4-CAN-%E6%B3%A2%E7%89%B9%E7%8E%87%E4%B8%8E%E4%BD%8D%E5%90%8C%E6%AD%A5%EF%BC%88%E7%95%A5%EF%BC%89"><span class="toc-number">1.4.</span> <span class="toc-text">1.4 CAN 波特率与位同步（略）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-5-CAN-%E8%BF%87%E6%BB%A4"><span class="toc-number">1.5.</span> <span class="toc-text">1.5 CAN 过滤</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-6-CubeMX-HAL"><span class="toc-number">1.6.</span> <span class="toc-text">1.6 CubeMX &amp; HAL</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/10/%E5%B7%A5%E7%A8%8B%E7%AE%97%E6%B3%95%E7%9A%84%E7%9F%A5%E8%AF%86%E4%B8%8E%E6%8B%93%E5%B1%95/" title="工程算法的知识与拓展">工程算法的知识与拓展</a><time datetime="2026-04-10T10:33:45.805Z" title="发表于 2026-04-10 18:33:45">2026-04-10</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/10/%E5%8D%8F%E8%AE%AE%E7%9F%A5%E8%AF%86%E7%9A%84%E8%A1%A5%E5%85%85%E4%B8%8E%E6%8B%93%E5%B1%95/" title="协议知识的补充与拓展">协议知识的补充与拓展</a><time datetime="2026-04-10T10:33:34.335Z" title="发表于 2026-04-10 18:33:34">2026-04-10</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/10/C%E4%B8%8EC++%E7%9A%84%E5%86%85%E5%AD%98%E5%B8%83%E5%B1%80/" title="C与C++的内存布局">C与C++的内存布局</a><time datetime="2026-04-10T10:32:44.005Z" title="发表于 2026-04-10 18:32:44">2026-04-10</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/02/26/LVGL_UI/" title="HAL-DDC | LVGL_UI 核心类 (v8.4) | 2026-2-v1">HAL-DDC | LVGL_UI 核心类 (v8.4) | 2026-2-v1</a><time datetime="2026-02-26T12:49:48.775Z" title="发表于 2026-02-26 20:49:48">2026-02-26</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/02/26/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95A/" title="排序算法 I : 插入/快速/归并/堆">排序算法 I : 插入/快速/归并/堆</a><time datetime="2026-02-26T12:00:32.287Z" title="发表于 2026-02-26 20:00:32">2026-02-26</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 - 2026 By i4N</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 8.1.1</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.5.3</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.3"></script><script src="/js/main.js?v=5.5.3"></script><div class="js-pjax"><script>(() => {
+  const loadMathjax = () => {
+    if (!window.MathJax) {
+      window.MathJax = {
+        loader: {
+          load: [
+            // Four font extension packages (optional)
+            //- '[tex]/bbm',
+            //- '[tex]/bboldx',
+            //- '[tex]/dsfont',
+            '[tex]/mhchem'
+          ],
+          paths: {
+            'mathjax-newcm': '[mathjax]/../@mathjax/mathjax-newcm-font',
+
+            //- // Four font extension packages (optional)
+            //- 'mathjax-bbm-extension': '[mathjax]/../@mathjax/mathjax-bbm-font-extension',
+            //- 'mathjax-bboldx-extension': '[mathjax]/../@mathjax/mathjax-bboldx-font-extension',
+            //- 'mathjax-dsfont-extension': '[mathjax]/../@mathjax/mathjax-dsfont-font-extension',
+            'mathjax-mhchem-extension': '[mathjax]/../@mathjax/mathjax-mhchem-font-extension'
+          }
+        },
+        output: {
+          font: 'mathjax-newcm',
+        },
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']],
+          tags: 'none',
+          packages: {
+            '[+]': [
+              'mhchem'
+            ]
+          }
+        },
+        chtml: {
+          scale: 1.1
+        },
+        options: {
+          enableMenu: true,
+          menuOptions: {
+            settings: {
+              enrich: false  // Turn off Braille and voice narration text automatic generation
+            }
+          },
+          renderActions: {
+            findScript: [10, doc => {
+              for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+                const display = !!node.type.match(/; *mode=display/)
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+                const text = document.createTextNode('')
+                node.parentNode.replaceChild(text, node)
+                math.start = {node: text, delim: '', n: 0}
+                math.end = {node: text, delim: '', n: 0}
+                doc.math.push(math)
+              }
+            }, '']
+          }
+        }
+      }
+
+      const script = document.createElement('script')
+      script.src = 'https://cdn.jsdelivr.net/npm/mathjax@4.0.0/tex-mml-chtml.min.js'
+      script.id = 'MathJax-script'
+      script.async = true
+      document.head.appendChild(script)
+    } else {
+      MathJax.startup.document.state(0)
+      MathJax.texReset()
+      MathJax.typesetPromise()
+    }
+  }
+
+  btf.addGlobalFn('encrypt', loadMathjax, 'mathjax')
+  window.pjax ? loadMathjax() : window.addEventListener('load', loadMathjax)
+})()</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
